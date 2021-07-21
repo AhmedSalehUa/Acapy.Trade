@@ -104,7 +104,7 @@ public class Clients {
     }
 
     public boolean Add() throws Exception {
-        PreparedStatement ps = db.get.Prepare("INSERT INTO `md_clients`(`id`, `name`, `organization`, `adress`, `email`, `account_num`, `tele1`, `tele2`) VALUES (?,?,?,?,?,?,?,?)");
+        PreparedStatement ps = db.get.Prepare("INSERT INTO `cli_clients`(`id`, `name`, `organization`, `location`, `email`, `account_id`, `tele1`, `tele2`) VALUES (?,?,?,?,?,?,?,?)");
         ps.setInt(1, id);
         ps.setString(2, name);
         ps.setString(3, organization);
@@ -118,7 +118,7 @@ public class Clients {
     }
 
     public boolean Edite() throws Exception {
-        PreparedStatement ps = db.get.Prepare("UPDATE `md_clients` SET `name`=?,`organization`=?,`adress`=?,`email`=?,`account_num`=?,`tele1`=?,`tele2`=? WHERE `id`=?");
+        PreparedStatement ps = db.get.Prepare("UPDATE `cli_clients` SET `name`=?,`organization`=?,`location`=?,`email`=?,`account_id`=?,`tele1`=?,`tele2`=? WHERE `id`=?");
         ps.setInt(8, id);
         ps.setString(1, name);
         ps.setString(2, organization);
@@ -132,7 +132,7 @@ public class Clients {
     }
 
     public boolean Delete() throws Exception {
-        PreparedStatement ps = db.get.Prepare("DELETE FROM `md_clients` WHERE `id`=?");
+        PreparedStatement ps = db.get.Prepare("DELETE FROM `cli_clients` WHERE `id`=?");
         ps.setInt(1, id);
         ps.execute();
         return true;
@@ -140,7 +140,7 @@ public class Clients {
 
     public static ObservableList<Clients> getData() throws Exception {
         ObservableList<Clients> data = FXCollections.observableArrayList();
-        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT * FROM `md_clients`");
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT * FROM `cli_clients`");
         while (rs.next()) {
             data.add(new Clients(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)));
         }
@@ -148,7 +148,7 @@ public class Clients {
     }
 
     public static String getAutoNum() throws Exception {
-        return db.get.getTableData("SELECT IFNULL(MAX(`id`)+1,1) FROM `md_clients`").getValueAt(0, 0).toString();
+        return db.get.getTableData("SELECT IFNULL(MAX(`id`)+1,1) FROM `cli_clients`").getValueAt(0, 0).toString();
     }
 
 }

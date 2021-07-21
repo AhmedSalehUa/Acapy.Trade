@@ -7,6 +7,8 @@ package db;
 
 import acapy.trade.AcapyTrade;
 import assets.classes.AlertDialogs;
+import static assets.classes.statics.USER_ID;
+import static assets.classes.statics.USER_ROLE;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -83,7 +85,7 @@ public class User {
             dataSource.setCharacterEncoding("UTF-8");
             dataSource.setUseUnicode(true);
             dataSource.setServerName("DESKTOP-E7AILQE");
-            ResultSet rs = dataSource.getConnection().createStatement().executeQuery("select id,role from users where user_name='" + name + "' and password='" + password + "'");
+            ResultSet rs = db.get.getReportCon().createStatement().executeQuery("select id,role from users where user_name='" + name + "' and password='" + password + "'");
             while (rs.next()) {
                 this.id = rs.getInt(1);
                 this.role = rs.getString(2);
@@ -111,15 +113,25 @@ public class User {
     }
 
     public static boolean canAccess(String priviliages) {
+      Preferences prefs = Preferences.userNodeForPackage(AcapyTrade.class);
+        if (prefs.get(USER_ROLE, "user").equals("super_admin")) {
+            return true;
+        }
         try {
             db.get.getReportCon().createStatement().execute("INSERT IGNORE INTO `priviliges_name`(`name`) VALUES ('" + priviliages + "')");
         } catch (Exception ex) {
             AlertDialogs.showErrors(ex);
         }
-        Preferences prefs = Preferences.userNodeForPackage(AcapyTrade.class);
-        String get = prefs.get(priviliages, "false");
-//        return Boolean.parseBoolean(get); 
-        return true;
+        try {
+            String strt = "SELECT value FROM `users_permissions` WHERE `user_id`='" + prefs.get(USER_ID, "0") + "'";
+            ResultSet rs = db.get.getReportCon().createStatement().executeQuery(strt);
+            while (rs.next()) {
+                return Boolean.parseBoolean(rs.getString(1));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 
     private boolean configPermissions() throws Exception {

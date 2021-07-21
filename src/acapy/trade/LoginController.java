@@ -159,7 +159,7 @@ public class LoginController implements Initializable {
                                             Scene sc = new Scene(mainMember);
                                             Stage st = (Stage) loginBtn.getScene().getWindow();
                                             st.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icons/logo.png")));
-                                            st.setTitle("ElBarbary Hospital");
+                                            st.setTitle("Acapy Trade");
 
                                             Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
                                             st.setX((screenBounds.getWidth() - 1360) / 2);

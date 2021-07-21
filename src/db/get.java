@@ -49,7 +49,7 @@ public class get {
             Preferences prefs = Preferences.userNodeForPackage(AcapyTrade.class);
 
             Class.forName("com.mysql.jdbc.Driver");
-            url = "jdbc:mysql://" + prefs.get("database_id", "192.168.1.90") + ":3306/acapytrade?useUnicode=true&characterEncoding=UTF-8";
+            url = "jdbc:mysql://localhost:3306/acapytrade?useUnicode=true&characterEncoding=UTF-8";
 
         } catch (ClassNotFoundException ex) {
             throw new Exception("error in database url");
@@ -70,8 +70,9 @@ public class get {
         try {
             setURL();
             con = DriverManager.getConnection(url, "acapytradeahmedsaleh", "as01203904426");
+            
         } catch (SQLException ex) {
-            return false;
+             throw new Exception("Error in connection to database ERROR Code: \n" + ex.getMessage()); 
         }
         return true;
     }

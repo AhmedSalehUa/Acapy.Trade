@@ -43,7 +43,7 @@
                   <Font size="26.0" />
                </font>
             </Button>
-            <Button id="navigationPanelButton" fx:id="invicesButton" accessibleText="accountButton" mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" text="الفواتير" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Button id="navigationPanelButton" fx:id="invicesButton" accessibleText="accountButton" mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" text="الصيانة" textFill="WHITE" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="30.0" />
                </font>

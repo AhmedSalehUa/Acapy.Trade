@@ -36,9 +36,9 @@ public class statics {
     //screens
     public static String Login = "/acapytradeforsoftwaresolutions/Login.fxml";
 
-    public static String MainData = "/screens/mainDataScreen/MainDataScreen.fxml";
-    public static String SalesScreen = "";
-    public static String StoreScreen = "/screens/store/StoreScreen.fxml";
+    public static String MainData = "/screens/mainDataScreen/MainData.fxml";
+    public static String SalesScreen = "/screens/sales/SalesScreen.fxml";
+    public static String StoreScreen = "/screens/store/StoreMainScreen.fxml";
     public static String AccountsScreen = "/screens/accounts/AccountsScreen.fxml";
     public static String HrScreen = "/screens/hr/HrScreen.fxml";
     public static String InvoiceScreen = "/screens/drugs/DrugsScreen.fxml";
@@ -104,7 +104,7 @@ public class statics {
     public static String HrScreenLateRules = "/screens/hr/HrScreenLateRules.fxml";
     public static String HrScreenWorkingDays = "/screens/hr/HrScreenWorkingDays.fxml";
 
-    public static String NoPermission = "/acapytradeforsoftwaresolutions/permissionDenied.fxml";
+    public static String NoPermission = "/acapy/trade/permissionDenied.fxml";
     //python locations
     public static String syncTime = "syncTime.py";
     public static String powerOff = "powerOff.py";

@@ -54,9 +54,7 @@ public class HomeController implements Initializable {
     @FXML
     private AnchorPane root;
     @FXML
-    private Button Accounts;
-    @FXML
-    private Button mainData; 
+    private Button Accounts; 
     @FXML
     private Button Store;
 
@@ -66,19 +64,21 @@ public class HomeController implements Initializable {
     @FXML
     private Label userName; 
     @FXML
-    private Button Hr;
-    @FXML
-    private Button Invoice;
+    private Button Hr; 
     @FXML
     private Button Sales;
+    @FXML
+    private Button members;
+    @FXML
+    private Button clients;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         prefs = Preferences.userNodeForPackage(AcapyTrade.class);
         new ZoomInLeft(Hr).play();
-        new ZoomInRight(mainData).play();
+        new ZoomInRight(members).play();
         new ZoomInLeft(Accounts).play();
-        new ZoomInRight(Invoice).play();
+        new ZoomInRight(clients).play();
         new ZoomInLeft(Store).play();
         new ZoomInRight(Sales).play();
         userName.setText(prefs.get(USER_NAME, USERNAME_DEFAULT).toUpperCase());
@@ -100,7 +100,7 @@ public class HomeController implements Initializable {
                     System.err.println(prefs.get(THEME, DEFAULT_THEME));
                     login.getStylesheets().add(getClass().getResource("/assets/styles/" + prefs.get(THEME, DEFAULT_THEME) + ".css").toExternalForm());
 
-                    Stage st = (Stage) mainData.getScene().getWindow();
+                    Stage st = (Stage) members.getScene().getWindow();
                     st.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icons/logo.png")));
                     st.setTitle("Acapy Trade");
 
@@ -186,7 +186,7 @@ public class HomeController implements Initializable {
                 });
             }
         });
-        mainData.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+        members.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             if (User.canAccess("MainData")) {
                 Service<Void> service = new Service<Void>() {
                     @Override
@@ -419,7 +419,7 @@ public class HomeController implements Initializable {
             }
 
         });
-        Invoice.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+        clients.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
             if (User.canAccess("Invoice")) {
                 Service<Void> service = new Service<Void>() {
                     @Override
@@ -474,7 +474,7 @@ public class HomeController implements Initializable {
                     System.err.println(prefs.get(THEME, DEFAULT_THEME));
                     login.getStylesheets().add(getClass().getResource("/assets/styles/" + prefs.get(THEME, DEFAULT_THEME) + ".css").toExternalForm());
 
-                    Stage st = (Stage) mainData.getScene().getWindow();
+                    Stage st = (Stage) members.getScene().getWindow();
                     st.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icons/logo.png")));
                     st.setTitle("Acapy Trade");
 
@@ -505,7 +505,7 @@ public class HomeController implements Initializable {
                     System.err.println(prefs.get(THEME, DEFAULT_THEME));
                     login.getStylesheets().add(getClass().getResource("/assets/styles/" + prefs.get(THEME, DEFAULT_THEME) + ".css").toExternalForm());
 
-                    Stage st = (Stage) mainData.getScene().getWindow();
+                    Stage st = (Stage) members.getScene().getWindow();
                     st.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icons/logo.png")));
                    st.setTitle("Acapy Trade");
 

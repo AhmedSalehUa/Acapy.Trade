@@ -62,14 +62,14 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="Invoice" contentDisplay="TOP" mnemonicParsing="false" prefHeight="190.0" prefWidth="205.0" style="-fx-background-color: transparent;" text="الفواتير" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button fx:id="members" contentDisplay="TOP" mnemonicParsing="false" prefHeight="190.0" prefWidth="205.0" style="-fx-background-color: transparent;" text="الصيانة" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <font>
                   <Font size="30.0" />
                </font>
                <graphic>
                   <ImageView fitHeight="141.0" fitWidth="127.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../assets/icons/icons8_bill_100px_1.png" />
+                        <Image url="@../assets/icons/icons8_support_80px.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -86,7 +86,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="mainData" contentDisplay="TOP" mnemonicParsing="false" prefHeight="198.0" prefWidth="205.0" style="-fx-background-color: transparent;" text="البيانات الرئيسية" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2">
+            <Button fx:id="clients" contentDisplay="TOP" mnemonicParsing="false" prefHeight="198.0" prefWidth="205.0" style="-fx-background-color: transparent;" text="العملاء" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2">
                <font>
                   <Font size="24.0" />
                </font>
