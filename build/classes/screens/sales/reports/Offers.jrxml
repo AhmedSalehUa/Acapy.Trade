@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="39be09ab-76a9-4a02-84b8-adbc6e69923f">
+	<property name="ireport.zoom" value="2.1435888100000016"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="266"/>
+	<style name="style1" mode="Opaque" hAlign="Center" vAlign="Middle" isBlankWhenNull="true" fontName="SansSerif" fontSize="13" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Courier" pdfEncoding="Cp1256" isPdfEmbedded="true"/>
+	<style name="style2" hAlign="Center" vAlign="Middle" fontName="SansSerif" fontSize="14" pdfFontName="Courier" pdfEncoding="Cp1256" isPdfEmbedded="true">
+		<box>
+			<pen lineWidth="0.25"/>
+			<topPen lineWidth="0.25"/>
+			<leftPen lineWidth="0.25"/>
+			<bottomPen lineWidth="0.25"/>
+			<rightPen lineWidth="0.25"/>
+		</box>
+	</style>
+	<style name="style3" mode="Opaque" backcolor="#CCCCCC" hAlign="Center" vAlign="Middle" fontName="SansSerif" fontSize="14" pdfFontName="Courier" pdfEncoding="Cp1256" isPdfEmbedded="true">
+		<box>
+			<pen lineWidth="0.5"/>
+			<topPen lineWidth="0.5"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="0.5"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+	</style>
+	<parameter name="date" class="java.lang.String"/>
+	<parameter name="client" class="java.lang.String"/>
+	<parameter name="organization" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\projects\\Implementation for institutions\\Acapy.Trade\\src\\screens\\sales\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="offer_id" class="java.lang.String"/>
+	<parameter name="totalArabic" class="java.lang.String"/>
+	<parameter name="logo" class="java.lang.Object" isForPrompting="false"/>
+	<parameter name="leftLogo" class="java.lang.Object" isForPrompting="false"/>
+	<parameter name="faceLogo" class="java.lang.Object" isForPrompting="false"/>
+	<parameter name="mailLogo" class="java.lang.Object" isForPrompting="false"/>
+	<parameter name="webLogo" class="java.lang.Object" isForPrompting="false"/>
+	<parameter name="suprep" class="java.lang.Object" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[SELECT sl_offers_details_temp.id,st_products.name,st_products.details,st_products.model,sl_offers_details_temp.cost,sl_offers_details_temp.amount,sl_offers_details_temp.total_cost FROM sl_offers_details_temp,st_products where st_products.id = sl_offers_details_temp.product_id and sl_offers_details_temp.offer_id=$P{offer_id}]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="details" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="model" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cost" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="amount" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total_cost" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="total" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_cost}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="94" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle" isUsingCache="false">
+				<reportElement x="388" y="0" width="167" height="94" uuid="af988a02-1bc9-4af1-9af4-a5fa863a411e"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<image hAlign="Center" vAlign="Middle" isUsingCache="false">
+				<reportElement x="0" y="0" width="173" height="94" uuid="d0ec5f67-acfd-4088-ab00-c9e58296fcf5"/>
+				<imageExpression><![CDATA[$P{leftLogo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="105" splitType="Stretch">
+			<textField>
+				<reportElement style="style1" x="18" y="17" width="107" height="25" uuid="e0ae0f47-5a65-469e-bc28-98499e7e0757"/>
+				<textFieldExpression><![CDATA[$P{date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="style1" x="455" y="22" width="100" height="20" uuid="8d01780f-7a43-482a-96ca-4f1e9c475522"/>
+				<text><![CDATA[الســــــــــــــادة / ]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="style1" x="265" y="42" width="190" height="20" uuid="640f7c94-d009-4489-8c35-a3dfb5bcf9a6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{client}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="style1" x="455" y="42" width="100" height="20" uuid="83fe3fd5-ed97-4ae8-be14-c9eccdec7d3c"/>
+				<text><![CDATA[عناية الاستــــــاذ / ]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="style1" x="265" y="22" width="190" height="20" uuid="44924a9e-b11e-413f-8ee6-ea43f78bfdc7"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{organization}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="style1" x="236" y="63" width="100" height="20" uuid="535f2a55-ff60-490c-9e10-d0e20f6a3902"/>
+				<text><![CDATA[تحية طيبة ,,,,,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style1" x="319" y="83" width="237" height="20" uuid="7466be8c-f6ef-495f-93a3-2ad3c2ba1744"/>
+				<text><![CDATA[نتشرف ان نقدم لسيادتكم عرض اسعارنا لتوريد الاتي :]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement style="style3" x="0" y="0" width="60" height="20" uuid="485be103-99a4-4b45-a3b4-5e4105ff6a25"/>
+				<text><![CDATA[الاجمالي]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style3" x="122" y="0" width="62" height="20" uuid="4f6d1f68-226e-4240-875c-ded11be6c40d"/>
+				<text><![CDATA[سعر الوحدة]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style3" x="262" y="0" width="168" height="20" uuid="7921382e-203f-4158-bd49-a285d07b7b37"/>
+				<text><![CDATA[الموديل]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style3" x="524" y="0" width="31" height="20" uuid="7922c84e-78ec-43cc-952a-41cbac1b8fe7"/>
+				<text><![CDATA[م]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style3" x="60" y="0" width="62" height="20" uuid="05331c02-6296-4b9a-92fd-10918ebb42d7"/>
+				<text><![CDATA[العدد]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style3" x="430" y="0" width="94" height="20" uuid="82fbf356-06fd-4e3a-9cdd-a13b5fb43e22"/>
+				<text><![CDATA[البيان]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style3" x="184" y="0" width="78" height="20" uuid="5fb1c703-899b-4098-b819-3821384e0a5d"/>
+				<text><![CDATA[التفاصيل]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="style2" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="60" height="20" uuid="d2583952-8fe7-4803-84cd-ccf24c67bd3b"/>
+				<textFieldExpression><![CDATA[$F{total_cost}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="style2" positionType="Float" stretchType="RelativeToTallestObject" x="122" y="0" width="62" height="20" uuid="2e45eaae-eabe-45c5-9bf9-c26f99af5bb3"/>
+				<textFieldExpression><![CDATA[$F{cost}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="style2" positionType="Float" stretchType="RelativeToTallestObject" x="262" y="0" width="168" height="20" uuid="7ddd2ccf-1832-4ed2-8966-4152cedbfb70"/>
+				<textFieldExpression><![CDATA[$F{model}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="style2" positionType="Float" stretchType="RelativeToTallestObject" x="524" y="0" width="31" height="20" uuid="8dd63bd6-fc0f-4202-af9e-0016faa1c30a"/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="style2" positionType="Float" stretchType="RelativeToTallestObject" x="60" y="0" width="62" height="20" uuid="236bcc2f-404e-4b82-886f-413474b1765c"/>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="style2" positionType="Float" stretchType="RelativeToTallestObject" x="430" y="0" width="94" height="20" uuid="9a050e19-d265-4d33-b86f-0bd429d59529"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="style2" positionType="Float" stretchType="RelativeToTallestObject" x="184" y="0" width="78" height="20" uuid="87db6373-652e-47a7-8344-4fd707f1abde"/>
+				<textFieldExpression><![CDATA[$F{details}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="73" splitType="Stretch">
+			<staticText>
+				<reportElement style="style1" x="212" y="21" width="153" height="20" uuid="6af89a17-17c5-4b2e-b716-b87cdde59e47"/>
+				<text><![CDATA[وتفضلوا بقبول وافر الاحترام
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style1" x="0" y="34" width="153" height="20" uuid="5dca6ce1-37ee-48d4-a785-67a3b5e1a097"/>
+				<text><![CDATA[الادارة]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style1" x="210" y="0" width="153" height="20" uuid="4e7af801-69e1-47de-82c5-d775557879f9"/>
+				<text><![CDATA[املين ان ينال عرضنا قبول سيادتكم]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="72" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="0" y="0" width="555" height="72" forecolor="#6699FF" uuid="f33b0ddd-3df3-4242-9dc2-187e16afbc87"/>
+			</rectangle>
+			<staticText>
+				<reportElement style="style1" x="373" y="44" width="151" height="20" uuid="b0426f61-e985-4258-a366-b53d6d8c89d1"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[www.acapy-trade.com]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style1" x="373" y="24" width="151" height="20" uuid="f2b246a1-15a5-4e21-9ad3-d639e3dc781f"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[info@acapy-trade.com]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style1" x="373" y="4" width="151" height="20" uuid="06e7d852-df76-4c5d-bf3d-8c7f1bba0eab"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Acapy.Trade]]></text>
+			</staticText>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="346" y="44" width="25" height="20" uuid="bc09dc6f-7d6f-4c1e-939d-2edf7452df1a"/>
+				<imageExpression><![CDATA[$P{webLogo}]]></imageExpression>
+			</image>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="347" y="28" width="24" height="16" uuid="af6f34a0-c663-45ad-bbd7-5e959b24e1de"/>
+				<imageExpression><![CDATA[$P{mailLogo}]]></imageExpression>
+			</image>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="346" y="4" width="25" height="24" uuid="8380b4ec-e4fe-48cc-a4a4-21a10eab62a1"/>
+				<imageExpression><![CDATA[$P{faceLogo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="style1" x="40" y="44" width="198" height="20" uuid="3617f3e0-eaf4-491e-ac40-3bbd20af55e3"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[01065480522 - 01555559784]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style1" x="58" y="24" width="263" height="20" uuid="09bb684c-902e-420b-84d4-d7a1836b7402"/>
+				<text><![CDATA[0403332544 - 0403346045 - 0403340840]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style1" x="79" y="4" width="259" height="20" uuid="786d53d4-b735-4b3b-86e3-89f7439f4a0b"/>
+				<text><![CDATA[El Ekhlas Tower El Nahas St. 9th floor Tanta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style1" x="3" y="44" width="37" height="20" forecolor="#CC0000" uuid="464ba327-c726-485b-b248-b092c9fc0987"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Mob :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style1" x="2" y="24" width="56" height="20" forecolor="#CC0000" uuid="c753c16f-1512-4877-85dd-70895fa58142"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Tel / fax :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="style1" x="3" y="4" width="76" height="20" forecolor="#CC0000" uuid="d37fd314-8bc2-465e-9f6c-6bee54dc5df0"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Head office :]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="97" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="23" width="555" height="74" uuid="f1c8e129-2401-4a4c-948d-16ba1e25a7f7"/>
+				<subreportParameter name="offer_id">
+					<subreportParameterExpression><![CDATA[$P{offer_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{suprep}]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement style="style2" x="79" y="0" width="476" height="23" uuid="f559d272-f75a-4d58-b3ea-5c82e0f22f83"/>
+				<textFieldExpression><![CDATA[$P{totalArabic}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="style2" x="0" y="0" width="79" height="23" uuid="64e9a238-e619-48b4-8115-637f4a7f710a"/>
+				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

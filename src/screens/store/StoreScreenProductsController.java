@@ -188,41 +188,55 @@ public class StoreScreenProductsController implements Initializable {
     }
 
     private void getAutoNum() {
-        try {
-            id.setText(Products.getAutoNum());
-        } catch (Exception ex) {
-            AlertDialogs.showErrors(ex);
-        }
+        progress.setVisible(true);
+        Service<Void> service = new Service<Void>() {
+            String autoNum;
+
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        try {
+
+                            autoNum = Products.getAutoNum();
+                        } catch (Exception ex) {
+                            AlertDialogs.showErrors(ex);
+                        }
+                        return null;
+                    }
+                };
+
+            }
+
+            @Override
+            protected void succeeded() {
+                progress.setVisible(false);
+                id.setText(autoNum);
+                super.succeeded();
+            }
+        };
+        service.start();
 
     }
 
     private void getData() {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
+            ObservableList<Products> data;
+
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
-                        //Background work                       
-                        final CountDownLatch latch = new CountDownLatch(1);
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    try {
 
-                                        tab.setItems(Products.getData());
+                        try {
+                            data = Products.getData();
 
-                                    } catch (Exception ex) {
-                                        AlertDialogs.showErrors(ex);
-                                    }
-                                } finally {
-                                    latch.countDown();
-                                }
-                            }
-                        });
-                        latch.await();
+                        } catch (Exception ex) {
+                            AlertDialogs.showErrors(ex);
+                        }
 
                         return null;
                     }
@@ -231,8 +245,8 @@ public class StoreScreenProductsController implements Initializable {
 
             @Override
             protected void succeeded() {
-
-                items = tab.getItems();
+                tab.setItems(data);
+                items = data;
                 progress.setVisible(false);
                 super.succeeded();
             }
@@ -242,62 +256,86 @@ public class StoreScreenProductsController implements Initializable {
     ObservableList<Products> items;
 
     private void fillCombo() {
-        try {
+        progress.setVisible(true);
+        Service<Void> service = new Service<Void>() {
+            ObservableList<ProductCategory> data;
 
-            category.setItems(ProductCategory.getData());
-            category.setConverter(new StringConverter<ProductCategory>() {
-                @Override
-                public String toString(ProductCategory patient) {
-                    return patient.getName();
-                }
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        try {
+                            data = ProductCategory.getData();
 
-                @Override
-                public ProductCategory fromString(String string) {
-                    return null;
-                }
-            });
-            category.setCellFactory(cell -> new ListCell<ProductCategory>() {
-
-                // Create our layout here to be reused for each ListCell
-                GridPane gridPane = new GridPane();
-                Label lblid = new Label();
-                Label lblName = new Label();
-
-                // Static block to configure our layout
-                {
-                    // Ensure all our column widths are constant
-                    gridPane.getColumnConstraints().addAll(
-                            new ColumnConstraints(100, 100, 100),
-                            new ColumnConstraints(100, 100, 100)
-                    );
-
-                    gridPane.add(lblid, 0, 1);
-                    gridPane.add(lblName, 1, 1);
-
-                }
-
-                // We override the updateItem() method in order to provide our own layout for this Cell's graphicProperty
-                @Override
-                protected void updateItem(ProductCategory person, boolean empty) {
-                    super.updateItem(person, empty);
-
-                    if (!empty && person != null) {
-
-                        // Update our Labels
-                        lblid.setText("م: " + Integer.toString(person.getId()));
-                        lblName.setText("الاسم: " + person.getName());
-
-                        // Set this ListCell's graphicProperty to display our GridPane
-                        setGraphic(gridPane);
-                    } else {
-                        // Nothing to display here
-                        setGraphic(null);
+                        } catch (Exception ex) {
+                            AlertDialogs.showErrors(ex);
+                        }
+                        return null;
                     }
-                }
-            });
-        } catch (Exception ex) {
-            AlertDialogs.showErrors(ex);
-        }
+                };
+
+            }
+
+            @Override
+            protected void succeeded() {
+                progress.setVisible(false);
+                category.setItems(data);
+                category.setConverter(new StringConverter<ProductCategory>() {
+                    @Override
+                    public String toString(ProductCategory patient) {
+                        return patient.getName();
+                    }
+
+                    @Override
+                    public ProductCategory fromString(String string) {
+                        return null;
+                    }
+                });
+                category.setCellFactory(cell -> new ListCell<ProductCategory>() {
+
+                    // Create our layout here to be reused for each ListCell
+                    GridPane gridPane = new GridPane();
+                    Label lblid = new Label();
+                    Label lblName = new Label();
+
+                    // Static block to configure our layout
+                    {
+                        // Ensure all our column widths are constant
+                        gridPane.getColumnConstraints().addAll(
+                                new ColumnConstraints(100, 100, 100),
+                                new ColumnConstraints(100, 100, 100)
+                        );
+
+                        gridPane.add(lblid, 0, 1);
+                        gridPane.add(lblName, 1, 1);
+
+                    }
+
+                    // We override the updateItem() method in order to provide our own layout for this Cell's graphicProperty
+                    @Override
+                    protected void updateItem(ProductCategory person, boolean empty) {
+                        super.updateItem(person, empty);
+
+                        if (!empty && person != null) {
+
+                            // Update our Labels
+                            lblid.setText("م: " + Integer.toString(person.getId()));
+                            lblName.setText("الاسم: " + person.getName());
+
+                            // Set this ListCell's graphicProperty to display our GridPane
+                            setGraphic(gridPane);
+                        } else {
+                            // Nothing to display here
+                            setGraphic(null);
+                        }
+                    }
+                });
+                super.succeeded();
+            }
+        };
+        service.start();
+
     }
 
     @FXML
@@ -344,17 +382,13 @@ public class StoreScreenProductsController implements Initializable {
                             return new Task() {
                                 @Override
                                 protected Object call() throws Exception {
-                                    final CountDownLatch latch = new CountDownLatch(1);
-                                    Platform.runLater(() -> {
+                                    
                                         try {
                                             ProductCategory.Add(results);
                                         } catch (Exception ex) {
                                             AlertDialogs.showErrors(ex);
-                                        } finally {
-                                            latch.countDown();
-                                        }
-                                    });
-                                    latch.await();
+                                        } 
+                                    
 
                                     return null;
                                 }

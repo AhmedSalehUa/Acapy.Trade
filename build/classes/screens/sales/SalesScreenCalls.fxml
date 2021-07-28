@@ -19,8 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="569.0" prefWidth="1360.0" stylesheets="@../../assets/styles/darkMode.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="screens.sales.SalesScreenCallsController">
+<AnchorPane id="AnchorPane" prefHeight="569.0" prefWidth="1360.0" stylesheets="@../../assets/styles/darkMode.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.sales.SalesScreenCallsController">
    <children>
       <VBox alignment="CENTER" prefHeight="541.0" prefWidth="1337.0" spacing="10.0">
          <children>
@@ -28,9 +27,10 @@
                <children>
                   <VBox prefHeight="462.0" prefWidth="892.0">
                      <children>
-                        <HBox>
+                        <HBox spacing="15.0">
                            <children>
                               <JFXTextField fx:id="search" focusColor="BLACK" labelFloat="true" onKeyPressed="#search" onKeyReleased="#search" onKeyTyped="#search" prefHeight="25.0" prefWidth="184.0" promptText="Search" />
+                              <Button id="btnAdd" fx:id="addEvent" mnemonicParsing="false" onAction="#addEvent" text="اضافة ميعاد" />
                            </children>
                         </HBox>
                         <TableView id="patientTable" fx:id="tab" prefHeight="428.0" prefWidth="893.0" VBox.vgrow="ALWAYS">

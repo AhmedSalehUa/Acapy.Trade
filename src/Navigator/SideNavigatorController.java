@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package Navigator;
- 
+
 import acapy.trade.AcapyTrade;
 import assets.classes.AlertDialogs;
 import assets.classes.statics;
@@ -39,21 +39,21 @@ public class SideNavigatorController implements Initializable {
     @FXML
     private Label mainLabel;
     @FXML
-    private ImageView imgview; 
+    private ImageView imgview;
 
     Preferences prefs;
     @FXML
-    private Button mainDataButton; 
-    @FXML
-    private Button storeButton; 
+    private Button storeButton;
     @FXML
     private Button salesButton;
     @FXML
     private Button accountsButton;
     @FXML
-    private Button invicesButton;
-    @FXML
     private Button hrButton;
+    @FXML
+    private Button clientBtn;
+    @FXML
+    private Button membersBtn;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -74,16 +74,16 @@ public class SideNavigatorController implements Initializable {
                 AlertDialogs.showErrors(ex);
             }
         });
-        mainDataButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            if (User.canAccess("MainData")) {
+        clientBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+            if (User.canAccess("ClientScreen")) {
                 try {
 
-                    Parent login = FXMLLoader.load(getClass().getResource(MainData));
+                    Parent login = FXMLLoader.load(getClass().getResource(ClientData));
                     login.getStylesheets().add(getClass().getResource("/assets/styles/" + prefs.get(statics.THEME, statics.DEFAULT_THEME) + ".css").toExternalForm());
                     Scene sc = new Scene(login);
                     Stage st = (Stage) mainLabel.getScene().getWindow();
                     st.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icons/logo.png")));
-                    st.setTitle("Acapy Trade (البيانات الرئيسية)");
+                    st.setTitle("Acapy Trade (العملاء)");
                     st.centerOnScreen();
                     st.setScene(sc);
                     st.show();
@@ -178,16 +178,16 @@ public class SideNavigatorController implements Initializable {
                 AlertDialogs.permissionDenied();
             }
         });
-        invicesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            if (User.canAccess("Invoice")) {
+        membersBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+            if (User.canAccess("members")) {
                 try {
 
-                    Parent login = FXMLLoader.load(getClass().getResource(InvoiceScreen));
+                    Parent login = FXMLLoader.load(getClass().getResource(MembersScreen));
                     login.getStylesheets().add(getClass().getResource("/assets/styles/" + prefs.get(statics.THEME, statics.DEFAULT_THEME) + ".css").toExternalForm());
                     Scene sc = new Scene(login);
                     Stage st = (Stage) mainLabel.getScene().getWindow();
                     st.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icons/logo.png")));
-                    st.setTitle("Acapy Trade (الفواتير)");
+                    st.setTitle("Acapy Trade (الموظفين)");
                     st.centerOnScreen();
                     st.setScene(sc);
                     st.show();

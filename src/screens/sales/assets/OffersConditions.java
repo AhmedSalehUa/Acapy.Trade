@@ -5,6 +5,10 @@
  */
 package screens.sales.assets;
 
+import java.sql.ResultSet;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 /**
  *
  * @author AHMED
@@ -57,7 +61,18 @@ public class OffersConditions {
     public void setValue(String value) {
         this.value = value;
     }
-     public static String getAutoNum() throws Exception {
-     return db.get.getTableData("SELECT IFNULL(MAX(`id`)+1,1) FROM `sl_offers_condition`").getValueAt(0, 0).toString();
+
+    public static String getAutoNum() throws Exception {
+        return db.get.getTableData("SELECT IFNULL(MAX(`id`)+1,1) FROM `sl_offers_condition`").getValueAt(0, 0).toString();
     }
+
+    public static ObservableList<OffersConditions> getData(int id) throws Exception {
+        ObservableList<OffersConditions> data = FXCollections.observableArrayList();
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT * FROM `sl_offers_condition` WHERE `offer_id`='"+id+"'");
+        while (rs.next()) {
+            data.add(new OffersConditions(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4)));
+        }
+        return data;
+    }
+
 }

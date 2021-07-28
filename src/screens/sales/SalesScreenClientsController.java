@@ -40,7 +40,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
-import screens.mainDataScreen.assets.Clients;
+import screens.clients.assets.Clients;
 import screens.sales.assets.Calls;
 import screens.sales.assets.SalesClient;
 import screens.sales.assets.SalesMembers;
@@ -177,65 +177,116 @@ public class SalesScreenClientsController implements Initializable {
     }
 
     private void fillCombo() throws Exception {
-        sales.setItems(SalesMembers.getData());
-        sales.setConverter(new StringConverter<SalesMembers>() {
-            @Override
-            public String toString(SalesMembers sales) {
-                return sales.getName();
-            }
+        progress.setVisible(true);
+        Service<Void> service = new Service<Void>() {
+            ObservableList<SalesMembers> data;
 
             @Override
-            public SalesMembers fromString(String string) {
-                return null;
-            }
-        });
-        sales.setCellFactory(cell -> new ListCell<SalesMembers>() {
-
-            // Create our layout here to be reused for each ListCell
-            GridPane gridPane = new GridPane();
-            Label lblid = new Label();
-            Label lblName = new Label();
-
-            // Static block to configure our layout
-            {
-                // Ensure all our column widths are constant
-                gridPane.getColumnConstraints().addAll(
-                        new ColumnConstraints(100, 100, 100),
-                        new ColumnConstraints(100, 100, 100)
-                );
-
-                gridPane.add(lblid, 0, 1);
-                gridPane.add(lblName, 1, 1);
-
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        try {
+                            data = SalesMembers.getData();
+                        } catch (Exception ex) {
+                            AlertDialogs.showErrors(ex);
+                        }
+                        return null;
+                    }
+                };
             }
 
-            // We override the updateItem() method in order to provide our own layout for this Cell's graphicProperty
             @Override
-            protected void updateItem(SalesMembers person, boolean empty) {
-                super.updateItem(person, empty);
+            protected void succeeded() {
+                progress.setVisible(false);
+                sales.setItems(data);
+                sales.setConverter(new StringConverter<SalesMembers>() {
+                    @Override
+                    public String toString(SalesMembers sales) {
+                        return sales.getName();
+                    }
 
-                if (!empty && person != null) {
+                    @Override
+                    public SalesMembers fromString(String string) {
+                        return null;
+                    }
+                });
+                sales.setCellFactory(cell -> new ListCell<SalesMembers>() {
 
-                    // Update our Labels
-                    lblid.setText("م: " + Integer.toString(person.getId()));
-                    lblName.setText("الاسم: " + person.getName());
+                    // Create our layout here to be reused for each ListCell
+                    GridPane gridPane = new GridPane();
+                    Label lblid = new Label();
+                    Label lblName = new Label();
 
-                    // Set this ListCell's graphicProperty to display our GridPane
-                    setGraphic(gridPane);
-                } else {
-                    // Nothing to display here
-                    setGraphic(null);
-                }
+                    // Static block to configure our layout
+                    {
+                        // Ensure all our column widths are constant
+                        gridPane.getColumnConstraints().addAll(
+                                new ColumnConstraints(100, 100, 100),
+                                new ColumnConstraints(100, 100, 100)
+                        );
+
+                        gridPane.add(lblid, 0, 1);
+                        gridPane.add(lblName, 1, 1);
+
+                    }
+
+                    // We override the updateItem() method in order to provide our own layout for this Cell's graphicProperty
+                    @Override
+                    protected void updateItem(SalesMembers person, boolean empty) {
+                        super.updateItem(person, empty);
+
+                        if (!empty && person != null) {
+
+                            // Update our Labels
+                            lblid.setText("م: " + Integer.toString(person.getId()));
+                            lblName.setText("الاسم: " + person.getName());
+
+                            // Set this ListCell's graphicProperty to display our GridPane
+                            setGraphic(gridPane);
+                        } else {
+                            // Nothing to display here
+                            setGraphic(null);
+                        }
+                    }
+                });
+                super.succeeded();
             }
-        });
+        };
+        service.start();
+
     }
 
     private void setAutoNumber() {
-        try {
-            id.setText(SalesClient.getAutoNum());
-        } catch (Exception ex) {
-            AlertDialogs.showErrors(ex);
-        }
+        progress.setVisible(true);
+        Service<Void> service = new Service<Void>() {
+            String autoNum;
+
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        try {
+
+                            autoNum = SalesClient.getAutoNum();
+                        } catch (Exception ex) {
+                            AlertDialogs.showErrors(ex);
+                        }
+                        return null;
+                    }
+                };
+
+            }
+
+            @Override
+            protected void succeeded() {
+                progress.setVisible(false);
+                id.setText(autoNum);
+                super.succeeded();
+            }
+        };
+        service.start();
     }
 
     private void clear() {
@@ -265,33 +316,24 @@ public class SalesScreenClientsController implements Initializable {
     private void getData() {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
+            ObservableList<SalesClient> data;
+
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
-                        //Background work                       
-                        final CountDownLatch latch = new CountDownLatch(1);
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    try {
-                                        if (prefs.get(USER_ROLE, "user").equals("super_admin")) {
-                                            tab.setItems(SalesClient.getData());
-                                        } else {
-                                            tab.setItems(SalesClient.getData(prefs.get(statics.USER_ID, "0")));
-                                        }
-                                    } catch (Exception ex) {
-                                        AlertDialogs.showErrors(ex);
-                                    }
-                                } finally {
-                                    latch.countDown();
-                                }
-                            }
-                        });
-                        latch.await();
 
+                        try {
+                            if (prefs.get(USER_ROLE, "user").equals("super_admin") || prefs.get(USER_ROLE, "user").equals("admin")) {
+
+                                data = SalesClient.getData();
+                            } else {
+                                data = SalesClient.getData(prefs.get(statics.USER_ID, "0"));
+                            }
+                        } catch (Exception ex) {
+                            AlertDialogs.showErrors(ex);
+                        }
                         return null;
                     }
                 };
@@ -299,8 +341,8 @@ public class SalesScreenClientsController implements Initializable {
 
             @Override
             protected void succeeded() {
-
-                items = tab.getItems();
+                tab.setItems(data);
+                items = data;
                 progress.setVisible(false);
                 super.succeeded();
             }

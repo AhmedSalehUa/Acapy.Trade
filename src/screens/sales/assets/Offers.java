@@ -15,7 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javax.swing.JTable;
-
+import screens.store.assets.Products;
 
 public class Offers {
 
@@ -27,15 +27,18 @@ public class Offers {
     String dicount;
     String discount_percent;
     String total_cost;
+    String notes;
     InputStream doc;
     String ext;
     int sales_id;
     String sales;
+    ObservableList<OffersDetails> details;
+    ObservableList<OffersConditions> conditions;
 
     public Offers() {
     }
 
-    public Offers(int id, String client, String date, String cost, String dicount, String discount_percent, String total_cost, String sales) {
+    public Offers(int id, String client, String date, String cost, String dicount, String discount_percent, String total_cost, String sales, String notes) {
         this.id = id;
         this.client = client;
         this.date = date;
@@ -44,6 +47,7 @@ public class Offers {
         this.discount_percent = discount_percent;
         this.total_cost = total_cost;
         this.sales = sales;
+        this.notes = notes;
     }
 
     public int getId() {
@@ -142,8 +146,61 @@ public class Offers {
         this.sales = sales;
     }
 
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public ObservableList<OffersDetails> getDetails() {
+        return details;
+    }
+
+    public void setDetails(ObservableList<OffersDetails> details) {
+        this.details = details;
+    }
+
+    public ObservableList<OffersConditions> getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(ObservableList<OffersConditions> conditions) {
+        this.conditions = conditions;
+    }
+
+    public boolean AddDetails() throws Exception {
+        PreparedStatement ps = db.get.Prepare("INSERT INTO `sl_offers_details`( `offer_id`, `product_id`, `cost`, `amount`, `total_cost`) VALUES (?,?,?,?,?)");
+
+        for (OffersDetails a : details) {
+            ps.setInt(1, id);
+            Products b = (Products) a.getProducts().getSelectionModel().getSelectedItem();
+            ps.setInt(2, b.getId());
+            ps.setString(3, a.getCost().getText());
+            ps.setString(4, a.getAmount().getText());
+            ps.setString(5, Integer.toString(Integer.parseInt(a.getAmount().getText()) * Integer.parseInt(a.getCost().getText())));
+            ps.addBatch();
+        }
+        ps.executeBatch();
+        return true;
+    }
+
+    public boolean AddConditions() throws Exception {
+        PreparedStatement ps = db.get.Prepare("INSERT INTO `sl_offers_condition`( `offer_id`, `attribute`, `value`) VALUES (?,?,?)");
+
+        for (OffersConditions a : conditions) {
+            ps.setInt(1, id);
+            ps.setString(2, a.getAttribute());
+            ps.setString(3, a.getValue());
+            ps.addBatch();
+        }
+        ps.executeBatch();
+        return true;
+    }
+
     public boolean Add() throws Exception {
-        PreparedStatement ps = db.get.Prepare("INSERT INTO `sl_offers`(`id`, `client_id`, `date`, `cost`, `discount`, `discount_percent`, `total_cost`, `doc`, `doc_ext`, `sales_id`) VALUES (?,?,?,?,?,?,?,?,?,?)");
+        PreparedStatement ps = db.get.Prepare("INSERT INTO `sl_offers`(`id`, `client_id`, `date`, `cost`, `discount`, `discount_percent`, `total_cost`, `doc`, `doc_ext`, `sales_id`,`notes`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
         ps.setInt(1, id);
         ps.setInt(2, client_id);
         ps.setString(3, date);
@@ -154,12 +211,17 @@ public class Offers {
         ps.setBlob(8, doc);
         ps.setString(9, ext);
         ps.setInt(10, sales_id);
+        ps.setString(11, notes);
+        AddDetails();
+        AddConditions();
+
         ps.execute();
         return true;
     }
 
-    public boolean AddWithouPhoto() throws Exception {
-        PreparedStatement ps = db.get.Prepare("INSERT INTO `sl_offers`(`id`, `client_id`, `date`, `cost`, `discount`, `discount_percent`, `total_cost`, `sales_id`) VALUES (?,?,?,?,?,?,?,?)");
+    public boolean AddTemp() throws Exception {
+        DeleteTemps();
+        PreparedStatement ps = db.get.Prepare("INSERT INTO `sl_offers_temp`(`id`, `client_id`, `date`, `cost`, `discount`, `discount_percent`, `total_cost`, `sales_id`,`notes`) VALUES (?,?,?,?,?,?,?,?,?)");
         ps.setInt(1, id);
         ps.setInt(2, client_id);
         ps.setString(3, date);
@@ -168,12 +230,65 @@ public class Offers {
         ps.setString(6, discount_percent);
         ps.setString(7, total_cost);
         ps.setInt(8, sales_id);
+        ps.setString(9, notes);
+
+        AddDetailsTemp();
+        AddConditionsTemp();
+
+        ps.execute();
+        return true;
+    }
+
+    public boolean AddDetailsTemp() throws Exception {
+        PreparedStatement ps = db.get.Prepare("INSERT INTO `sl_offers_details_temp`( `offer_id`, `product_id`, `cost`, `amount`, `total_cost`) VALUES (?,?,?,?,?)");
+
+        for (OffersDetails a : details) {
+            ps.setInt(1, id);
+            Products b = (Products) a.getProducts().getSelectionModel().getSelectedItem();
+            ps.setInt(2, b.getId());
+            ps.setString(3, a.getCost().getText());
+            ps.setString(4, a.getAmount().getText());
+            ps.setString(5, Integer.toString(Integer.parseInt(a.getAmount().getText()) * Integer.parseInt(a.getCost().getText())));
+            ps.addBatch();
+        }
+        ps.executeBatch();
+        return true;
+    }
+
+    public boolean AddConditionsTemp() throws Exception {
+        PreparedStatement ps = db.get.Prepare("INSERT INTO `sl_offers_condition_temp`( `offer_id`, `attribute`, `value`) VALUES (?,?,?)");
+
+        for (OffersConditions a : conditions) {
+            ps.setInt(1, id);
+            ps.setString(2, a.getAttribute());
+            ps.setString(3, a.getValue());
+            ps.addBatch();
+        }
+        ps.executeBatch();
+        return true;
+    }
+
+    public boolean AddWithouPhoto() throws Exception {
+        PreparedStatement ps = db.get.Prepare("INSERT INTO `sl_offers`(`id`, `client_id`, `date`, `cost`, `discount`, `discount_percent`, `total_cost`, `sales_id`,`notes`) VALUES (?,?,?,?,?,?,?,?,?)");
+        ps.setInt(1, id);
+        ps.setInt(2, client_id);
+        ps.setString(3, date);
+        ps.setString(4, cost);
+        ps.setString(5, dicount);
+        ps.setString(6, discount_percent);
+        ps.setString(7, total_cost);
+        ps.setInt(8, sales_id);
+        ps.setString(9, notes);
+
+        AddDetails();
+        AddConditions();
+
         ps.execute();
         return true;
     }
 
     public boolean Edite() throws Exception {
-        PreparedStatement ps = db.get.Prepare("UPDATE `sl_offers` SET `client_id`=?,`date`=?,`cost`=?,`discount`=?,`discount_percent`=?,`total_cost`=?,`doc`=?,`doc_ext`=?,`sales_id`=? WHERE `id`=?");
+        PreparedStatement ps = db.get.Prepare("UPDATE `sl_offers` SET `client_id`=?,`date`=?,`cost`=?,`discount`=?,`discount_percent`=?,`total_cost`=?,`doc`=?,`doc_ext`=?,`sales_id`=?,`notes`=? WHERE `id`=?");
         ps.setInt(1, client_id);
         ps.setString(2, date);
         ps.setString(3, cost);
@@ -183,13 +298,21 @@ public class Offers {
         ps.setBlob(7, doc);
         ps.setString(8, ext);
         ps.setInt(9, sales_id);
-        ps.setInt(10, id);
+        ps.setString(10, notes);
+        ps.setInt(11, id);
+
+        DeleteDetails();
+        DeleteConditions();
+
+        AddDetails();
+        AddConditions();
+
         ps.execute();
         return true;
     }
 
     public boolean EditeWithouPhoto() throws Exception {
-        PreparedStatement ps = db.get.Prepare("UPDATE `sl_offers` SET `client_id`=?,`date`=?,`cost`=?,`discount`=?,`discount_percent`=?,`total_cost`=?,`sales_id`=? WHERE `id`=?");
+        PreparedStatement ps = db.get.Prepare("UPDATE `sl_offers` SET `client_id`=?,`date`=?,`cost`=?,`discount`=?,`discount_percent`=?,`total_cost`=?,`sales_id`=?,`notes`=? WHERE `id`=?");
         ps.setInt(1, client_id);
         ps.setString(2, date);
         ps.setString(3, cost);
@@ -197,7 +320,29 @@ public class Offers {
         ps.setString(5, discount_percent);
         ps.setString(6, total_cost);
         ps.setInt(7, sales_id);
-        ps.setInt(8, id);
+        ps.setString(8, notes);
+        ps.setInt(9, id);
+
+        DeleteDetails();
+        DeleteConditions();
+
+        AddDetails();
+        AddConditions();
+
+        ps.execute();
+        return true;
+    }
+
+    public boolean DeleteDetails() throws Exception {
+        PreparedStatement ps = db.get.Prepare("DELETE FROM `sl_offers_details` WHERE `offer_id`=?");
+        ps.setInt(1, id);
+        ps.execute();
+        return true;
+    }
+
+    public boolean DeleteConditions() throws Exception {
+        PreparedStatement ps = db.get.Prepare("DELETE FROM `sl_offers_condition` WHERE `offer_id`=?");
+        ps.setInt(1, id);
         ps.execute();
         return true;
     }
@@ -205,15 +350,38 @@ public class Offers {
     public boolean Delete() throws Exception {
         PreparedStatement ps = db.get.Prepare("DELETE FROM `sl_offers` WHERE `id`=?");
         ps.setInt(1, id);
+
+        DeleteDetails();
+        DeleteConditions();
+
+        ps.execute();
+        return true;
+    }
+
+    public boolean DeleteTemps() throws Exception {
+        PreparedStatement ps = db.get.Prepare("DELETE FROM `sl_offers_temp` ");
+        ps.execute();
+        ps = db.get.Prepare("DELETE FROM `sl_offers_condition_temp` ");
+        ps.execute();
+        ps = db.get.Prepare("DELETE FROM `sl_offers_details_temp` ");
         ps.execute();
         return true;
     }
 
     public static ObservableList<Offers> getData() throws Exception {
         ObservableList<Offers> data = FXCollections.observableArrayList();
-        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `sl_offers`.`id`,`sl_client`.`name`, `sl_offers`.`date`, `sl_offers`.`cost`, `sl_offers`.`discount`, `sl_offers`.`discount_percent`, `sl_offers`.`total_cost`,`sl_sales_members`.`name` FROM `sl_offers`,`sl_client`,`sl_sales_members` WHERE `sl_client`.`id` =`sl_offers`.`client_id` and `sl_sales_members`.`id` = `sl_offers`.`sales_id`");
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `sl_offers`.`id`,`sl_client`.`name`, `sl_offers`.`date`, `sl_offers`.`cost`, `sl_offers`.`discount`, `sl_offers`.`discount_percent`, `sl_offers`.`total_cost`,`sl_sales_members`.`name`,`sl_offers`.`notes` FROM `sl_offers`,`sl_client`,`sl_sales_members` WHERE `sl_client`.`id` =`sl_offers`.`client_id` and `sl_sales_members`.`id` = `sl_offers`.`sales_id`");
         while (rs.next()) {
-            data.add(new Offers(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)));
+            data.add(new Offers(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+        }
+        return data;
+    }
+
+    public static ObservableList<Offers> getCutomData(String sql) throws Exception {
+        ObservableList<Offers> data = FXCollections.observableArrayList();
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery(sql);
+        while (rs.next()) {
+            data.add(new Offers(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
         }
         return data;
     }
@@ -237,11 +405,11 @@ public class Offers {
             ResultSet rs = null;
 
             try {
-                PreparedStatement pstmt = db.get.Prepare(selectSQL); 
+                PreparedStatement pstmt = db.get.Prepare(selectSQL);
 
                 rs = pstmt.executeQuery();
 
-                File directory = new File(System.getProperty("user.home") + "\\Desktop\\Acapy Trade\\img");
+                File directory = new File(System.getProperty("user.home") + "\\Desktop\\Acapy Trade\\documents");
                 directory.mkdirs();
 
                 file = new File(directory + "\\" + id + "-" + tab.getValueAt(0, 1).toString() + "." + ext);

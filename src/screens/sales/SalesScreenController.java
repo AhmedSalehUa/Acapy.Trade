@@ -128,6 +128,26 @@ public class SalesScreenController implements Initializable {
                                                 AlertDialogs.showErrors(ex);
                                             }
                                         });
+                                        calender.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                                            try {
+                                                calender.setStyle(" -fx-background-color: -mainColor-dark; ");
+                                                calls.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                clients.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                success.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                offers.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                Parent node = FXMLLoader.load(getClass().getResource(NoPermission));
+                                                if (User.canAccess("SalesScreenCalendar")) {
+                                                    node = FXMLLoader.load(getClass().getResource("SalesScreenCalendar.fxml"));
+                                                    node.getStylesheets().add(getClass().getResource("/assets/styles/" + prefs.get(THEME, DEFAULT_THEME) + ".css").toExternalForm());
+                                                      node.getStylesheets().add(getClass().getResource("/assets/styles/stylesheet_main.css").toExternalForm());
+
+                                                }
+                                                borderpane.setCenter(node);
+                                            } catch (IOException ex) {
+                                                ex.printStackTrace();
+                                                AlertDialogs.showErrors(ex);
+                                            }
+                                        });
                                     } catch (Exception ex) {
                                         ex.printStackTrace();
                                         AlertDialogs.showErrors(ex);

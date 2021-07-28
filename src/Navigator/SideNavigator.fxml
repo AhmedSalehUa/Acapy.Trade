@@ -28,7 +28,7 @@
       </Label>
       <VBox alignment="TOP_CENTER" depthTest="DISABLE" layoutY="83.0" prefHeight="485.0" prefWidth="250.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="83.0">
          <children>
-            <Button id="navigationPanelButton" fx:id="mainDataButton" accessibleText="mainDataButton" mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" text="البيانات الرئيسية" textFill="WHITE" wrapText="true" VBox.vgrow="ALWAYS">
+            <Button id="navigationPanelButton" fx:id="clientBtn" accessibleText="mainDataButton" mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" text="العملاء" textFill="WHITE" wrapText="true" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="26.0" />
                </font>
@@ -43,12 +43,12 @@
                   <Font size="26.0" />
                </font>
             </Button>
-            <Button id="navigationPanelButton" fx:id="invicesButton" accessibleText="accountButton" mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" text="الصيانة" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Button id="navigationPanelButton" fx:id="membersBtn" accessibleText="accountButton" mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" text="الموظفين" textFill="WHITE" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="30.0" />
                </font>
             </Button>
-            <Button id="navigationPanelButton" fx:id="hrButton" accessibleText="clincsButton" mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" text="شئون العاملين" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Button id="navigationPanelButton" fx:id="hrButton" accessibleText="clincsButton" mnemonicParsing="false" prefHeight="70.0" prefWidth="250.0" text="حضور وانصراف" textFill="WHITE" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="30.0" />
                </font>

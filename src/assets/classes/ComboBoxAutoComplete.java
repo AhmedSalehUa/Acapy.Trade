@@ -15,7 +15,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Window;
 import javafx.util.StringConverter; 
-import screens.mainDataScreen.assets.Clients;
+import screens.clients.assets.Clients;
 
 public class ComboBoxAutoComplete {
 

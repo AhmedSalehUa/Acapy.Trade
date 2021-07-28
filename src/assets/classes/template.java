@@ -30,26 +30,22 @@ public class template {
 
     public template() {
         ObservableList<String> d = FXCollections.observableArrayList();
-        /**
-         * //ALTER TABLE `sl_calls` ADD `sales_id` INT NOT NULL AFTER `details`;
-         * //ALTER TABLE `sl_client` ADD `sales_id` INT NOT NULL AFTER `tele2`;
-         * //ALTER TABLE `sl_offers` ADD `sales_id` INT NOT NULL AFTER `doc_ext`;
-         * //ALTER TABLE `sl_offers` ADD `cost` VARCHAR(700) NOT NULL AFTER `date`, ADD `discount` VARCHAR(700) NOT NULL AFTER `cost`, ADD `discount_percent` VARCHAR(700) NOT NULL AFTER `discount`;
-         *
+        /**     
+             
          */
-        d.add("");
-        d.add("");
-        d.add("");
-        d.add("");
-        d.add("");
-        d.add("");
-        d.add("");
-        d.add("");
+        d.add("ALTER TABLE `sl_calls` ADD `sales_id` INT NOT NULL AFTER `details`");
+        d.add("ALTER TABLE `sl_client` ADD `sales_id` INT NOT NULL AFTER `tele2`");
+        d.add("ALTER TABLE `sl_offers` ADD `sales_id` INT NOT NULL AFTER `doc_ext`");
+        d.add("ALTER TABLE `sl_offers` ADD `cost` VARCHAR(700) NOT NULL AFTER `date`, ADD `discount` VARCHAR(700) NOT NULL AFTER `cost`, ADD `discount_percent` VARCHAR(700) NOT NULL AFTER `discount`");
+        d.add("ALTER TABLE `sl_offers` ADD `notes` VARCHAR(1400) NOT NULL AFTER `sales_id`");
+        d.add("ALTER TABLE `sl_offers` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `discount` `discount` VARCHAR(700) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `discount_percent` `discount_percent` VARCHAR(700) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `total_cost` `total_cost` VARCHAR(700) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `doc` `doc` LONGBLOB NULL, CHANGE `doc_ext` `doc_ext` VARCHAR(700) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `notes` `notes` VARCHAR(1400) CHARACTER SET utf8 COLLATE  utf8_general_ci NULL");
+        d.add("ALTER TABLE `cli_maintaince` CHANGE `date` `date` DATE NOT NULL;");
+        d.add("ALTER TABLE `cli_contracts` CHANGE `num_of_visits` `num_of_visits` VARCHAR(700) NOT NULL, CHANGE `cost` `cost` VARCHAR(700) NOT NULL, CHANGE `due_after` `due_after` VARCHAR(700) NOT NULL;");
         d.add("");
 
     }
     /*
-      public boolean Add() throws Exception {PreparedStatement ps = db.get.Prepare("");ps.execute();return true;
+    public boolean Add() throws Exception {PreparedStatement ps = db.get.Prepare("");ps.execute();return true;
     }
 
     public boolean Edite() throws Exception {PreparedStatement ps = db.get.Prepare("");ps.execute();return true;
@@ -109,7 +105,38 @@ public class template {
             }
         };
         service.start();
-      serviceTabName.setCellValueFactory(new PropertyValueFactory<>("name"));
+    
+    // no runnable
+    progress.setVisible(true); 
+        Service<Void> service = new Service<Void>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                           try {
+                                    
+
+                                } catch (Exception ex) {
+                                    AlertDialogs.showErrors(ex);
+                                }  
+                        return null;
+                    }
+                };
+
+            }
+
+            @Override
+            protected void succeeded() {
+                progress.setVisible(false);
+               clear();getData();
+                super.succeeded();
+            }
+        };
+        service.start();
+    
+     
+    
          .setCellValueFactory(new PropertyValueFactory<>(""));
     
     
@@ -159,8 +186,8 @@ public class template {
         });
     
      Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                        alert.setTitle("Deleting  ");
-                                        alert.setHeaderText("سيتم حذف ");
+                                        alert.setTitle("Deleting Editing  ");
+                                        alert.setHeaderText("سيتم حذف  تعديل ");
                                         alert.setContentText("هل انت متاكد؟");
 
                                         Optional<ButtonType> result = alert.showAndWait();
@@ -218,7 +245,7 @@ public class template {
         };
         service.start();
     }
-private void intialColumn() {
+    private void intialColumn() {
 
     }
     private void clear() {
@@ -379,7 +406,7 @@ private void intialColumn() {
             Scene sc = new Scene(mainMember);
             Stage st = new Stage();
             st.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icons/logo.png")));
-            st.setTitle("Elbarbary Hospital (الموظفين)");
+            st.setTitle("Acapy Trade (الموظفين)");
             st.setScene(sc);
             Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
             st.setX((screenBounds.getWidth() - 1360) / 2);

@@ -113,17 +113,17 @@ public class User {
     }
 
     public static boolean canAccess(String priviliages) {
-      Preferences prefs = Preferences.userNodeForPackage(AcapyTrade.class);
-        if (prefs.get(USER_ROLE, "user").equals("super_admin")) {
-            return true;
-        }
+        Preferences prefs = Preferences.userNodeForPackage(AcapyTrade.class);
         try {
             db.get.getReportCon().createStatement().execute("INSERT IGNORE INTO `priviliges_name`(`name`) VALUES ('" + priviliages + "')");
         } catch (Exception ex) {
             AlertDialogs.showErrors(ex);
         }
+        if (prefs.get(USER_ROLE, "user").equals("super_admin")) {
+            return true;
+        }
         try {
-            String strt = "SELECT value FROM `users_permissions` WHERE `user_id`='" + prefs.get(USER_ID, "0") + "'";
+            String strt = "SELECT value FROM `users_permissions` WHERE `privileges`='" + priviliages + "' AND `user_id`='" + prefs.get(USER_ID, "0") + "'";
             ResultSet rs = db.get.getReportCon().createStatement().executeQuery(strt);
             while (rs.next()) {
                 return Boolean.parseBoolean(rs.getString(1));

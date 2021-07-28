@@ -66,17 +66,17 @@ public class HomeController implements Initializable {
     @FXML
     private Button Hr; 
     @FXML
-    private Button Sales;
-    @FXML
-    private Button members;
+    private Button Sales; 
     @FXML
     private Button clients;
+    @FXML
+    private Button maintaince;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         prefs = Preferences.userNodeForPackage(AcapyTrade.class);
         new ZoomInLeft(Hr).play();
-        new ZoomInRight(members).play();
+        new ZoomInRight(maintaince).play();
         new ZoomInLeft(Accounts).play();
         new ZoomInRight(clients).play();
         new ZoomInLeft(Store).play();
@@ -100,7 +100,7 @@ public class HomeController implements Initializable {
                     System.err.println(prefs.get(THEME, DEFAULT_THEME));
                     login.getStylesheets().add(getClass().getResource("/assets/styles/" + prefs.get(THEME, DEFAULT_THEME) + ".css").toExternalForm());
 
-                    Stage st = (Stage) members.getScene().getWindow();
+                    Stage st = (Stage) clients.getScene().getWindow();
                     st.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icons/logo.png")));
                     st.setTitle("Acapy Trade");
 
@@ -186,8 +186,8 @@ public class HomeController implements Initializable {
                 });
             }
         });
-        members.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            if (User.canAccess("MainData")) {
+        clients.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+            if (User.canAccess("ClientScreen")) {
                 Service<Void> service = new Service<Void>() {
                     @Override
                     protected Task<Void> createTask() {
@@ -199,7 +199,7 @@ public class HomeController implements Initializable {
                                 Platform.runLater(() -> {
                                     try {
                                         try {
-                                            Parent mainData = FXMLLoader.load(getClass().getResource(MainData)); 
+                                            Parent mainData = FXMLLoader.load(getClass().getResource(ClientData)); 
                                             mainData.getStylesheets().add(getClass().getResource("/assets/styles/" + prefs.get(THEME, DEFAULT_THEME) + ".css").toExternalForm());
                                             Scene sc = new Scene(mainData);
                                             Stage st = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -419,8 +419,8 @@ public class HomeController implements Initializable {
             }
 
         });
-        clients.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            if (User.canAccess("Invoice")) {
+          maintaince.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+            if (User.canAccess("members")) {
                 Service<Void> service = new Service<Void>() {
                     @Override
                     protected Task<Void> createTask() {
@@ -432,12 +432,12 @@ public class HomeController implements Initializable {
                                 Platform.runLater(() -> {
                                     try {
                                         try {
-                                            Parent mainData = FXMLLoader.load(getClass().getResource(InvoiceScreen));
+                                            Parent mainData = FXMLLoader.load(getClass().getResource(MembersScreen));
                                             mainData.getStylesheets().add(getClass().getResource("/assets/styles/" + prefs.get(THEME, DEFAULT_THEME) + ".css").toExternalForm());
                                             Scene sc = new Scene(mainData);
                                             Stage st = (Stage) ((Node) e.getSource()).getScene().getWindow();
                                             st.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icons/logo.png")));
-                                            st.setTitle("Acapy Trade (الفواتير)");
+                                            st.setTitle("Acapy Trade (الموظفين)");
                                             st.setScene(sc);
                                         } catch (IOException ex) {
                                             ex.printStackTrace();
@@ -474,7 +474,7 @@ public class HomeController implements Initializable {
                     System.err.println(prefs.get(THEME, DEFAULT_THEME));
                     login.getStylesheets().add(getClass().getResource("/assets/styles/" + prefs.get(THEME, DEFAULT_THEME) + ".css").toExternalForm());
 
-                    Stage st = (Stage) members.getScene().getWindow();
+                    Stage st = (Stage) clients.getScene().getWindow();
                     st.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icons/logo.png")));
                     st.setTitle("Acapy Trade");
 
@@ -505,7 +505,7 @@ public class HomeController implements Initializable {
                     System.err.println(prefs.get(THEME, DEFAULT_THEME));
                     login.getStylesheets().add(getClass().getResource("/assets/styles/" + prefs.get(THEME, DEFAULT_THEME) + ".css").toExternalForm());
 
-                    Stage st = (Stage) members.getScene().getWindow();
+                    Stage st = (Stage) clients.getScene().getWindow();
                     st.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icons/logo.png")));
                    st.setTitle("Acapy Trade");
 

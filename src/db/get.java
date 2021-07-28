@@ -12,6 +12,7 @@ package db;
  */ 
 import acapy.trade.AcapyTrade;
 import assets.classes.TableToExcel;  
+import assets.classes.statics;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -49,7 +50,7 @@ public class get {
             Preferences prefs = Preferences.userNodeForPackage(AcapyTrade.class);
 
             Class.forName("com.mysql.jdbc.Driver");
-            url = "jdbc:mysql://localhost:3306/acapytrade?useUnicode=true&characterEncoding=UTF-8";
+            url = "jdbc:mysql://"+prefs.get(statics.DATABASE_IP, "192.168.1.90")+":3306/acapytrade?useUnicode=true&characterEncoding=UTF-8";
 
         } catch (ClassNotFoundException ex) {
             throw new Exception("error in database url");

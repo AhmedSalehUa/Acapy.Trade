@@ -50,7 +50,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="Hr" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="190.0" prefWidth="252.0" style="-fx-background-color: transparent;" text="شئون العاملين" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button fx:id="Hr" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="190.0" prefWidth="252.0" style="-fx-background-color: transparent;" text="حضور وانصراف" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="32.0" />
                </font>
@@ -62,7 +62,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="members" contentDisplay="TOP" mnemonicParsing="false" prefHeight="190.0" prefWidth="205.0" style="-fx-background-color: transparent;" text="الصيانة" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button fx:id="maintaince" contentDisplay="TOP" mnemonicParsing="false" prefHeight="190.0" prefWidth="205.0" style="-fx-background-color: transparent;" text="الموظفين" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <font>
                   <Font size="30.0" />
                </font>

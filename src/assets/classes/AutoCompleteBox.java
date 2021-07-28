@@ -17,7 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter; 
-import screens.mainDataScreen.assets.Clients;
+import screens.clients.assets.Clients;
 
 public class AutoCompleteBox implements EventHandler<KeyEvent> {
 

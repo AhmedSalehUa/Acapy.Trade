@@ -8,10 +8,13 @@ package screens.sales;
 import acapy.trade.AcapyTrade;
 import assets.classes.AlertDialogs;
 import assets.classes.statics;
+import static assets.classes.statics.DEFAULT_THEME;
+import static assets.classes.statics.THEME;
 import static assets.classes.statics.USER_ROLE;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -19,6 +22,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -28,7 +33,10 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -40,9 +48,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import screens.sales.assets.Calls;
 import screens.sales.assets.SalesClient;
@@ -96,6 +106,8 @@ public class SalesScreenCallsController implements Initializable {
 
     DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     Preferences prefs;
+    @FXML
+    private Button addEvent;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -224,16 +236,42 @@ public class SalesScreenCallsController implements Initializable {
     }
 
     private void getAutoNum() {
-        try {
-            id.setText(Calls.getAutoNum());
-        } catch (Exception ex) {
-            AlertDialogs.showErrors(ex);
-        }
+        progress.setVisible(true);
+        Service<Void> service = new Service<Void>() {
+            String autoNum;
+
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        try {
+                            autoNum = Calls.getAutoNum();
+                        } catch (Exception ex) {
+                            AlertDialogs.showErrors(ex);
+                        }
+
+                        return null;
+                    }
+                };
+
+            }
+
+            @Override
+            protected void succeeded() {
+                progress.setVisible(false);
+                id.setText(autoNum);
+                super.succeeded();
+            }
+        };
+        service.start();
     }
 
     private void getData() {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
+            ObservableList<Calls> data;
+
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
@@ -247,9 +285,9 @@ public class SalesScreenCallsController implements Initializable {
                                 try {
                                     try {
                                         if (prefs.get(USER_ROLE, "user").equals("super_admin")) {
-                                            tab.setItems(Calls.getData());
+                                            data = Calls.getData();
                                         } else {
-                                            tab.setItems(Calls.getData(prefs.get(statics.USER_ID, "0")));
+                                            data = Calls.getData(prefs.get(statics.USER_ID, "0"));
                                         }
 
                                     } catch (Exception ex) {
@@ -269,8 +307,8 @@ public class SalesScreenCallsController implements Initializable {
 
             @Override
             protected void succeeded() {
-
-                items = tab.getItems();
+                tab.setItems(data);
+                items = data;
                 progress.setVisible(false);
                 super.succeeded();
             }
@@ -280,113 +318,126 @@ public class SalesScreenCallsController implements Initializable {
     ObservableList<Calls> items;
 
     private void fillCombo() {
-        try {
+        progress.setVisible(true);
+        Service<Void> service = new Service<Void>() {
+            ObservableList<SalesClient> data;ObservableList<SalesMembers> salesData;
 
-            client.setItems(SalesClient.getData());
-            client.setConverter(new StringConverter<SalesClient>() {
-                @Override
-                public String toString(SalesClient patient) {
-                    return patient.getName();
-                }
-
-                @Override
-                public SalesClient fromString(String string) {
-                    return null;
-                }
-            });
-            client.setCellFactory(cell -> new ListCell<SalesClient>() {
-
-                // Create our layout here to be reused for each ListCell
-                GridPane gridPane = new GridPane();
-                Label lblid = new Label();
-                Label lblName = new Label();
-
-                // Static block to configure our layout
-                {
-                    // Ensure all our column widths are constant
-                    gridPane.getColumnConstraints().addAll(
-                            new ColumnConstraints(100, 100, 100),
-                            new ColumnConstraints(100, 100, 100)
-                    );
-
-                    gridPane.add(lblid, 0, 1);
-                    gridPane.add(lblName, 1, 1);
-
-                }
-
-                // We override the updateItem() method in order to provide our own layout for this Cell's graphicProperty
-                @Override
-                protected void updateItem(SalesClient person, boolean empty) {
-                    super.updateItem(person, empty);
-
-                    if (!empty && person != null) {
-
-                        // Update our Labels
-                        lblid.setText("م: " + Integer.toString(person.getId()));
-                        lblName.setText("الاسم: " + person.getName());
-
-                        // Set this ListCell's graphicProperty to display our GridPane
-                        setGraphic(gridPane);
-                    } else {
-                        // Nothing to display here
-                        setGraphic(null);
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        try {
+                            data = SalesClient.getData();
+                           salesData = SalesMembers.getData();
+                        } catch (Exception ex) {
+                            AlertDialogs.showErrors(ex);
+                        }
+                        return null;
                     }
-                }
-            });
-            sales.setItems(SalesMembers.getData());
-            sales.setConverter(new StringConverter<SalesMembers>() {
-                @Override
-                public String toString(SalesMembers patient) {
-                    return patient.getName();
-                }
+                };
 
-                @Override
-                public SalesMembers fromString(String string) {
-                    return null;
-                }
-            });
-            sales.setCellFactory(cell -> new ListCell<SalesMembers>() {
+            }
 
-                // Create our layout here to be reused for each ListCell
-                GridPane gridPane = new GridPane();
-                Label lblid = new Label();
-                Label lblName = new Label();
+            @Override
+            protected void succeeded() {
+                progress.setVisible(false);
+              
+                    client.setItems(data);
 
-                // Static block to configure our layout
-                {
-                    // Ensure all our column widths are constant
-                    gridPane.getColumnConstraints().addAll(
-                            new ColumnConstraints(100, 100, 100),
-                            new ColumnConstraints(100, 100, 100)
-                    );
+                    client.setConverter(new StringConverter<SalesClient>() {
+                        @Override
+                        public String toString(SalesClient patient) {
+                            return patient.getName();
+                        }
 
-                    gridPane.add(lblid, 0, 1);
-                    gridPane.add(lblName, 1, 1);
+                        @Override
+                        public SalesClient fromString(String string) {
+                            return null;
+                        }
+                    });
+                    client.setCellFactory(cell -> new ListCell<SalesClient>() {
 
-                }
+                        GridPane gridPane = new GridPane();
+                        Label lblid = new Label();
+                        Label lblName = new Label();
 
-                // We override the updateItem() method in order to provide our own layout for this Cell's graphicProperty
-                @Override
-                protected void updateItem(SalesMembers person, boolean empty) {
-                    super.updateItem(person, empty);
+                        {
+                            gridPane.getColumnConstraints().addAll(
+                                    new ColumnConstraints(100, 100, 100),
+                                    new ColumnConstraints(100, 100, 100)
+                            );
 
-                    if (!empty && person != null) {
+                            gridPane.add(lblid, 0, 1);
+                            gridPane.add(lblName, 1, 1);
 
-                        // Update our Labels
-                        lblid.setText("م: " + Integer.toString(person.getId()));
-                        lblName.setText("الاسم: " + person.getName());
+                        }
 
-                        // Set this ListCell's graphicProperty to display our GridPane
-                        setGraphic(gridPane);
-                    } else {
-                        // Nothing to display here
-                        setGraphic(null);
-                    }
-                }
-            });
-        } catch (Exception e) {
-            AlertDialogs.showErrors(e);
-        }
+                        @Override
+                        protected void updateItem(SalesClient person, boolean empty) {
+                            super.updateItem(person, empty);
+
+                            if (!empty && person != null) {
+
+                                lblid.setText("م: " + Integer.toString(person.getId()));
+                                lblName.setText("الاسم: " + person.getName());
+
+                                setGraphic(gridPane);
+                            } else {
+                                setGraphic(null);
+                            }
+                        }
+                    });
+                    sales.setItems(salesData);
+                    sales.setConverter(new StringConverter<SalesMembers>() {
+                        @Override
+                        public String toString(SalesMembers patient) {
+                            return patient.getName();
+                        }
+
+                        @Override
+                        public SalesMembers fromString(String string) {
+                            return null;
+                        }
+                    });
+                    sales.setCellFactory(cell -> new ListCell<SalesMembers>() {
+
+                        GridPane gridPane = new GridPane();
+                        Label lblid = new Label();
+                        Label lblName = new Label();
+
+                        {
+                            gridPane.getColumnConstraints().addAll(
+                                    new ColumnConstraints(100, 100, 100),
+                                    new ColumnConstraints(100, 100, 100)
+                            );
+
+                            gridPane.add(lblid, 0, 1);
+                            gridPane.add(lblName, 1, 1);
+
+                        }
+
+                        @Override
+                        protected void updateItem(SalesMembers person, boolean empty) {
+                            super.updateItem(person, empty);
+
+                            if (!empty && person != null) {
+
+                                lblid.setText("م: " + Integer.toString(person.getId()));
+                                lblName.setText("الاسم: " + person.getName());
+
+                                setGraphic(gridPane);
+                            } else {
+                                setGraphic(null);
+                            }
+                        }
+                    });
+                 
+                super.succeeded();
+            }
+        };
+        service.start();
+
     }
 
     @FXML
@@ -586,6 +637,27 @@ public class SalesScreenCallsController implements Initializable {
             };
             service.start();
         }
+    }
+
+    @FXML
+    private void addEvent(ActionEvent event) {
+        try {
+            FXMLLoader eventView = new FXMLLoader(getClass().getResource("SalesScreenAddEvent.fxml"));
+            Parent eventParent = eventView.load();
+             
+            eventParent.getStylesheets().add(getClass().getResource("/assets/styles/" + prefs.get(THEME, DEFAULT_THEME) + ".css").toExternalForm());
+            
+            Stage st = new Stage();
+            st.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icons/logo.png")));
+            st.setTitle("Acapy Trade");
+            
+            Scene scene = new Scene(eventParent, 458, 529);
+            st.setScene(scene);
+            st.show(); 
+        } catch (IOException ex) {
+           AlertDialogs.showErrors(ex);
+        }
+        
     }
 
 }

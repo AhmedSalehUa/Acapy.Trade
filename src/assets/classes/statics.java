@@ -34,14 +34,14 @@ public class statics {
     // public static String PYTHON_PATH_DEFAULT = "python D:\\Downloads\\zk\\pyzk-master\\pyzk-master\\";
     public static String PYTHON_PATH_DEFAULT = "python \"C:\\Program Files (x86)\\ElBarbary Hospital\\attSdk\\";
     //screens
-    public static String Login = "/acapytradeforsoftwaresolutions/Login.fxml";
+    public static String Login = "/acapy/trade/Login.fxml"; 
 
-    public static String MainData = "/screens/mainDataScreen/MainData.fxml";
+    public static String ClientData = "/screens/clients/ClientScreen.fxml";
     public static String SalesScreen = "/screens/sales/SalesScreen.fxml";
     public static String StoreScreen = "/screens/store/StoreMainScreen.fxml";
-    public static String AccountsScreen = "/screens/accounts/AccountsScreen.fxml";
+    public static String AccountsScreen = "/screens/Accounts/AccountsScreen.fxml";
     public static String HrScreen = "/screens/hr/HrScreen.fxml";
-    public static String InvoiceScreen = "/screens/drugs/DrugsScreen.fxml";
+    public static String MembersScreen = "/screens/members/MembersScreen.fxml"; 
     public static String controlPanelScreen = "/screens/controlpanel/ControlPanel.fxml";
     
     
