@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -28,6 +29,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -47,12 +49,13 @@ import screens.sales.assets.SalesMembers;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 import javafx.stage.Stage;
-import screens.clients.assets.Clients; 
+import screens.clients.assets.Clients;
 import screens.clients.assets.Operations;
 
 /**
@@ -108,6 +111,10 @@ public class ClientScreenOperationsController implements Initializable {
     private ImageView docdown;
     @FXML
     private TextField docpath;
+    @FXML
+    private AnchorPane detailsPane;
+    @FXML
+    private AnchorPane memberPane;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -146,7 +153,7 @@ public class ClientScreenOperationsController implements Initializable {
                                     intialColumn();
                                     getData();
                                     fillCombos();
-
+                                    configPanels();
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
                                 } finally {
@@ -200,8 +207,30 @@ public class ClientScreenOperationsController implements Initializable {
                 totalcost.setText(Integer.toString(selected.getTotal_cost()));
                 pay_type.getSelectionModel().select(selected.getPay_type());
 
+                detailsController.getData(selected.getId());
             }
         });
+    }
+    ClientScreenOperationsDetailsController detailsController;
+    ClientScreenOperationsMembersController memberController;
+
+    public void configPanels() {
+
+        try {
+            detailsPane.getChildren().clear();
+            FXMLLoader fxShow = new FXMLLoader(getClass().getResource("ClientScreenOperationsDetails.fxml"));
+            detailsPane.getChildren().add(fxShow.load());
+            detailsController = fxShow.getController();
+            detailsController.setParentController(ClientScreenOperationsController.this);
+
+            memberPane.getChildren().clear();
+            FXMLLoader fxEdite = new FXMLLoader(getClass().getResource("ClientScreenOperationsMembers.fxml"));
+            memberPane.getChildren().add(fxEdite.load());
+            memberController = fxEdite.getController();
+            memberController.setParentController(ClientScreenOperationsController.this);
+        } catch (IOException ex) {
+            AlertDialogs.showErrors(ex);
+        }
     }
 
     @FXML

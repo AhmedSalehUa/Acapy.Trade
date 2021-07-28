@@ -10,6 +10,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -19,8 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="569.0" prefWidth="1360.0" stylesheets="@../../assets/styles/darkMode.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="screens.store.StoreScreenProductsController">
+<AnchorPane id="AnchorPane" prefHeight="569.0" prefWidth="1360.0" stylesheets="@../../assets/styles/darkMode.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.store.StoreScreenProductsController">
    <children>
       <VBox alignment="CENTER" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -96,7 +96,10 @@
                               </Label>
                               <HBox alignment="CENTER" prefHeight="38.0" prefWidth="246.0" GridPane.rowIndex="4">
                                  <children>
-                                    <ImageView fitHeight="36.0" fitWidth="45.0" onMouseClicked="#AddCat" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS" />
+                                    <ImageView fitHeight="36.0" fitWidth="45.0" onMouseClicked="#AddCat" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                                       <image>
+                                          <Image url="@../../assets/icons/icons8_add_48px.png" />
+                                       </image></ImageView>
                                     <ComboBox fx:id="category" nodeOrientation="RIGHT_TO_LEFT" prefHeight="36.0" prefWidth="253.0" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>

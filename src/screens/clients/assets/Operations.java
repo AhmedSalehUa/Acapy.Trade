@@ -216,7 +216,7 @@ public class Operations {
 
                 rs = pstmt.executeQuery();
 
-                File directory = new File(System.getProperty("user.home") + "\\Desktop\\Acapy Trade\\img");
+                File directory = new File(System.getProperty("user.home") + "\\Desktop\\Acapy Trade\\documentation");
                 directory.mkdirs();
                 String dateFromSql = db.get.getTableData("SELECT  `date` FROM `cli_operation` WHERE `id`='" + id + "'").getValueAt(0, 0).toString();
 

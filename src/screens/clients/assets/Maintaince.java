@@ -1,35 +1,32 @@
 package screens.clients.assets;
 
- 
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-
-
 public class Maintaince {
-     int id;
-     String client_name;
-     String member_name;
-     String date;
-     String cost;
-     String problem;
-     String pay_type;
-     int client_id;
-     int member_id;
+
+    int id;
+    String client_name;
+    String member_name;
+    String date;
+    String cost;
+    String problem;
+    String pay_type;
+    int client_id;
+    int member_id;
 
     public Maintaince() {
     }
 
-    public Maintaince(int id,String client_name,String member_name,   String date  , String problem, String cost,   String pay_type) {
+    public Maintaince(int id, String client_name, String member_name, String date, String problem, String cost, String pay_type) {
         this.id = id;
         this.client_name = client_name;
         this.member_name = member_name;
         this.date = date;
         this.cost = cost;
-        this.problem=problem;
+        this.problem = problem;
         this.pay_type = pay_type;
     }
 
@@ -104,7 +101,7 @@ public class Maintaince {
     public void setProblem(String problem) {
         this.problem = problem;
     }
-    
+
     public boolean Add() throws Exception {
         PreparedStatement st = db.get.Prepare("INSERT INTO `cli_maintaince`(`id`, `client_id`,`member_id`, `date` ,`problem`, `cost`,`pay_type`) VALUES (?,?,?,?,?,?,?)");
         st.setInt(1, id);
@@ -114,11 +111,12 @@ public class Maintaince {
         st.setString(5, problem);
         st.setString(6, cost);
         st.setString(7, pay_type);
-       
+
         st.execute();
         return true;
-    } 
-     public boolean Edit() throws Exception {
+    }
+
+    public boolean Edit() throws Exception {
         PreparedStatement st = db.get.Prepare("UPDATE `cli_maintaince` SET `client_id`=?,`member_id`=? ,`date`=? ,`problem`=?,`cost`=?,`pay_type`=? WHERE `id`=?");
         st.setInt(1, client_id);
         st.setInt(2, member_id);
@@ -130,26 +128,27 @@ public class Maintaince {
         st.execute();
         return true;
     }
-      public boolean Delete() throws Exception {
+
+    public boolean Delete() throws Exception {
         PreparedStatement st = db.get.Prepare("DELETE FROM `cli_maintaince` WHERE `id`=?");
         st.setInt(1, id);
-         st.execute();
+        st.execute();
         return true;
-      }
-       public static ObservableList<Maintaince> getData() throws Exception {
+    }
+
+    public static ObservableList<Maintaince> getData() throws Exception {
 
         ObservableList<Maintaince> data = FXCollections.observableArrayList();
 
         String SQL = "SELECT `cli_maintaince`.`id`,`cli_clients`.`name`, `mem_acapy_members`.`name`,`cli_maintaince`.`date` ,`cli_maintaince`.`problem`, `cli_maintaince`.`cost`,`cli_maintaince`.`pay_type` FROM `cli_maintaince`,`cli_clients`,`mem_acapy_members`where `cli_maintaince`.`client_id`=`cli_clients`.`id`AND`cli_maintaince`.`member_id`= `mem_acapy_members`.`id`";
-         //String SQL ="SELECT * FROM `cli_maintaince`";
-        ResultSet rs = db.get.getReportCon().createStatement().executeQuery(SQL);
-
+         ResultSet rs = db.get.getReportCon().createStatement().executeQuery(SQL);
         while (rs.next()) {
-            data.add(new Maintaince (rs.getInt(1), rs.getString(2), rs.getString(3) , rs.getString(4),rs.getString(5), rs.getString(6), rs.getString(7)));
+            data.add(new Maintaince(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)));
         }
         return data;
     }
-        public static String getAutoNum() throws Exception {
+
+    public static String getAutoNum() throws Exception {
         return db.get.getTableData("SELECT IFNULL(max(`id`) + 1,'1') FROM `cli_maintaince`").getValueAt(0, 0).toString();
     }
 }

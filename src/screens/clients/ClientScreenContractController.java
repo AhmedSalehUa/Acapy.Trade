@@ -95,6 +95,43 @@ public class ClientScreenContractController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        date_from.setConverter(new StringConverter<LocalDate>() {
+            private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            @Override
+            public String toString(LocalDate localDate) {
+                if (localDate == null) {
+                    return "";
+                }
+                return dateTimeFormatter.format(localDate);
+            }
+
+            @Override
+            public LocalDate fromString(String dateString) {
+                if (dateString == null || dateString.trim().isEmpty()) {
+                    return null;
+                }
+                return LocalDate.parse(dateString, dateTimeFormatter);
+            }
+        }); date_to.setConverter(new StringConverter<LocalDate>() {
+            private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            @Override
+            public String toString(LocalDate localDate) {
+                if (localDate == null) {
+                    return "";
+                }
+                return dateTimeFormatter.format(localDate);
+            }
+
+            @Override
+            public LocalDate fromString(String dateString) {
+                if (dateString == null || dateString.trim().isEmpty()) {
+                    return null;
+                }
+                return LocalDate.parse(dateString, dateTimeFormatter);
+            }
+        });
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             @Override
@@ -149,7 +186,7 @@ public class ClientScreenContractController implements Initializable {
 
                 Contracts selected = tab.getSelectionModel().getSelectedItem();
                 contrctId.setText(Integer.toString(selected.getId()));
-                date_from.setValue(LocalDate.parse(selected.getDate_from()));
+                date_from.setValue(LocalDate.parse(selected.getDate_from())); 
                 date_to.setValue(LocalDate.parse(selected.getDate_to()));
                 noVisits.setText(selected.getNoVisits());
                 cost.setText(selected.getCost());
