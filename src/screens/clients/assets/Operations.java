@@ -1,5 +1,4 @@
 package screens.clients.assets;
- 
 
 import java.awt.Desktop;
 import java.io.File;
@@ -174,6 +173,17 @@ public class Operations {
         return true;
     }
 
+    public static boolean updateCost(int id , String cost) throws Exception {
+        PreparedStatement st = db.get.Prepare("UPDATE `cli_operation` SET `total_cost`=? WHERE `id`=?");
+ 
+        st.setString(1, cost); 
+        st.setInt(2, id);
+        st.execute();
+        return true;
+    }
+
+     
+
     public boolean Delete() throws Exception {
         PreparedStatement st = db.get.Prepare("DELETE FROM `cli_operation` WHERE `id`=?");
         st.setInt(1, id);
@@ -203,7 +213,7 @@ public class Operations {
         File file = null;
         String selectSQL = "SELECT `doc` FROM `cli_operation` WHERE `id`='" + id + "'";
         JTable tab = db.get.getTableData("SELECT `doc_ext` FROM `cli_operation` WHERE `id`='" + id + "'");
-         if (tab.getRowCount() <= 0 || tab.getValueAt(0, 0)==null) {
+        if (tab.getRowCount() <= 0 || tab.getValueAt(0, 0) == null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("لا يوجد صورة متوفرة");
             alert.show();

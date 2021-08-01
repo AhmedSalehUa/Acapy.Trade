@@ -3,12 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/Navigator/SideNavigatorController.java</file>
-            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/assets/classes/statics.java</file>
-            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/assets/classes/template.java</file>
-            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/Navigator/HomeController.java</file>
-            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/screens/sales/SalesScreenController.java</file>
-            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/db/User.java</file>
+            <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/clients/ClientScreenOperationsController.java</file>
+            <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/clients/ClientScreenOperationsDetailsController.java</file>
+            <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/clients/assets/OperationsDetails.java</file>
+            <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/clients/assets/OperationsMembers.java</file>
+            <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/clients/ClientScreenOperationsMembersController.java</file>
         </group>
     </open-files>
 </project-private>

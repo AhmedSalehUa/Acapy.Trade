@@ -1,0 +1,640 @@
+///*
+// * To change this license header, choose License Headers in Project Properties.
+// * To change this template file, choose Tools | Templates
+// * and open the template in the editor.
+// */
+//package screens.mainDataScreen.assets;
+//
+//import assets.classes.AlertDialogs;
+//import com.jfoenix.controls.JFXDatePicker;
+//import com.jfoenix.controls.JFXTextField;
+//import java.awt.Desktop;
+//import java.io.File;
+//import java.io.FileInputStream;
+//import java.io.FileNotFoundException;
+//import java.io.FileOutputStream;
+//import java.io.InputStream;
+//import java.net.URL;
+//import java.sql.PreparedStatement;
+//import java.sql.ResultSet;
+//import java.time.LocalDate;
+//import java.time.format.DateTimeFormatter;
+//import java.util.Optional;
+//import java.util.ResourceBundle;
+//import java.util.concurrent.CountDownLatch;
+//import java.util.regex.Pattern;
+//import javafx.application.Platform;
+//import javafx.collections.ObservableList;
+//import javafx.collections.transformation.FilteredList;
+//import javafx.collections.transformation.SortedList;
+//import javafx.concurrent.Service;
+//import javafx.concurrent.Task;
+//import javafx.event.ActionEvent;
+//import javafx.fxml.FXML;
+//import javafx.fxml.Initializable;
+//import javafx.scene.Node;
+//import javafx.scene.control.Alert;
+//import javafx.scene.control.Button;
+//import javafx.scene.control.ButtonType;
+//import javafx.scene.control.ComboBox;
+//import javafx.scene.control.Label;
+//import javafx.scene.control.ProgressIndicator;
+//import javafx.scene.control.TableColumn;
+//import javafx.scene.control.TableView;
+//import javafx.scene.control.TextField;
+//import javafx.scene.control.cell.PropertyValueFactory;
+//import javafx.scene.input.KeyEvent;
+//import javafx.scene.input.MouseEvent;
+//import javax.swing.JTable;
+//import screens.sales.assets.SalesMembers;
+//import javafx.scene.control.ListCell;
+//import javafx.scene.image.ImageView;
+//import javafx.scene.layout.ColumnConstraints;
+//import javafx.scene.layout.GridPane;
+//import javafx.stage.FileChooser;
+//import javafx.util.StringConverter;
+//import javafx.stage.Stage;
+//
+///**
+// * FXML Controller class
+// *
+// * @author Ahmed Al-Gazzar
+// */
+//public class OperationController implements Initializable {
+//
+//    @FXML
+//    private JFXTextField search;  
+//    @FXML
+//    private TableView<operation> tab;
+//    @FXML
+//    private TableColumn<operation, String> tabDate;
+//    @FXML
+//    private TableColumn<operation, String> tabPay_type;
+//    @FXML
+//    private TableColumn<operation, String> tabTotalcost;
+//    @FXML
+//    private TableColumn<operation, String> tabClient_name;
+//    @FXML
+//    private TableColumn<operation, String> tabSales_name;
+//    @FXML
+//    private TableColumn<operation, String> tabId;
+//   
+//    @FXML
+//    private Label id;
+//    @FXML
+//    private ComboBox<Clients> client;
+//    @FXML
+//    private ComboBox<SalesMembers> sales;
+//    @FXML
+//    private JFXDatePicker date;
+//    @FXML
+//    private TextField totalcost;
+//  
+//    @FXML
+//    private ProgressIndicator progress;
+//    @FXML
+//    private Button New;
+//    @FXML
+//    private Button Delete;
+//    @FXML
+//    private Button Edite;
+//    @FXML
+//    private Button Doc;
+//    @FXML
+//    private Button Add;
+//    @FXML
+//    private ComboBox<String> pay_type;
+//FileChooser fil_chooser = new FileChooser();
+//    @FXML
+//    private ImageView docdown;
+//    @FXML
+//    private TextField docpath;
+//       
+//    
+//    @Override
+//    public void initialize(URL url, ResourceBundle rb) {
+//       Service<Void> service = new Service<Void>() {
+//            @Override
+//            protected Task<Void> createTask() {
+//                return new Task<Void>() {
+//                    @Override
+//                    protected Void call() throws Exception {
+//                        //Background work                       
+//                        final CountDownLatch latch = new CountDownLatch(1);
+//                        Platform.runLater(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                try {
+//                                    clear();
+//                                   intialColumn();
+//                                    getData();
+//                                    fillCombo1();
+//                                    fillCombo2();
+//                                    fillCombo3();
+// 
+//                                } catch (Exception ex) {
+//                                    AlertDialogs.showErrors(ex);
+//                                } finally {
+//                                    latch.countDown();
+//                                }
+//                            }
+//                        });
+//                        latch.await();
+//
+//                        return null;
+//                    }
+//                };
+//
+//            }
+//
+//            @Override
+//            protected void succeeded() {
+//
+//                progress.setVisible(false);
+//                super.succeeded();
+//            }
+//        };
+//        service.start();
+//
+//        tab.setOnMouseClicked((e) -> {
+//            if (tab.getSelectionModel().getSelectedIndex() == -1)  {
+//
+//            } else {
+//                Add.setDisable(true);
+//                Edite.setDisable(false);
+//                Delete.setDisable(false);
+//                New.setDisable(false);
+//
+//                operation selected = tab.getSelectionModel().getSelectedItem();
+//                id.setText(Integer.toString(selected.getId()));
+//                  ObservableList<Clients> items1 = client.getItems();
+//                for (Clients a : items1) {
+//                    if (a.getName().equals(selected.getClient_name())) {
+//                        client.getSelectionModel().select(a);
+//                    }
+//                }
+//                ObservableList<SalesMembers> items2 = sales.getItems();
+//                for (SalesMembers a : items2) {
+//                    if (a.getName().equals(selected.getSales_name())) {
+//                        sales.getSelectionModel().select(a);
+//                    }
+//                }
+//                DateTimeFormatter format= DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//                       date.getValue().format(format);
+//          
+//              
+//                totalcost.setText(Integer.toString(selected.getTotal_cost()));
+//                  pay_type.getSelectionModel().select(selected.getPay_type());
+//               // doc.setText(selected.getDoc());
+//                //doc_ext.setText(selected.getDoc_ext());
+//               
+//
+//            }
+//        });
+//    }
+//        @FXML
+//    private void attachFile(MouseEvent event)  {
+//         Stage st = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        File file = fil_chooser.showOpenDialog(st);
+//
+//        if (file != null) {
+//            docpath.setText(file.getAbsolutePath());
+//        }
+//       
+//    }
+//    
+//     private void uploadFile() throws FileNotFoundException{
+//    
+//     }
+//    private void fillCombo3() {
+//pay_type.getItems().add("كاش");
+//pay_type.getItems().add(" فى الضمان");
+//pay_type.getItems().add("بالاجل");               
+//          
+//    }
+//    private void fillCombo1() {
+//        try {
+//                      
+//            client.setItems(Clients.getData());
+//            client.setConverter(new StringConverter<Clients>() {
+//                @Override
+//                public String toString(Clients patient) {
+//                    return patient.getName();
+//                }
+//
+//                @Override
+//                public Clients fromString(String string) {
+//                    return null;
+//                }
+//            });
+//            client.setCellFactory(cell -> new ListCell<Clients>() {
+//
+//                // Create our layout here to be reused for each ListCell
+//                GridPane gridPane = new GridPane();
+//                Label lblid = new Label();
+//                Label lblName = new Label();
+//
+//                // Static block to configure our layout
+//                {
+//                    // Ensure all our column widths are constant
+//                    gridPane.getColumnConstraints().addAll(
+//                            new ColumnConstraints(100, 100, 100),
+//                            new ColumnConstraints(100, 100, 100)
+//                    );
+//
+//                    gridPane.add(lblid, 0, 1);
+//                    gridPane.add(lblName, 1, 1);
+//
+//                }
+//
+//                // We override the updateItem() method in order to provide our own layout for this Cell's graphicProperty
+//                @Override
+//                protected void updateItem(Clients person, boolean empty) {
+//                    super.updateItem(person, empty);
+//
+//                    if (!empty && person != null) {
+//
+//                        // Update our Labels
+//                        lblid.setText("م: " + Integer.toString(person.getId()));
+//                        lblName.setText("الاسم: " + person.getName());
+//
+//                        setGraphic(gridPane);
+//                    } else {
+//                        // Nothing to display here
+//                        setGraphic(null);
+//                    }
+//                }
+//            });
+//        } catch (Exception ex) {
+//            AlertDialogs.showErrors(ex);
+//        }
+//    }
+//      private void fillCombo2() {
+//        try {
+//                      
+//            sales.setItems(SalesMembers.getData());
+//            sales.setConverter(new StringConverter<SalesMembers>() {
+//                @Override
+//                public String toString(SalesMembers patient) {
+//                    return patient.getName();
+//                }
+//
+//                @Override
+//                public SalesMembers fromString(String string) {
+//                    return null;
+//                }
+//            });
+//            sales.setCellFactory(cell -> new ListCell<SalesMembers>() {
+//
+//                // Create our layout here to be reused for each ListCell
+//                GridPane gridPane = new GridPane();
+//                Label lblid = new Label();
+//                Label lblName = new Label();
+//
+//                // Static block to configure our layout
+//                {
+//                    // Ensure all our column widths are constant
+//                    gridPane.getColumnConstraints().addAll(
+//                            new ColumnConstraints(100, 100, 100),
+//                            new ColumnConstraints(100, 100, 100)
+//                    );
+//
+//                    gridPane.add(lblid, 0, 1);
+//                    gridPane.add(lblName, 1, 1);
+//
+//                }
+//
+//                // We override the updateItem() method in order to provide our own layout for this Cell's graphicProperty
+//                @Override
+//                protected void updateItem(SalesMembers person, boolean empty) {
+//                    super.updateItem(person, empty);
+//
+//                    if (!empty && person != null) {
+//
+//                        // Update our Labels
+//                        lblid.setText("م: " + Integer.toString(person.getId()));
+//                        lblName.setText("الاسم: " + person.getName());
+//
+//                        setGraphic(gridPane);
+//                    } else {
+//                        // Nothing to display here
+//                        setGraphic(null);
+//                    }
+//                }
+//            });
+//        } catch (Exception ex) {
+//            AlertDialogs.showErrors(ex);
+//        }
+//    }
+//
+//    private void getAutoNum() {
+//        try {
+//            id.setText(operation.getAutoNum());
+//        } catch (Exception ex) {
+//            AlertDialogs.showErrors(ex);
+//        }
+//    }
+//
+//    private void clear() {
+//        getAutoNum();
+//        client.getSelectionModel().clearSelection();
+//     //   doc.setText("");
+//      //  doc_ext.setText("");
+//        sales.getSelectionModel().clearSelection();
+//        totalcost.setText("");
+//        pay_type.getSelectionModel().clearSelection();
+//        docpath.setText("");
+//        Add.setDisable(false);
+//        Edite.setDisable(true);
+//        Delete.setDisable(true);
+//        New.setDisable(true);
+//    }
+//
+//    private void  intialColumn() {
+//        tabId.setCellValueFactory(new PropertyValueFactory<>("id"));
+//        tabClient_name.setCellValueFactory(new PropertyValueFactory<>("client_name"));
+//        tabSales_name.setCellValueFactory(new PropertyValueFactory<>("sales_name"));
+//        tabDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+//       // tabDoc.setCellValueFactory(new PropertyValueFactory<>("doc"));
+//      //  tabDoc_ext.setCellValueFactory(new PropertyValueFactory<>(" doc_ext"));
+//        tabTotalcost.setCellValueFactory(new PropertyValueFactory<>("total_cost"));
+//        tabPay_type.setCellValueFactory(new PropertyValueFactory<>("pay_type"));
+//        
+//
+//    }
+//
+//    private void getData() {
+//        progress.setVisible(true);
+//        Service<Void> service = new Service<Void>() {
+//            @Override
+//            protected Task<Void> createTask() {
+//                return new Task<Void>() {
+//                    @Override
+//                    protected Void call() throws Exception {
+//                        //Background work                       
+//                        final CountDownLatch latch = new CountDownLatch(1);
+//                        Platform.runLater(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                try {
+//                                    try {
+//
+//                                        tab.setItems(operation.getData());
+//
+//                                    } catch (Exception ex) {
+//                                        AlertDialogs.showErrors(ex);
+//                                    }
+//                                } finally {
+//                                    latch.countDown();
+//                                }
+//                            }
+//                        });
+//                        latch.await();
+//
+//                        return null;
+//                    }
+//                };
+//            }
+//
+//            @Override
+//            protected void succeeded() {
+//
+//                items = tab.getItems();
+//                progress.setVisible(false);
+//                super.succeeded();
+//            }
+//        };
+//        service.start();
+//    }
+//    ObservableList<operation> items;
+//
+//    @FXML
+//    private void search(KeyEvent event) {
+//
+//        FilteredList<operation> filteredData = new FilteredList<>(items, p -> true);
+//
+//        filteredData.setPredicate(pa -> {
+//
+//            if (search.getText() == null || search.getText().isEmpty()) {
+//                return true;
+//            }
+//
+//            String lowerCaseFilter = search.getText().toLowerCase();
+//
+//            if (pa.getClient_name().contains(lowerCaseFilter)
+//                    || pa.getSales_name().contains(lowerCaseFilter)
+//                    || pa.getDate().contains(lowerCaseFilter)
+//                    //|| pa.getDoc().contains(lowerCaseFilter)
+//                   // || pa.getDoc_ext().contains(lowerCaseFilter)
+//                    || pa.getPay_type().contains(lowerCaseFilter))
+//                     {
+//                return true;
+//            } else {
+//                return false;
+//            }
+//
+//        });
+//
+//        SortedList< operation> sortedData = new SortedList<>(filteredData);
+//        sortedData.comparatorProperty().bind(tab.comparatorProperty());
+//        tab.setItems(sortedData);
+//    }
+//    @FXML
+//    private void New(ActionEvent event) {
+//        clear();
+//    }
+//    @FXML
+//    private void Delete(ActionEvent event) {
+//        progress.setVisible(true);
+//        Service<Void> service = new Service<Void>() {
+//            @Override
+//            protected Task<Void> createTask() {
+//                return new Task<Void>() {
+//                    @Override
+//                    protected Void call() throws Exception {
+//                        //Background work                       
+//                        final CountDownLatch latch = new CountDownLatch(1);
+//                        Platform.runLater(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                
+//                                try {
+//                                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//                                    alert.setTitle("Deleting  operation");
+//                                    alert.setHeaderText("سيتم حذف العملية ");
+//                                    alert.setContentText("هل انت متاكد؟");
+//
+//                                   Optional<ButtonType> result = alert.showAndWait();
+//                                    if (result.get() == ButtonType.OK) {
+//                                        operation op=new operation();
+//                                        op.setId(Integer.parseInt(id.getText()));
+//                                        op.Delete();
+//                                    }
+//                                } catch (Exception ex) {
+//                                    AlertDialogs.showErrors(ex);
+//                                   
+//                                } finally {
+//                                    latch.countDown();
+//                                }
+//                            }
+//
+//                        });
+//                        latch.await();
+//
+//                        return null;
+//                    }
+//                };
+//
+//            }
+//
+//            @Override
+//            protected void succeeded() {
+//                progress.setVisible(false);
+//                 clear();
+//                getData();
+//                super.succeeded();
+//            }
+//        };
+//        service.start();
+//    }
+//    @FXML
+//    private void Edite(ActionEvent event) {
+//        progress.setVisible(true);
+//        Service<Void> service = new Service<Void>() {
+//            @Override
+//            protected Task<Void> createTask() {
+//                return new Task<Void>() {
+//                    @Override
+//                    protected Void call() throws Exception {
+//                        //Background work                       
+//                        final CountDownLatch latch = new CountDownLatch(1);
+//                        Platform.runLater(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                operation op = new operation();
+//                                try {
+//                                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//                                    alert.setTitle("Editting  operation");
+//                                    alert.setHeaderText("سيتم تعديل العملية ");
+//                                    alert.setContentText("هل انت متاكد؟");
+//
+//                                    Optional<ButtonType> result = alert.showAndWait();
+//                                    if (result.get() == ButtonType.OK) {
+//                                        op.setId(Integer.parseInt(id.getText()));
+//                                        op.setClient_id(client.getSelectionModel().getSelectedItem().getId());
+//                                        op.setSales_id(sales.getSelectionModel().getSelectedItem().getId());
+//                                        DateTimeFormatter format= DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//                                        op.setDate(date.getValue().format(format)); 
+//                                        op.setTotal_cost(Integer.parseInt(totalcost.getText()));
+//                                        op.setPay_type( pay_type.getSelectionModel().getSelectedItem());
+//                                        InputStream in = new FileInputStream(new File(docpath.getText()));
+//                                        op.setDoc(in);
+//                                        String []st = docpath.getText().split(Pattern.quote("."));
+//                                        op.setDoc_ext(st[st.length - 1]);
+//                                        op.Edit();
+//                                      
+//                                    }
+//                                } catch (Exception ex) {
+//                                    AlertDialogs.showErrors(ex);
+//                                    
+//                                } finally {
+//                                    latch.countDown();
+//                                }
+//                            }
+//
+//                        });
+//                        latch.await();
+//
+//                        return null;
+//                    }
+//                };
+//
+//            }
+//
+//            @Override
+//            protected void succeeded() {
+//                progress.setVisible(false);
+//                clear();
+//                getData();
+//                super.succeeded();
+//            }
+//        };
+//        service.start();
+//    }
+//    @FXML
+//    private void Add(ActionEvent event) {
+//
+//        progress.setVisible(true);
+//        Service<Void> service = new Service<Void>() {
+//            @Override
+//            protected Task<Void> createTask() {
+//                return new Task<Void>() {
+//                    @Override
+//                    protected Void call() throws Exception {
+//                        //Background work                       
+//                        final CountDownLatch latch = new CountDownLatch(1);
+//                        Platform.runLater(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                operation op = new operation();
+//                                try {
+//                                      op.setId(Integer.parseInt(id.getText()));
+//                                      op.setClient_id(client.getSelectionModel().getSelectedItem().getId());
+//                                      op.setSales_id(sales.getSelectionModel().getSelectedItem().getId());
+//                                        DateTimeFormatter format= DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//                                        op.setDate(date.getValue().toString());
+//                                         InputStream in = new FileInputStream(new File(docpath.getText()));
+//                                          //  .setPhoto(in);
+//                                        op.setDoc(in);
+//                                        
+//                                                 String []st = docpath.getText().split(Pattern.quote("."));
+//                                                   //  doc_ext.setPhotoExt(st[st.length - 1]);
+//                                          op.setDoc_ext(st[st.length - 1]);
+//                                        op.setTotal_cost(Integer.parseInt(totalcost.getText()));
+//                                        op.setPay_type( pay_type.getSelectionModel().getSelectedItem());
+//                                        
+//                                        op.Add();
+//                                        
+//                                    
+//                                } catch (Exception ex) {
+//                                    AlertDialogs.showErrors(ex);
+//                                   
+//                                } finally {
+//                                    latch.countDown();
+//                                }
+//                            }
+//
+//                        });
+//                        latch.await();
+//
+//                        return null;
+//                    }
+//                };
+//
+//            }
+//
+//            @Override
+//            protected void succeeded() {
+//                progress.setVisible(false);
+//                clear();
+//                getData();
+//                super.succeeded();
+//            }
+//        };
+//        service.start();
+//    }
+//   @FXML
+//   public void getdoc(ActionEvent event)throws Exception{
+//   
+//   operation op=new operation();
+//   op.setId(Integer.parseInt(id.getText()));
+//   op.getDocdown();
+//   }
+//  
+//
+//       
+//        
+//              
+//    }    
+//    
+//

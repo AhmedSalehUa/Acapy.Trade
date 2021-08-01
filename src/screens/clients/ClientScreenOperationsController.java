@@ -47,6 +47,7 @@ import javafx.scene.input.MouseEvent;
 import javax.swing.JTable;
 import screens.sales.assets.SalesMembers;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.layout.AnchorPane;
@@ -115,6 +116,8 @@ public class ClientScreenOperationsController implements Initializable {
     private AnchorPane detailsPane;
     @FXML
     private AnchorPane memberPane;
+    @FXML
+    private TabPane tabs;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -206,8 +209,10 @@ public class ClientScreenOperationsController implements Initializable {
 
                 totalcost.setText(Integer.toString(selected.getTotal_cost()));
                 pay_type.getSelectionModel().select(selected.getPay_type());
+                tabs.setVisible(true);
+                detailsController.setId(selected.getId());
 
-                detailsController.getData(selected.getId());
+                memberController.setId(selected.getId());
             }
         });
     }
@@ -370,6 +375,35 @@ public class ClientScreenOperationsController implements Initializable {
 
     }
 
+    public void setAccount(int id, String amount) {
+        try {
+
+            String total = totalcost.getText().isEmpty() ? "0" : totalcost.getText();
+            totalcost.setText(Double.toString(Double.parseDouble(total) + Double.parseDouble(amount)));
+            Operations.updateCost(id, totalcost.getText());
+            getData();
+            ObservableList<Operations> values = tab.getItems();
+            for (Operations a : values) {
+                if (a.getId() == id) {
+                    tab.getSelectionModel().select(a);
+                }
+            }
+        } catch (Exception e) {
+            AlertDialogs.showErrors(e);
+        }
+    }
+
+    public void reduceAccount(int id, String amount) {
+        try {
+            String total = totalcost.getText().isEmpty() ? "0" : totalcost.getText();
+            totalcost.setText(Double.toString(Double.parseDouble(total) - Double.parseDouble(amount)));
+            Operations.updateCost(id, totalcost.getText());
+            getData();
+        } catch (Exception e) {
+            AlertDialogs.showErrors(e);
+        }
+    }
+
     private void getAutoNum() {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
@@ -412,6 +446,7 @@ public class ClientScreenOperationsController implements Initializable {
         Edite.setDisable(true);
         Delete.setDisable(true);
         New.setDisable(true);
+        tabs.setVisible(false);
     }
 
     private void intialColumn() {
