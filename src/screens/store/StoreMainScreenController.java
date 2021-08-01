@@ -111,6 +111,40 @@ public class StoreMainScreenController implements Initializable {
                                                 AlertDialogs.showErrors(ex);
                                             }
                                         });
+                                        invoices.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                                            try {
+                                                invoices.setStyle(" -fx-background-color: -mainColor-dark; ");
+                                                stores.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                providers.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                products.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                permissions.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                Parent node = FXMLLoader.load(getClass().getResource(NoPermission));
+                                                if (User.canAccess("StoreScreenInvoices")) {
+                                                    node = FXMLLoader.load(getClass().getResource("StoreScreenInvoices.fxml"));
+                                                }
+                                                borderpane.setCenter(node);
+                                            } catch (IOException ex) {
+                                                ex.printStackTrace();
+                                                AlertDialogs.showErrors(ex);
+                                            }
+                                        });
+                                         stores.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                                            try {
+                                                stores.setStyle(" -fx-background-color: -mainColor-dark; ");
+                                                invoices.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                providers.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                products.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                permissions.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                Parent node = FXMLLoader.load(getClass().getResource(NoPermission));
+                                                if (User.canAccess("StoreScreenStores")) {
+                                                    node = FXMLLoader.load(getClass().getResource("StoreScreenStores.fxml"));
+                                                }
+                                                borderpane.setCenter(node);
+                                            } catch (IOException ex) {
+                                                ex.printStackTrace();
+                                                AlertDialogs.showErrors(ex);
+                                            }
+                                        });
                                     } catch (Exception ex) {
                                         ex.printStackTrace();
                                         AlertDialogs.showErrors(ex);

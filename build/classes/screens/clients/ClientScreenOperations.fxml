@@ -127,7 +127,7 @@
                                                 <Image url="@../../assets/icons/icons8_upload_64px.png" />
                                              </image>
                                           </ImageView>
-                                          <TextField id="patientFields" fx:id="docpath" prefHeight="48.0" prefWidth="213.0" />
+                                          <TextField id="patientFields" fx:id="docpath" editable="false" prefHeight="48.0" prefWidth="213.0" />
                                        </children>
                                     </HBox>
                                  </children>

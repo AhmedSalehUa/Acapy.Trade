@@ -133,54 +133,24 @@ public class LoginController implements Initializable {
             us.setPassword(password.getText());
 
             Service<Void> service = new Service<Void>() {
+                boolean logined = false;
+
                 @Override
                 protected Task<Void> createTask() {
                     return new Task<Void>() {
                         @Override
                         protected Void call() throws Exception {
-                            //Background work                       
-                            final CountDownLatch latch = new CountDownLatch(1);
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        if (us.checkSignIn()) {
+                            try {
+                                if (us.checkSignIn()) {
 
-                                            prefs.put(USER_ID, Integer.toString(us.getId()));
-                                            prefs.put(USER_NAME, us.getName());
-                                            prefs.put(USER_ROLE, us.getRole());
-//                                            prefs.put(RECEPTION_ACC_ID, db.get.getTableData("SELECT `value` FROM `static_values` WHERE `attribute`='RECEPTION_ACC_ID'").getValueAt(0, 0).toString());
-//                                            prefs.put(MAIN_ACC_ID, db.get.getTableData("SELECT `value` FROM `static_values` WHERE `attribute`='MAIN_ACC_ID'").getValueAt(0, 0).toString());
-
-                                            Parent mainMember = FXMLLoader.load(getClass().getResource("/Navigator/Home.fxml"));
-
-                                            mainMember.getStylesheets().add(getClass().getResource("/assets/styles/" + prefs.get(THEME, DEFAULT_THEME) + ".css").toExternalForm());
-
-                                            Scene sc = new Scene(mainMember);
-                                            Stage st = (Stage) loginBtn.getScene().getWindow();
-                                            st.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icons/logo.png")));
-                                            st.setTitle("Acapy Trade");
-
-                                            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-                                            st.setX((screenBounds.getWidth() - 1360) / 2);
-                                            st.setY((screenBounds.getHeight() - 760) / 2);
-
-                                            st.setScene(sc);
-                                        } else {
-                                            AlertDialogs.showError("اسم المستخدم او كلمةالمرور خاطئة");
-                                            loginBtn.setVisible(true);
-                                            indicator.setVisible(false);
-                                        }
-                                    } catch (Exception ex) {
-                                        AlertDialogs.showErrors(ex);
-                                    } finally {
-                                        latch.countDown();
-                                    }
+                                    prefs.put(USER_ID, Integer.toString(us.getId()));
+                                    prefs.put(USER_NAME, us.getName());
+                                    prefs.put(USER_ROLE, us.getRole());
+                                    logined = true;
                                 }
-
-                            });
-                            latch.await();
-
+                            } catch (Exception ex) {
+                                AlertDialogs.showErrors(ex);
+                            }
                             return null;
                         }
                     };
@@ -189,6 +159,30 @@ public class LoginController implements Initializable {
 
                 @Override
                 protected void succeeded() {
+                    if (logined) {
+                        try {
+                            Parent mainMember = FXMLLoader.load(getClass().getResource("/Navigator/Home.fxml"));
+
+                            mainMember.getStylesheets().add(getClass().getResource("/assets/styles/" + prefs.get(THEME, DEFAULT_THEME) + ".css").toExternalForm());
+
+                            Scene sc = new Scene(mainMember);
+                            Stage st = (Stage) loginBtn.getScene().getWindow();
+                            st.getIcons().add(new Image(getClass().getResourceAsStream("/assets/icons/logo.png")));
+                            st.setTitle("Acapy Trade");
+
+                            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+                            st.setX((screenBounds.getWidth() - 1360) / 2);
+                            st.setY((screenBounds.getHeight() - 760) / 2);
+
+                            st.setScene(sc);
+                        } catch (Exception e) {
+                            AlertDialogs.showErrors(e);
+                        }
+                    } else {
+                        AlertDialogs.showError("اسم المستخدم او كلمةالمرور خاطئة");
+                        loginBtn.setVisible(true);
+                        indicator.setVisible(false);
+                    }
 
                     super.succeeded();
                 }
