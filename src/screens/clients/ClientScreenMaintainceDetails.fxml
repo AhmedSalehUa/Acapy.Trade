@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -9,7 +8,6 @@
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -19,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="569.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.mainDataScreen.assets.MaintainceController">
+<AnchorPane id="AnchorPane" nodeOrientation="LEFT_TO_RIGHT" prefHeight="569.0" prefWidth="1360.0" stylesheets="@../../assets/styles/darkMode.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.clients.ClientScreenMaintainceDetailsController">
    <children>
       <VBox alignment="CENTER" spacing="10.0">
          <children>
@@ -34,12 +32,10 @@
                         </HBox>
                         <TableView id="patientTable" fx:id="tab" prefHeight="428.0" prefWidth="893.0">
                            <columns>
-                              <TableColumn fx:id="tabPay_type" editable="false" prefWidth="74.0" text="طريقة الدفع" />
-                              <TableColumn fx:id="tabCost" editable="false" prefWidth="74.0" text="التكلفة" />
-                              <TableColumn fx:id="tabProblem" editable="false" minWidth="0.0" prefWidth="70.0" text="المشكلة" />
-                              <TableColumn fx:id="tabDate" editable="false" prefWidth="169.0" text="التاريخ" />
-                              <TableColumn fx:id="tabMember_name" editable="false" prefWidth="169.0" text="اسم العضو" />
-                              <TableColumn fx:id="tabClient_name" editable="false" prefWidth="169.0" text="اسم العميل" />
+                              <TableColumn fx:id="tabtotalcost" editable="false" prefWidth="74.0" text="الحساب الاجمالى" />
+                              <TableColumn fx:id="tabcost" editable="false" minWidth="0.0" prefWidth="70.0" text="التكلفة" />
+                              <TableColumn fx:id="tabamount" editable="false" prefWidth="169.0" text="الكمية" />
+                              <TableColumn fx:id="tabproduct" editable="false" prefWidth="169.0" text="المنتج" />
                               <TableColumn fx:id="tabId" editable="false" minWidth="0.0" prefWidth="30.0" text="م" />
                            </columns>
                            <columnResizePolicy>
@@ -62,7 +58,6 @@
                               <RowConstraints maxHeight="116.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="99.0" minHeight="0.0" prefHeight="45.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="99.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="99.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
                               <Label alignment="CENTER_RIGHT" prefHeight="25.0" text="الرقم التعريفي" GridPane.columnIndex="1">
@@ -75,42 +70,30 @@
                                     <Font size="26.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="121.0" text="اسم العميل" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="130.0" text="الكمية" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <TextField id="contractFields" fx:id="cost" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="5" />
-                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="130.0" text="المشكلة" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="153.0" text="الحساب الاجمالى" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="136.0" text="طريقة الدفع" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="116.0" text="المنتج" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="130.0" text="التكلفة" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                              <ComboBox fx:id="product" nodeOrientation="RIGHT_TO_LEFT" prefHeight="42.0" prefWidth="247.0" GridPane.rowIndex="2" />
+                              <TextField id="contractFields" fx:id="amount" onKeyReleased="#setTotal" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="3" />
+                              <TextField id="contractFields" fx:id="totalcost" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="5" />
+                              <Label alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="80.0" text="التكلفة" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="116.0" text="اسم العضو" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Label>
-                              <Label alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="80.0" text="التاريخ" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Label>
-                              <ComboBox fx:id="client" nodeOrientation="RIGHT_TO_LEFT" prefHeight="42.0" prefWidth="247.0" GridPane.rowIndex="1" />
-                              <ComboBox fx:id="member" nodeOrientation="RIGHT_TO_LEFT" prefHeight="42.0" prefWidth="247.0" GridPane.rowIndex="2" />
-                              <ComboBox fx:id="pay_type" nodeOrientation="RIGHT_TO_LEFT" prefHeight="42.0" prefWidth="247.0" GridPane.rowIndex="6" />
-                              <TextArea fx:id="problem" prefHeight="0.0" prefWidth="246.0" GridPane.rowIndex="4" />
-                              <JFXDatePicker fx:id="date" prefHeight="37.0" prefWidth="246.0" GridPane.rowIndex="3" />
+                              <TextField id="contractFields" fx:id="cost" onKeyReleased="#setTotal" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="4" />
                            </children>
                         </GridPane>
                         <HBox alignment="CENTER" spacing="5.0">

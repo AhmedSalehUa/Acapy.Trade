@@ -5,9 +5,10 @@
         <group>
             <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/clients/ClientScreenOperationsController.java</file>
             <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/clients/ClientScreenOperationsDetailsController.java</file>
-            <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/clients/assets/OperationsDetails.java</file>
-            <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/clients/assets/OperationsMembers.java</file>
-            <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/clients/ClientScreenOperationsMembersController.java</file>
+            <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/clients/ClientScreenMaintainceDetailsController.java</file>
+            <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/clients/assets/Maintaince.java</file>
+            <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/clients/assets/MaintainceDetails.java</file>
+            <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/clients/ClientScreenMaintaincesController.java</file>
         </group>
     </open-files>
 </project-private>

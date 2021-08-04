@@ -409,6 +409,8 @@ public class ClientScreenContractController implements Initializable {
     private void Edite(ActionEvent event) {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
+            boolean ok=true;
+             Contracts pr = new Contracts();
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
@@ -427,7 +429,7 @@ public class ClientScreenContractController implements Initializable {
 
                                     Optional<ButtonType> result = alert.showAndWait();
                                     if (result.get() == ButtonType.OK) {
-                                        Contracts pr = new Contracts();
+                                       
                                         pr.setId(Integer.parseInt(contrctId.getText()));
                                         pr.setCli_id(clientName.getSelectionModel().getSelectedItem().getId());
                                         pr.setDate_from(date_from.getValue().format(format));
@@ -440,6 +442,7 @@ public class ClientScreenContractController implements Initializable {
                                     }
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
+                                    ok=false;
                                 } finally {
                                     latch.countDown();
                                 }
@@ -457,8 +460,8 @@ public class ClientScreenContractController implements Initializable {
             @Override
             protected void succeeded() {
                 progress.setVisible(false);
-                clear();
-                getData();
+               if(ok){ clear();
+                getData();}
                 super.succeeded();
             }
         };
@@ -469,6 +472,8 @@ public class ClientScreenContractController implements Initializable {
     private void Add(ActionEvent event) {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
+            boolean ok = true;
+             Contracts pr = new Contracts();
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
@@ -481,7 +486,7 @@ public class ClientScreenContractController implements Initializable {
                             public void run() {
                                 try {
 
-                                    Contracts pr = new Contracts();
+                                   
                                     pr.setId(Integer.parseInt(contrctId.getText()));
                                     pr.setCli_id(clientName.getSelectionModel().getSelectedItem().getId());
                                     pr.setDate_from(date_from.getValue().format(format));
@@ -492,6 +497,7 @@ public class ClientScreenContractController implements Initializable {
                                     pr.Add();
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
+                                    ok=false;
                                 } finally {
                                     latch.countDown();
                                 }
@@ -509,8 +515,8 @@ public class ClientScreenContractController implements Initializable {
             @Override
             protected void succeeded() {
                 progress.setVisible(false);
-                clear();
-                getData();
+                if(ok){clear();
+                getData();}
                 super.succeeded();
             }
         };

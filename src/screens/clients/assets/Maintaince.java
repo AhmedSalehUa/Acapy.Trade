@@ -151,4 +151,11 @@ public class Maintaince {
     public static String getAutoNum() throws Exception {
         return db.get.getTableData("SELECT IFNULL(max(`id`) + 1,'1') FROM `cli_maintaince`").getValueAt(0, 0).toString();
     }
+    public static boolean updateCost(int id , String cost) throws Exception {
+        PreparedStatement st = db.get.Prepare("UPDATE `cli_maintaince` SET `cost`=? WHERE `id`=?");
+        st.setString(1, cost); 
+        st.setInt(2, id);
+        st.execute();
+        return true;
+    }
 }

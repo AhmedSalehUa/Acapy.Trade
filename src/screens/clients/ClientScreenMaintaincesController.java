@@ -3,6 +3,7 @@ package screens.clients;
 import assets.classes.AlertDialogs;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,6 +18,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -25,18 +27,22 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 import screens.clients.assets.Clients; 
 import screens.clients.assets.Maintaince;
+import screens.clients.assets.Operations;
 import screens.members.assets.AcapyMembers;
+
 
 public class ClientScreenMaintaincesController implements Initializable {
 
@@ -83,6 +89,10 @@ public class ClientScreenMaintaincesController implements Initializable {
     private JFXDatePicker date;
     @FXML
     private ComboBox<String> pay_type;
+    @FXML
+    private TabPane tabs;
+    @FXML
+    private AnchorPane detailspane;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -121,6 +131,7 @@ public class ClientScreenMaintaincesController implements Initializable {
                                     intialColumn();
                                     getData();
                                     fillCombos();
+                                    configPanels();
 
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
@@ -175,11 +186,26 @@ public class ClientScreenMaintaincesController implements Initializable {
                 pay_type.getSelectionModel().select(selected.getPay_type());
  
                 date.setValue(LocalDate.parse(selected.getDate()));
-
+                tabs.setVisible(true);
+                detailscontrol.setId(selected.getId());
             }
         });
     }
+              ClientScreenMaintainceDetailsController detailscontrol;
+              
+    public void configPanels() {
 
+        try {
+            detailspane.getChildren().clear();
+            FXMLLoader fxShow = new FXMLLoader(getClass().getResource("ClientScreenMaintainceDetails.fxml"));
+            detailspane.getChildren().add(fxShow.load());
+            detailscontrol = fxShow.getController();
+            detailscontrol.setParentController(ClientScreenMaintaincesController.this);
+              } catch (IOException ex) {
+            AlertDialogs.showErrors(ex);
+        }
+    }
+            
     private void fillCombos() {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
@@ -349,7 +375,35 @@ public class ClientScreenMaintaincesController implements Initializable {
         service.start();
 
     }
+ public void setAccount(int id, String amount) {
+        try {
 
+            String total = cost.getText().isEmpty() ? "0" : cost.getText();
+            cost.setText(Double.toString(Double.parseDouble(total) + Double.parseDouble(amount)));
+            Maintaince.updateCost(id, cost.getText());
+            getData();
+            ObservableList<Maintaince> values = tab.getItems();
+            for (Maintaince a : values) {
+                if (a.getId() == id) {
+                    tab.getSelectionModel().select(a);
+                }
+            }
+        } catch (Exception e) {
+            AlertDialogs.showErrors(e);
+        }
+    }
+
+    public void reduceAccount(int id, String amount) {
+        try {
+            String total = cost.getText().isEmpty() ? "0" : cost.getText();
+            cost.setText(Double.toString(Double.parseDouble(total) - Double.parseDouble(amount)));
+            Maintaince.updateCost(id, cost.getText());
+            getData();
+        } catch (Exception e) {
+            AlertDialogs.showErrors(e);
+        }
+    }
+    
     private void clear() {
         getAutoNum();
         client.getSelectionModel().clearSelection();
@@ -362,6 +416,7 @@ public class ClientScreenMaintaincesController implements Initializable {
         Edite.setDisable(true);
         Delete.setDisable(true);
         New.setDisable(true);
+        tabs.setVisible(false);
     }
 
     private void intialColumn() {
