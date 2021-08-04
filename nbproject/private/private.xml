@@ -3,12 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/Navigator/SideNavigatorController.java</file>
-            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/assets/classes/statics.java</file>
-            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/assets/classes/template.java</file>
-            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/Navigator/HomeController.java</file>
-            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/screens/sales/SalesScreenController.java</file>
-            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/db/User.java</file>
+            <file>file:/D:/Saleh%20Proj/Acapy.Trade/src/screens/clients/assets/Clients.java</file>
+            <file>file:/D:/Saleh%20Proj/Acapy.Trade/src/screens/clients/assets/Operations.java</file>
+            <file>file:/D:/Saleh%20Proj/Acapy.Trade/src/screens/clients/ClientScreenContractController.java</file>
+            <file>file:/D:/Saleh%20Proj/Acapy.Trade/src/screens/clients/assets/ContractVisits.java</file>
+            <file>file:/D:/Saleh%20Proj/Acapy.Trade/src/screens/clients/ClientScreenOperationsDetailsController.java</file>
+            <file>file:/D:/Saleh%20Proj/Acapy.Trade/src/screens/clients/ClientScreenContractVisitsController.java</file>
+            <file>file:/D:/Saleh%20Proj/Acapy.Trade/src/screens/clients/ClientScreenOperationsController.java</file>
         </group>
     </open-files>
 </project-private>

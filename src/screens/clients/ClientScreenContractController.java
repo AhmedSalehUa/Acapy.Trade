@@ -2,6 +2,7 @@ package screens.clients;
 
 import assets.classes.AlertDialogs;
 import com.jfoenix.controls.JFXTextField;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -15,6 +16,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -30,6 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
@@ -89,6 +92,8 @@ public class ClientScreenContractController implements Initializable {
     private DatePicker date_to;
 
     DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    @FXML
+    private AnchorPane VisitsPane;
 
     /**
      * Initializes the controller class.
@@ -148,6 +153,7 @@ public class ClientScreenContractController implements Initializable {
                                     intialColumn();
                                     getData();
                                     fillCombo();
+                                    configPanels();
 
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
@@ -191,15 +197,31 @@ public class ClientScreenContractController implements Initializable {
                 noVisits.setText(selected.getNoVisits());
                 cost.setText(selected.getCost());
                 due_to.getSelectionModel().select(selected.getDue_after());
-
+                
                 ObservableList<Clients> items1 = clientName.getItems();
                 for (Clients a : items1) {
                     if (a.getName().equals(selected.getName())) {
                         clientName.getSelectionModel().select(a);
                     }
                 }
+                visitsController.getData(selected.getId());
             }
         });
+    }
+    ClientScreenContractVisitsController visitsController;
+    public void configPanels() {
+
+        try {
+            VisitsPane.getChildren().clear();
+            FXMLLoader fxShow = new FXMLLoader(getClass().getResource("ClientScreenContractVisits.fxml"));
+            VisitsPane.getChildren().add(fxShow.load());
+            visitsController = fxShow.getController();
+            visitsController.setParentController(ClientScreenContractController.this);
+
+            
+        } catch (IOException ex) {
+            AlertDialogs.showErrors(ex);
+        }
     }
 
     private void intialColumn() {
@@ -368,7 +390,7 @@ public class ClientScreenContractController implements Initializable {
                             public void run() {
                                 try {
                                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                    alert.setTitle("Deleting  Cotract");
+                                    alert.setTitle("Deleting  Contract");
                                     alert.setHeaderText("سيتم حذف العقد ");
                                     alert.setContentText("هل انتالعقد؟");
 
