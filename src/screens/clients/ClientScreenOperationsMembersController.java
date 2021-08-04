@@ -35,9 +35,13 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 import screens.clients.assets.Operations;
-import screens.clients.assets.OperationsDetails;
-import screens.mainDataScreen.assets.AcapyMembers;
+
+
+
+import screens.clients.assets.OperationsDetails; 
 import screens.clients.assets.OperationsMembers;
+import screens.members.assets.AcapyMembers;
+
 import screens.store.assets.Products;
 
 /**
