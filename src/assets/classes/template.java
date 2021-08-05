@@ -29,10 +29,12 @@ import javafx.collections.ObservableList;
 public class template {
 
     public template() {
+
+    }
+
+    public static ObservableList<String> getChanges() {
+
         ObservableList<String> d = FXCollections.observableArrayList();
-        /**     
-             
-         */
         d.add("ALTER TABLE `sl_calls` ADD `sales_id` INT NOT NULL AFTER `details`");
         d.add("ALTER TABLE `sl_client` ADD `sales_id` INT NOT NULL AFTER `tele2`");
         d.add("ALTER TABLE `sl_offers` ADD `sales_id` INT NOT NULL AFTER `doc_ext`");
@@ -43,6 +45,7 @@ public class template {
         d.add("ALTER TABLE `cli_contracts` CHANGE `num_of_visits` `num_of_visits` VARCHAR(700) NOT NULL, CHANGE `cost` `cost` VARCHAR(700) NOT NULL, CHANGE `due_after` `due_after` VARCHAR(700) NOT NULL;");
         d.add("ALTER TABLE `st_stores` CHANGE `name` `name` VARCHAR(700) NOT NULL;");
 
+        return d;
     }
     /*
     public boolean Add() throws Exception {PreparedStatement ps = db.get.Prepare("");ps.execute();return true;

@@ -38,11 +38,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
-import screens.clients.assets.Clients; 
+import screens.clients.assets.Clients;
 import screens.clients.assets.Maintaince;
 import screens.clients.assets.Operations;
 import screens.members.assets.AcapyMembers;
-
 
 public class ClientScreenMaintaincesController implements Initializable {
 
@@ -114,7 +113,8 @@ public class ClientScreenMaintaincesController implements Initializable {
                 }
                 return LocalDate.parse(dateString, dateTimeFormatter);
             }
-        }); progress.setVisible(true);
+        });
+        progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             @Override
             protected Task<Void> createTask() {
@@ -182,17 +182,17 @@ public class ClientScreenMaintaincesController implements Initializable {
                 }
 
                 problem.setText(selected.getProblem());
-                cost.setText( selected.getCost() );
+                cost.setText(selected.getCost());
                 pay_type.getSelectionModel().select(selected.getPay_type());
- 
+
                 date.setValue(LocalDate.parse(selected.getDate()));
                 tabs.setVisible(true);
                 detailscontrol.setId(selected.getId());
             }
         });
     }
-              ClientScreenMaintainceDetailsController detailscontrol;
-              
+    ClientScreenMaintainceDetailsController detailscontrol;
+
     public void configPanels() {
 
         try {
@@ -201,11 +201,11 @@ public class ClientScreenMaintaincesController implements Initializable {
             detailspane.getChildren().add(fxShow.load());
             detailscontrol = fxShow.getController();
             detailscontrol.setParentController(ClientScreenMaintaincesController.this);
-              } catch (IOException ex) {
+        } catch (IOException ex) {
             AlertDialogs.showErrors(ex);
         }
     }
-            
+
     private void fillCombos() {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
@@ -375,7 +375,8 @@ public class ClientScreenMaintaincesController implements Initializable {
         service.start();
 
     }
- public void setAccount(int id, String amount) {
+
+    public void setAccount(int id, String amount) {
         try {
 
             String total = cost.getText().isEmpty() ? "0" : cost.getText();
@@ -399,11 +400,17 @@ public class ClientScreenMaintaincesController implements Initializable {
             cost.setText(Double.toString(Double.parseDouble(total) - Double.parseDouble(amount)));
             Maintaince.updateCost(id, cost.getText());
             getData();
+            ObservableList<Maintaince> values = tab.getItems();
+            for (Maintaince a : values) {
+                if (a.getId() == id) {
+                    tab.getSelectionModel().select(a);
+                }
+            }
         } catch (Exception e) {
             AlertDialogs.showErrors(e);
         }
     }
-    
+
     private void clear() {
         getAutoNum();
         client.getSelectionModel().clearSelection();
@@ -569,6 +576,8 @@ public class ClientScreenMaintaincesController implements Initializable {
     private void Edite(ActionEvent event) {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
+            boolean ok = true;
+
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
@@ -594,7 +603,7 @@ public class ClientScreenMaintaincesController implements Initializable {
                                         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                                         main.setDate(date.getValue().format(format));
                                         main.setProblem(problem.getText());
-                                        main.setCost( cost.getText() );
+                                        main.setCost(cost.getText());
                                         main.setPay_type(pay_type.getSelectionModel().getSelectedItem());
 
                                         main.Edit();
@@ -602,7 +611,7 @@ public class ClientScreenMaintaincesController implements Initializable {
                                     }
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
-
+                                    ok = false;
                                 } finally {
                                     latch.countDown();
                                 }
@@ -620,8 +629,10 @@ public class ClientScreenMaintaincesController implements Initializable {
             @Override
             protected void succeeded() {
                 progress.setVisible(false);
-                clear();
-                getData();
+                if (ok) {
+                    clear();
+                    getData();
+                }
                 super.succeeded();
             }
         };
@@ -633,6 +644,8 @@ public class ClientScreenMaintaincesController implements Initializable {
 
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
+            boolean ok = true;
+
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
@@ -651,13 +664,14 @@ public class ClientScreenMaintaincesController implements Initializable {
                                     DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                                     main.setDate(date.getValue().format(format));
                                     main.setProblem(problem.getText());
-                                    main.setCost( cost.getText() );
+                                    main.setCost(cost.getText());
                                     main.setPay_type(pay_type.getSelectionModel().getSelectedItem());
 
                                     main.Add();
 
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
+                                    ok = false;
 
                                 } finally {
                                     latch.countDown();
@@ -676,8 +690,10 @@ public class ClientScreenMaintaincesController implements Initializable {
             @Override
             protected void succeeded() {
                 progress.setVisible(false);
-                clear();
-                getData();
+                if (ok) {
+                    clear();
+                    getData();
+                }
                 super.succeeded();
             }
         };

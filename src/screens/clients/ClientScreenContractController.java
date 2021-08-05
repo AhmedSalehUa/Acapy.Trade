@@ -2,6 +2,7 @@ package screens.clients;
 
 import assets.classes.AlertDialogs;
 import com.jfoenix.controls.JFXTextField;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -15,6 +16,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -24,12 +26,14 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
@@ -89,6 +93,10 @@ public class ClientScreenContractController implements Initializable {
     private DatePicker date_to;
 
     DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    @FXML
+    private AnchorPane VisitsPane;
+    @FXML
+    private TabPane tabPane;
 
     /**
      * Initializes the controller class.
@@ -113,7 +121,8 @@ public class ClientScreenContractController implements Initializable {
                 }
                 return LocalDate.parse(dateString, dateTimeFormatter);
             }
-        }); date_to.setConverter(new StringConverter<LocalDate>() {
+        });
+        date_to.setConverter(new StringConverter<LocalDate>() {
             private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
             @Override
@@ -148,6 +157,7 @@ public class ClientScreenContractController implements Initializable {
                                     intialColumn();
                                     getData();
                                     fillCombo();
+                                    configPanels();
 
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
@@ -186,7 +196,7 @@ public class ClientScreenContractController implements Initializable {
 
                 Contracts selected = tab.getSelectionModel().getSelectedItem();
                 contrctId.setText(Integer.toString(selected.getId()));
-                date_from.setValue(LocalDate.parse(selected.getDate_from())); 
+                date_from.setValue(LocalDate.parse(selected.getDate_from()));
                 date_to.setValue(LocalDate.parse(selected.getDate_to()));
                 noVisits.setText(selected.getNoVisits());
                 cost.setText(selected.getCost());
@@ -198,8 +208,25 @@ public class ClientScreenContractController implements Initializable {
                         clientName.getSelectionModel().select(a);
                     }
                 }
+                tabPane.setVisible(true);
+                visitsController.setId(selected.getId());
             }
         });
+    }
+    ClientScreenContractVisitsController visitsController;
+
+    public void configPanels() {
+
+        try {
+            VisitsPane.getChildren().clear();
+            FXMLLoader fxShow = new FXMLLoader(getClass().getResource("ClientScreenContractVisits.fxml"));
+            VisitsPane.getChildren().add(fxShow.load());
+            visitsController = fxShow.getController();
+            visitsController.setParentController(ClientScreenContractController.this);
+
+        } catch (IOException ex) {
+            AlertDialogs.showErrors(ex);
+        }
     }
 
     private void intialColumn() {
@@ -235,40 +262,59 @@ public class ClientScreenContractController implements Initializable {
         noVisits.setText("");
         cost.setText("");
         due_to.getSelectionModel().clearSelection();
+        tabPane.setVisible(false);
     }
 
     private void getAutoNum() {
-        try {
-            contrctId.setText(Contracts.getAutoNum());
-        } catch (Exception ex) {
-            AlertDialogs.showErrors(ex);
-        }
-    }
-
-    private void getData() {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
+            String autoNum;
+
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
-                        //Background work                       
-                        final CountDownLatch latch = new CountDownLatch(1);
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    tab.setItems(Contracts.getData());
-                                } catch (Exception ex) {
-                                    AlertDialogs.showErrors(ex);
-                                } finally {
-                                    latch.countDown();
-                                }
-                            }
+                        try {
+                            autoNum = Contracts.getAutoNum();
 
-                        });
-                        latch.await();
+                        } catch (Exception ex) {
+                            AlertDialogs.showErrors(ex);
+                        }
+                        return null;
+                    }
+                };
+
+            }
+
+            @Override
+            protected void succeeded() {
+                progress.setVisible(false);
+                contrctId.setText(autoNum);
+                super.succeeded();
+            }
+        };
+        service.start();
+
+    }
+
+    private void getData() {
+        progress.setVisible(true);
+        Service<Void> service = new Service<Void>() {
+            ObservableList<Contracts> data;
+
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+
+                        try {
+                            data = Contracts.getData();
+
+                        } catch (Exception ex) {
+                            AlertDialogs.showErrors(ex);
+                        }
 
                         return null;
                     }
@@ -279,6 +325,7 @@ public class ClientScreenContractController implements Initializable {
             @Override
             protected void succeeded() {
                 progress.setVisible(false);
+                tab.setItems(data);
                 super.succeeded();
             }
         };
@@ -286,61 +333,86 @@ public class ClientScreenContractController implements Initializable {
     }
 
     private void fillCombo() {
-        due_to.getItems().addAll("سنوي", "نص سنوي", "شهري");
-        try {
-            clientName.setItems(Clients.getData());
-            clientName.setConverter(new StringConverter<Clients>() {
-                @Override
-                public String toString(Clients patient) {
-                    return patient.getName();
-                }
+        progress.setVisible(true);
+        Service<Void> service = new Service<Void>() {
+            ObservableList<Clients> data;
 
-                @Override
-                public Clients fromString(String string) {
-                    return null;
-                }
-            });
-            clientName.setCellFactory(cell -> new ListCell<Clients>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        try {
+                            data = Clients.getData();
 
-                // Create our layout here to be reused for each ListCell
-                GridPane gridPane = new GridPane();
-                Label lblid = new Label();
-                Label lblName = new Label();
-
-                // Static block to configure our layout
-                {
-                    // Ensure all our column widths are constant
-                    gridPane.getColumnConstraints().addAll(
-                            new ColumnConstraints(100, 100, 100),
-                            new ColumnConstraints(100, 100, 100)
-                    );
-
-                    gridPane.add(lblid, 0, 1);
-                    gridPane.add(lblName, 1, 1);
-
-                }
-                // We override the updateItem() method in order to provide our own layout for this Cell's graphicProperty
-
-                @Override
-                protected void updateItem(Clients person, boolean empty) {
-                    super.updateItem(person, empty);
-
-                    if (!empty && person != null) {
-
-                        // Update our Labels
-                        lblid.setText("م: " + Integer.toString(person.getId()));
-                        lblName.setText("الاسم: " + person.getName());
-
-                        setGraphic(gridPane);
-                    } else {
-                        // Nothing to display here
-                        setGraphic(null);
+                        } catch (Exception ex) {
+                            AlertDialogs.showErrors(ex);
+                        }
+                        return null;
                     }
-                }
-            });
-        } catch (Exception ex) {
-            AlertDialogs.showErrors(ex);
-        }
+                };
+
+            }
+
+            @Override
+            protected void succeeded() {
+                progress.setVisible(false);
+                clientName.setItems(data);
+                clientName.setConverter(new StringConverter<Clients>() {
+                    @Override
+                    public String toString(Clients patient) {
+                        return patient.getName();
+                    }
+
+                    @Override
+                    public Clients fromString(String string) {
+                        return null;
+                    }
+                });
+                clientName.setCellFactory(cell -> new ListCell<Clients>() {
+
+                    // Create our layout here to be reused for each ListCell
+                    GridPane gridPane = new GridPane();
+                    Label lblid = new Label();
+                    Label lblName = new Label();
+
+                    // Static block to configure our layout
+                    {
+                        // Ensure all our column widths are constant
+                        gridPane.getColumnConstraints().addAll(
+                                new ColumnConstraints(100, 100, 100),
+                                new ColumnConstraints(100, 100, 100)
+                        );
+
+                        gridPane.add(lblid, 0, 1);
+                        gridPane.add(lblName, 1, 1);
+
+                    }
+                    // We override the updateItem() method in order to provide our own layout for this Cell's graphicProperty
+
+                    @Override
+                    protected void updateItem(Clients person, boolean empty) {
+                        super.updateItem(person, empty);
+
+                        if (!empty && person != null) {
+
+                            // Update our Labels
+                            lblid.setText("م: " + Integer.toString(person.getId()));
+                            lblName.setText("الاسم: " + person.getName());
+
+                            setGraphic(gridPane);
+                        } else {
+                            // Nothing to display here
+                            setGraphic(null);
+                        }
+                    }
+                });
+                super.succeeded();
+            }
+        };
+        service.start();
+        due_to.getItems().addAll("سنوي", "نص سنوي", "شهري");
+
     }
 
     @FXML
@@ -356,6 +428,8 @@ public class ClientScreenContractController implements Initializable {
     private void Delete(ActionEvent event) {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
+            boolean ok = true;
+
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
@@ -368,7 +442,7 @@ public class ClientScreenContractController implements Initializable {
                             public void run() {
                                 try {
                                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                    alert.setTitle("Deleting  Cotract");
+                                    alert.setTitle("Deleting  Contract");
                                     alert.setHeaderText("سيتم حذف العقد ");
                                     alert.setContentText("هل انتالعقد؟");
 
@@ -380,6 +454,7 @@ public class ClientScreenContractController implements Initializable {
                                     }
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
+                                    ok = false;
                                 } finally {
                                     latch.countDown();
                                 }
@@ -397,8 +472,10 @@ public class ClientScreenContractController implements Initializable {
             @Override
             protected void succeeded() {
                 progress.setVisible(false);
-                clear();
-                getData();
+                if (ok) {
+                    clear();
+                    getData();
+                }
                 super.succeeded();
             }
         };
@@ -409,8 +486,9 @@ public class ClientScreenContractController implements Initializable {
     private void Edite(ActionEvent event) {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
-            boolean ok=true;
-             Contracts pr = new Contracts();
+            boolean ok = true;
+            Contracts pr = new Contracts();
+
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
@@ -429,7 +507,7 @@ public class ClientScreenContractController implements Initializable {
 
                                     Optional<ButtonType> result = alert.showAndWait();
                                     if (result.get() == ButtonType.OK) {
-                                       
+
                                         pr.setId(Integer.parseInt(contrctId.getText()));
                                         pr.setCli_id(clientName.getSelectionModel().getSelectedItem().getId());
                                         pr.setDate_from(date_from.getValue().format(format));
@@ -442,7 +520,7 @@ public class ClientScreenContractController implements Initializable {
                                     }
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
-                                    ok=false;
+                                    ok = false;
                                 } finally {
                                     latch.countDown();
                                 }
@@ -460,8 +538,10 @@ public class ClientScreenContractController implements Initializable {
             @Override
             protected void succeeded() {
                 progress.setVisible(false);
-               if(ok){ clear();
-                getData();}
+                if (ok) {
+                    clear();
+                    getData();
+                }
                 super.succeeded();
             }
         };
@@ -473,7 +553,8 @@ public class ClientScreenContractController implements Initializable {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             boolean ok = true;
-             Contracts pr = new Contracts();
+            Contracts pr = new Contracts();
+
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
@@ -486,7 +567,6 @@ public class ClientScreenContractController implements Initializable {
                             public void run() {
                                 try {
 
-                                   
                                     pr.setId(Integer.parseInt(contrctId.getText()));
                                     pr.setCli_id(clientName.getSelectionModel().getSelectedItem().getId());
                                     pr.setDate_from(date_from.getValue().format(format));
@@ -497,7 +577,7 @@ public class ClientScreenContractController implements Initializable {
                                     pr.Add();
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
-                                    ok=false;
+                                    ok = false;
                                 } finally {
                                     latch.countDown();
                                 }
@@ -515,8 +595,10 @@ public class ClientScreenContractController implements Initializable {
             @Override
             protected void succeeded() {
                 progress.setVisible(false);
-                if(ok){clear();
-                getData();}
+                if (ok) {
+                    clear();
+                    getData();
+                }
                 super.succeeded();
             }
         };
