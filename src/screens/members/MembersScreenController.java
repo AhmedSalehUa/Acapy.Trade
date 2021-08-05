@@ -5,10 +5,13 @@ import assets.animation.ZoomInLeft;
 import assets.animation.ZoomInRight;
 import assets.classes.AlertDialogs;
 import static assets.classes.statics.DEFAULT_THEME;
+import static assets.classes.statics.NoPermission;
 import static assets.classes.statics.THEME;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
+import db.User;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
@@ -20,6 +23,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -63,25 +67,26 @@ Preferences prefs;
                                 try {
                                     try {
                                         configDrawer();
-//                                        clients.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-//                                            try {
-//                                                clients.setStyle(" -fx-background-color: -mainColor-dark; ");
-//                                                operations.setStyle(" -fx-background-color: -mainColor-light; ");
-//                                                contracts.setStyle(" -fx-background-color: -mainColor-light; ");
-//                                                visits.setStyle(" -fx-background-color: -mainColor-light; ");
-//                                                salesOperations.setStyle(" -fx-background-color: -mainColor-light; ");
-//                                                Parent node = FXMLLoader.load(getClass().getResource(NoPermission));
-//                                                if (User.canAccess("ClientScreenClients")) {
-//                                                    node = FXMLLoader.load(getClass().getResource("ClientScreenClients.fxml"));
-//                                                }
-//                                                borderpane.setCenter(node);
-//                                            } catch (IOException ex) {
-//                                                ex.printStackTrace();
-//                                                AlertDialogs.showErrors(ex);
-//                                            }
-//                                        });
-//
-//                                         
+                                        dailyCost.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                                            try {
+                                                members.setStyle(" -fx-background-color: -mainColor-dark; ");
+                                                solfaRewards.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                transactions.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                orders.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                dailyCost.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                 salesMembers.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                Parent node = FXMLLoader.load(getClass().getResource(NoPermission));
+                                                if (User.canAccess("MemberScreenDailyCost")) {
+                                                    node = FXMLLoader.load(getClass().getResource("MemberScreenDailyCost.fxml"));
+                                                }
+                                                borderpane.setCenter(node);
+                                            } catch (IOException ex) {
+                                                ex.printStackTrace();
+                                                AlertDialogs.showErrors(ex);
+                                            }
+                                        });
+
+                                         
                                     } catch (Exception ex) {
                                         ex.printStackTrace();
                                         AlertDialogs.showErrors(ex);
