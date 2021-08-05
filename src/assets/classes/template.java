@@ -41,7 +41,7 @@ public class template {
         d.add("ALTER TABLE `sl_offers` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `discount` `discount` VARCHAR(700) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `discount_percent` `discount_percent` VARCHAR(700) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `total_cost` `total_cost` VARCHAR(700) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `doc` `doc` LONGBLOB NULL, CHANGE `doc_ext` `doc_ext` VARCHAR(700) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `notes` `notes` VARCHAR(1400) CHARACTER SET utf8 COLLATE  utf8_general_ci NULL");
         d.add("ALTER TABLE `cli_maintaince` CHANGE `date` `date` DATE NOT NULL;");
         d.add("ALTER TABLE `cli_contracts` CHANGE `num_of_visits` `num_of_visits` VARCHAR(700) NOT NULL, CHANGE `cost` `cost` VARCHAR(700) NOT NULL, CHANGE `due_after` `due_after` VARCHAR(700) NOT NULL;");
-        d.add("");
+        d.add("ALTER TABLE `st_stores` CHANGE `name` `name` VARCHAR(700) NOT NULL;");
 
     }
     /*
