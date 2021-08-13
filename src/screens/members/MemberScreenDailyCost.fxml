@@ -122,7 +122,7 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <TabPane fx:id="tabs" nodeOrientation="LEFT_TO_RIGHT" prefHeight="613.0" prefWidth="1317.0" tabClosingPolicy="UNAVAILABLE">
+                  <TabPane fx:id="tabs" nodeOrientation="RIGHT_TO_LEFT" prefHeight="613.0" prefWidth="1317.0" tabClosingPolicy="UNAVAILABLE">
                      <tabs>
                         <Tab text="المنتجات">
                            <content>

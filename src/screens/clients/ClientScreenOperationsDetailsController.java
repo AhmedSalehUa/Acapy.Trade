@@ -415,7 +415,7 @@ public class ClientScreenOperationsDetailsController implements Initializable {
             protected void succeeded() {
                 progress.setVisible(false);
                 clear();
-                getData(opd.getOperation_id());
+                getData(OPERATION_ID);
                 super.succeeded();
             }
         };
