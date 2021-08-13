@@ -7,12 +7,12 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Rectangle?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1360.0" stylesheets="@../../assets/styles/darkMode.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="screens.store.StoreMainScreenController">
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1360.0" stylesheets="@../../assets/styles/darkMode.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.store.StoreMainScreenController">
    <children>
-      <BorderPane fx:id="borderpane" prefHeight="700.0" prefWidth="1194.0">
+      <BorderPane fx:id="borderpane" prefHeight="700.0" prefWidth="1194.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <bottom>
             <AnchorPane id="AnchorPane" prefHeight="80.0" prefWidth="1360.0" BorderPane.alignment="CENTER">
                <children>
@@ -20,24 +20,28 @@
                   <Button id="mainDataBtnPatient" fx:id="stores" layoutX="623.0" layoutY="15.0" mnemonicParsing="false" prefHeight="108.0" prefWidth="114.0" text="المخازن" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="623.0" AnchorPane.rightAnchor="623.0" />
                   <Button id="mainDataBtn" fx:id="permissions" layoutX="347.0" layoutY="64.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="152.0" text="اذونات" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="347.0" />
                   <Button id="mainDataBtn" fx:id="products" layoutX="870.0" layoutY="54.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="185.0" text="المنتجات" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="305.0" />
-                  <Button id="mainDataBtn" fx:id="providers" layoutX="1151.0" layoutY="64.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="155.0" text="الموردين" />
-                  <Button id="mainDataBtn" fx:id="invoices" layoutX="78.0" layoutY="64.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="168.0" text="فواتير" />
+                  <Button id="mainDataBtn" fx:id="providers" layoutX="1151.0" layoutY="64.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="155.0" text="الموردين" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="54.0" />
+                  <Button id="mainDataBtn" fx:id="invoices" layoutX="78.0" layoutY="64.0" mnemonicParsing="false" prefHeight="83.0" prefWidth="168.0" text="فواتير" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="78.0" />
                </children>
             </AnchorPane>
          </bottom>
          <center>
             <AnchorPane prefHeight="569.0" prefWidth="1360.0" BorderPane.alignment="CENTER">
                <children>
-                  <ImageView fitHeight="313.0" fitWidth="353.0" layoutX="524.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../assets/icons/icons8_small_business_96px.png" />
-                     </image>
-                  </ImageView>
+                  <HBox alignment="CENTER" layoutY="-1.0" prefHeight="593.0" prefWidth="1360.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="313.0" fitWidth="353.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../assets/icons/icons8_small_business_96px.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
                </children>
             </AnchorPane>
          </center>
       </BorderPane>
-      <JFXDrawer fx:id="drawer" defaultDrawerSize="250.0" direction="RIGHT" layoutX="1106.0" prefHeight="700.0" prefWidth="251.0" visible="false" />
-      <JFXHamburger fx:id="hamburg" layoutX="1314.0" layoutY="11.0" />
+      <JFXDrawer fx:id="drawer" defaultDrawerSize="250.0" direction="RIGHT" layoutX="1106.0" prefHeight="700.0" prefWidth="251.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <JFXHamburger fx:id="hamburg" layoutX="1314.0" layoutY="11.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="11.0" />
    </children>
 </AnchorPane>

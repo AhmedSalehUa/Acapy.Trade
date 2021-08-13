@@ -68,8 +68,7 @@ public class StoreMainScreenController implements Initializable {
             protected Task<Void> createTask() {
                 return new Task<Void>() {
                     @Override
-                    protected Void call() throws Exception {
-                        //Background work                       
+                    protected Void call() throws Exception { 
                         final CountDownLatch latch = new CountDownLatch(1);
                         Platform.runLater(new Runnable() {
                             @Override
@@ -88,6 +87,8 @@ public class StoreMainScreenController implements Initializable {
                                                 if (User.canAccess("StoreScreenProducts")) {
                                                     node = FXMLLoader.load(getClass().getResource("StoreScreenProducts.fxml"));
                                                 }
+                                                node.setLayoutX(0);
+                                                node.setLayoutY(0);
                                                 borderpane.setCenter(node);
                                             } catch (IOException ex) {
                                                 ex.printStackTrace();
@@ -105,7 +106,9 @@ public class StoreMainScreenController implements Initializable {
                                                 if (User.canAccess("StoreScreenProvider")) {
                                                     node = FXMLLoader.load(getClass().getResource("StoreScreenProvider.fxml"));
                                                 }
-                                                borderpane.setCenter(node);
+                                               node.setLayoutX(0);
+                                                node.setLayoutY(0);
+                                                 borderpane.setCenter(node);
                                             } catch (IOException ex) {
                                                 ex.printStackTrace();
                                                 AlertDialogs.showErrors(ex);
@@ -138,6 +141,23 @@ public class StoreMainScreenController implements Initializable {
                                                 Parent node = FXMLLoader.load(getClass().getResource(NoPermission));
                                                 if (User.canAccess("StoreScreenStores")) {
                                                     node = FXMLLoader.load(getClass().getResource("StoreScreenStores.fxml"));
+                                                }
+                                                borderpane.setCenter(node);
+                                            } catch (IOException ex) {
+                                                ex.printStackTrace();
+                                                AlertDialogs.showErrors(ex);
+                                            }
+                                        });
+                                         permissions.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                                            try {
+                                                permissions.setStyle(" -fx-background-color: -mainColor-dark; ");
+                                                invoices.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                providers.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                products.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                stores.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                Parent node = FXMLLoader.load(getClass().getResource(NoPermission));
+                                                if (User.canAccess("StoreScreenTransactionsEntrance")) {
+                                                    node = FXMLLoader.load(getClass().getResource("StoreScreenTransactionsEntrance.fxml"));
                                                 }
                                                 borderpane.setCenter(node);
                                             } catch (IOException ex) {

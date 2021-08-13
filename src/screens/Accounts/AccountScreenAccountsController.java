@@ -143,7 +143,7 @@ public class AccountScreenAccountsController implements Initializable {
 
     private void fillCombo() {
         accType.getItems().add("بنكي");
-        accType.getItems().add("نص عهده");
+        accType.getItems().add("عهده");
         accType.getItems().add("البشمهندس");
     }
 
