@@ -295,70 +295,7 @@ public class MemberScreenDailyCostController implements Initializable {
         service.start();
 
     }
-//       private void fillCombo() {
-//        try {
-//            ObservableList<String> items = FXCollections.observableArrayList();
-//            ResultSet executeQuery = db.get.getReportCon().createStatement().executeQuery("SELECT * FROM `priviliges_name`");
-//            while (executeQuery.next()) {
-//                items.add(executeQuery.getString(1));
-//            }
-//            privilegesList.setItems(items);
-//
-//            userPriviliges.getItems().add("super_admin");
-//            userPriviliges.getItems().add("admin");
-//            userPriviliges.getItems().add("user");
-//            userPriviliges.getItems().add("sales");
-//            status.setItems(User.getData());
-//            status.setConverter(new StringConverter<User>() {
-//                @Override
-//                public String toString(User patient) {
-//                    return patient.getName();
-//                }
-//
-//                @Override
-//                public User fromString(String string) {
-//                    return null;
-//                }
-//            });
-//            userNameCombo.setCellFactory(cell -> new ListCell<User>() {
-//
-//                GridPane gridPane = new GridPane();
-//                Label lblid = new Label();
-//                Label lblName = new Label();
-//
-//                {
-//                    gridPane.getColumnConstraints().addAll(
-//                            new ColumnConstraints(100, 100, 100),
-//                            new ColumnConstraints(100, 100, 100)
-//                    );
-//
-//                    gridPane.add(lblid, 0, 1);
-//                    gridPane.add(lblName, 1, 1);
-//
-//                }
-//
-//                @Override
-//                protected void updateItem(User person, boolean empty) {
-//                    super.updateItem(person, empty);
-//
-//                    if (!empty && person != null) {
-//
-//                        // Update our Labels
-//                        lblid.setText("م: " + Integer.toString(person.getId()));
-//                        lblName.setText("الاسم: " + person.getName());
-//
-//                        // Set this ListCell's graphicProperty to display our GridPane
-//                        setGraphic(gridPane);
-//                    } else {
-//                        // Nothing to display here
-//                        setGraphic(null);
-//                    }
-//                }
-//            });
-//        } catch (Exception ex) {
-//            AlertDialogs.showErrors(ex);
-//        }
-//    }
+
 
         public void setAccount(int id, String amount) {
         try {

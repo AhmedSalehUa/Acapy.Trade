@@ -81,12 +81,13 @@ public class ClientScreenMaintainceDetailsController implements Initializable {
     @FXML
     private Button Add;
 
-   ClientScreenMaintaincesController parentController;
-   
+    ClientScreenMaintaincesController parentController;
+
     int MAINTAINCE_ID = 0;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-         Service<Void> service = new Service<Void>() {
+        Service<Void> service = new Service<Void>() {
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
@@ -148,8 +149,9 @@ public class ClientScreenMaintainceDetailsController implements Initializable {
 
             }
         });
-    }  
-     private void intialColumn() {
+    }
+
+    private void intialColumn() {
         tabId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tabtotalcost.setCellValueFactory(new PropertyValueFactory<>("totalcost"));
         tabamount.setCellValueFactory(new PropertyValueFactory<>("amount"));
@@ -287,7 +289,7 @@ public class ClientScreenMaintainceDetailsController implements Initializable {
 
     }
 
-      void getData(int id) {
+    public void getData(int id) {
         progress.setVisible(true);
         Service<Void> service;
         service = new Service<Void>() {
@@ -299,8 +301,8 @@ public class ClientScreenMaintainceDetailsController implements Initializable {
                     @Override
                     protected Void call() throws Exception {
                         try {
-                            data =MaintainceDetails.getData(id);
-                            
+                            data = MaintainceDetails.getData(id);
+
                         } catch (Exception ex) {
                             AlertDialogs.showErrors(ex);
                         }
@@ -323,12 +325,12 @@ public class ClientScreenMaintainceDetailsController implements Initializable {
     void setParentController(ClientScreenMaintaincesController parentController) {
         this.parentController = parentController;
     }
-   
- ObservableList<MaintainceDetails> items;
+
+    ObservableList<MaintainceDetails> items;
 
     @FXML
     private void search(KeyEvent event) {
-          FilteredList<MaintainceDetails> filteredData = new FilteredList<>(items, p -> true);
+        FilteredList<MaintainceDetails> filteredData = new FilteredList<>(items, p -> true);
 
         filteredData.setPredicate(pa -> {
 
@@ -351,18 +353,17 @@ public class ClientScreenMaintainceDetailsController implements Initializable {
         sortedData.comparatorProperty().bind(tab.comparatorProperty());
         tab.setItems(sortedData);
     }
-MaintainceDetails maind=new MaintainceDetails();
-    
+    MaintainceDetails maind = new MaintainceDetails();
 
     @FXML
     private void New(ActionEvent event) {
-         clear();
+        clear();
     }
 
     @FXML
     private void Delete(ActionEvent event) {
-        
-         progress.setVisible(true);
+
+        progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             @Override
             protected Task<Void> createTask() {
@@ -417,7 +418,7 @@ MaintainceDetails maind=new MaintainceDetails();
 
     @FXML
     private void Edite(ActionEvent event) {
-         progress.setVisible(true);
+        progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             boolean ok = true;
             MaintainceDetails maind = new MaintainceDetails();
@@ -486,9 +487,9 @@ MaintainceDetails maind=new MaintainceDetails();
 
     @FXML
     private void Add(ActionEvent event) {
-         progress.setVisible(true);
+        progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
-           MaintainceDetails maind = new MaintainceDetails();
+            MaintainceDetails maind = new MaintainceDetails();
             boolean ok = true;
 
             @Override
@@ -511,8 +512,8 @@ MaintainceDetails maind=new MaintainceDetails();
                                     maind.setAmount(amount.getText());
                                     maind.setTotalcost(totalcost.getText());
                                     maind.setMaintaince_id(MAINTAINCE_ID);
-                                    parentController.setAccount(MAINTAINCE_ID,totalcost.getText());
-                                     maind.Add();
+                                    parentController.setAccount(MAINTAINCE_ID, totalcost.getText());
+                                    maind.Add();
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
                                     ok = false;
@@ -542,7 +543,8 @@ MaintainceDetails maind=new MaintainceDetails();
         };
         service.start();
     }
-    void setId(int MAINTAINCE_ID) {
+
+    public void setId(int MAINTAINCE_ID) {
         this.MAINTAINCE_ID = MAINTAINCE_ID;
         clear();
         getData(MAINTAINCE_ID);
@@ -554,5 +556,5 @@ MaintainceDetails maind=new MaintainceDetails();
         if (!cost.getText().isEmpty() && !amount.getText().isEmpty()) {
             totalcost.setText(Double.toString(Double.parseDouble(cost.getText()) * Double.parseDouble(amount.getText())));
         }
-}
+    }
 }
