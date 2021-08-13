@@ -30,6 +30,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -337,6 +338,56 @@ public class StoreScreenProviderController implements Initializable {
 
     @FXML
     private void AddCat(MouseEvent event) {
+        TextInputDialog dialog = new TextInputDialog("");
+        dialog.setTitle("Add Cat Name");
+        dialog.setHeaderText("اضافة تصنيف جديد");
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            if (result.get().isEmpty() || result.get() == null) {
+                AlertDialogs.showError("خطا!! يرجي ادخال اسم نوع");
+            } else {
+                final String results = result.get();
+                try {
+                    Service service = new Service() {
+                        @Override
+                        protected Task createTask() {
+                            return new Task() {
+                                @Override
+                                protected Object call() throws Exception {
+                                    final CountDownLatch latch = new CountDownLatch(1);
+                                    Platform.runLater(() -> {
+                                        try {
+                                            ProductCategory.Add(results);
+                                        } catch (Exception ex) {
+                                            AlertDialogs.showErrors(ex);
+                                        } finally {
+                                            latch.countDown();
+                                        }
+                                    });
+                                    latch.await();
+
+                                    return null;
+                                }
+
+                                @Override
+                                protected void succeeded() {
+                                    try {
+                                        fillCombo();
+                                    } catch (Exception ex) {
+                                        AlertDialogs.showErrors(ex);
+                                    }
+                                }
+                            };
+                        }
+                    };
+                    service.start();
+
+                } catch (Exception ex) {
+                    AlertDialogs.showErrors(ex);
+                }
+            }
+        }
     }
 
     @FXML
@@ -348,12 +399,13 @@ public class StoreScreenProviderController implements Initializable {
     private void Delete(ActionEvent event) {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
+            boolean ok = true;
+
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
-                        //Background work                       
                         final CountDownLatch latch = new CountDownLatch(1);
                         Platform.runLater(new Runnable() {
                             @Override
@@ -366,12 +418,15 @@ public class StoreScreenProviderController implements Initializable {
 
                                     Optional<ButtonType> result = alert.showAndWait();
                                     if (result.get() == ButtonType.OK) {
+                                        ok = false;
                                         Provider pr = new Provider();
                                         pr.setId(Integer.parseInt(id.getText()));
                                         pr.Delete();
+                                        ok = true;
                                     }
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
+                                    ok = false;
                                 } finally {
                                     latch.countDown();
                                 }
@@ -389,8 +444,10 @@ public class StoreScreenProviderController implements Initializable {
             @Override
             protected void succeeded() {
                 progress.setVisible(false);
-                clear();
-                getData();
+                if (ok) {
+                    clear();
+                    getData();
+                }
                 super.succeeded();
             }
         };
@@ -401,6 +458,8 @@ public class StoreScreenProviderController implements Initializable {
     private void Edite(ActionEvent event) {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
+            boolean ok = true;
+
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
@@ -419,6 +478,7 @@ public class StoreScreenProviderController implements Initializable {
 
                                     Optional<ButtonType> result = alert.showAndWait();
                                     if (result.get() == ButtonType.OK) {
+                                        ok = false;
                                         Provider pr = new Provider();
                                         pr.setId(Integer.parseInt(id.getText()));
                                         pr.setName(name.getText());
@@ -427,9 +487,11 @@ public class StoreScreenProviderController implements Initializable {
                                         pr.setTotalAccount(total_account.getText());
                                         pr.setCat_id(category.getSelectionModel().getSelectedItem().getId());
                                         pr.Edite();
+                                        ok = true;
                                     }
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
+                                    ok = false;
                                 } finally {
                                     latch.countDown();
                                 }
@@ -447,8 +509,10 @@ public class StoreScreenProviderController implements Initializable {
             @Override
             protected void succeeded() {
                 progress.setVisible(false);
-                clear();
-                getData();
+                if (ok) {
+                    clear();
+                    getData();
+                }
                 super.succeeded();
             }
         };
@@ -459,6 +523,8 @@ public class StoreScreenProviderController implements Initializable {
     private void Add(ActionEvent event) {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
+            boolean ok = true;
+
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
@@ -470,6 +536,7 @@ public class StoreScreenProviderController implements Initializable {
                             @Override
                             public void run() {
                                 try {
+                                    ok = false;
                                     Provider pr = new Provider();
                                     pr.setId(Integer.parseInt(id.getText()));
                                     pr.setName(name.getText());
@@ -478,6 +545,7 @@ public class StoreScreenProviderController implements Initializable {
                                     pr.setTotalAccount(total_account.getText());
                                     pr.setCat_id(category.getSelectionModel().getSelectedItem().getId());
                                     pr.Add();
+                                    ok = true;
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
                                 } finally {
@@ -497,8 +565,10 @@ public class StoreScreenProviderController implements Initializable {
             @Override
             protected void succeeded() {
                 progress.setVisible(false);
-                clear();
-                getData();
+                if (ok) {
+                    clear();
+                    getData();
+                }
                 super.succeeded();
             }
         };
