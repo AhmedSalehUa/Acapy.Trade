@@ -45,7 +45,16 @@ public class template {
         d.add("ALTER TABLE `cli_contracts` CHANGE `num_of_visits` `num_of_visits` VARCHAR(700) NOT NULL, CHANGE `cost` `cost` VARCHAR(700) NOT NULL, CHANGE `due_after` `due_after` VARCHAR(700) NOT NULL;");
         d.add("ALTER TABLE `st_stores` CHANGE `name` `name` VARCHAR(700) NOT NULL;");
         d.add("ALTER TABLE `st_invoices` ADD `notes` VARCHAR(1400) NOT NULL AFTER `account_id`;");
-
+        d.add("ALTER TABLE `mem_member_daily_cost_details` CHANGE `product` `product_id` INT NOT NULL;");
+        d.add("");
+        d.add("");
+        d.add("");
+        d.add("");
+        d.add("");
+        d.add("");
+        d.add("");
+        d.add("");
+        d.add("");
         return d;
     }
     /*

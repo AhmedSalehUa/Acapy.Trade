@@ -23,12 +23,13 @@ import screens.store.StoreScreenInvoicesController;
  * @author AHMED
  */
 public class InvoicesBuyDetails {
-    
+
     int id;
     ComboBox products;
     TextField amount;
     TextField cost;
-TextField totalcost;
+    TextField totalcost;
+    TextField costOfSell;
     StoreScreenInvoicesController pa;
 
     String product;
@@ -43,6 +44,14 @@ TextField totalcost;
         this.amountString = amountString;
         this.costString = costString;
         this.totalCostString = totalCostString;
+    }
+    public InvoicesBuyDetails(int id, String product, String amountString, String costString, String totalCostString, int productID) {
+        this.id = id;
+        this.product = product;
+        this.amountString = amountString;
+        this.costString = costString;
+        this.productID = productID;
+        this.costOfSell = new TextField(totalCostString);
     }
 
     public InvoicesBuyDetails(int id, ObservableList<Products> data, String selectedpro, String amount, String cost) {
@@ -92,10 +101,9 @@ TextField totalcost;
 
                 if (!empty && person != null) {
 
-                    
                     lblid.setText("الاسم: " + person.getName());
                     lblName.setText("الموديل: " + person.getModel());
-                    lblQuali.setText("التفاصيل: " + person.getDetails()); 
+                    lblQuali.setText("التفاصيل: " + person.getDetails());
                     setGraphic(gridPane);
                 } else {
                     // Nothing to display here
@@ -158,7 +166,7 @@ TextField totalcost;
                     // Update our Labels
                     lblid.setText("الاسم: " + person.getName());
                     lblName.setText("الموديل: " + person.getModel());
-                    lblQuali.setText("التفاصيل: " + person.getDetails()); 
+                    lblQuali.setText("التفاصيل: " + person.getDetails());
                     // Set this ListCell's graphicProperty to display our GridPane
                     setGraphic(gridPane);
                 } else {
@@ -168,8 +176,24 @@ TextField totalcost;
             }
         });
         this.amount = new TextField(amount);
-        this.cost = new TextField(cost); 
+        this.cost = new TextField(cost);
         this.totalCostString = totalCostString;
+    }
+
+    public TextField getTotalcost() {
+        return totalcost;
+    }
+
+    public void setTotalcost(TextField totalcost) {
+        this.totalcost = totalcost;
+    }
+
+    public TextField getCostOfSell() {
+        return costOfSell;
+    }
+
+    public void setCostOfSell(TextField costOfSell) {
+        this.costOfSell = costOfSell;
     }
 
     public StoreScreenInvoicesController getPa() {
@@ -257,9 +281,25 @@ TextField totalcost;
         ObservableList<Products> data1 = Products.getData();
         ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_invoices_details`.`id`,`st_products`.`name`, `st_invoices_details`.`amount`, `st_invoices_details`.`cost`,cast(`st_invoices_details`.`amount` as UNSIGNED) * cast(`st_invoices_details`.`cost` as UNSIGNED) as 'total' FROM `st_invoices_details`,`st_products` WHERE `st_products`.`id` =`st_invoices_details`.`product_id` AND `st_invoices_details`.`invoice_id`='" + id + "'");
         while (rs.next()) {
-            data.add(new InvoicesBuyDetails(rs.getInt(1),data1, rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+            data.add(new InvoicesBuyDetails(rs.getInt(1), data1, rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
         }
         return data;
-    } 
-    
+    }
+
+    public static ObservableList<InvoicesBuyDetails> getDataById(int id) throws Exception {
+        ObservableList<InvoicesBuyDetails> data = FXCollections.observableArrayList();
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_invoices_details`.`id`,`st_products`.`name`, `st_invoices_details`.`amount`, `st_invoices_details`.`cost`,cast(`st_invoices_details`.`amount` as UNSIGNED) * cast(`st_invoices_details`.`cost` as UNSIGNED) as 'total' FROM `st_invoices_details`,`st_products` WHERE `st_products`.`id` =`st_invoices_details`.`product_id` AND `st_invoices_details`.`invoice_id`='" + id + "'");
+        while (rs.next()) {
+            data.add(new InvoicesBuyDetails(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+        }
+        return data;
+    }
+    public static ObservableList<InvoicesBuyDetails> getDataByIdEntrance(int id) throws Exception {
+        ObservableList<InvoicesBuyDetails> data = FXCollections.observableArrayList();
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_invoices_details`.`invoice_id`,`st_products`.`name`, `st_invoices_details`.`amount`, `st_invoices_details`.`cost`,`st_invoices_details`.`cost`,`st_products`.`id` FROM `st_invoices_details`,`st_products` WHERE `st_products`.`id` =`st_invoices_details`.`product_id` AND `st_invoices_details`.`invoice_id`='" + id + "'");
+        while (rs.next()) {
+            data.add(new InvoicesBuyDetails(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getInt(6)));
+        }
+        return data;
+    }
 }

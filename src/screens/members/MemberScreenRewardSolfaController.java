@@ -14,6 +14,7 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,7 +28,6 @@ import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 
 import screens.members.assets.AcapyMembers;
-
 
 /**
  * FXML Controller class
@@ -44,18 +44,17 @@ public class MemberScreenRewardSolfaController implements Initializable {
     private AnchorPane detailsPane;
     @FXML
     private AnchorPane memberPane;
-   
-       Label lblid = new Label();
-   
-       Label lblName = new Label();
-   
+
+    Label lblid = new Label();
+
+    Label lblName = new Label();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-         Service<Void> service = new Service<Void>() {
+        Service<Void> service = new Service<Void>() {
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
@@ -66,8 +65,8 @@ public class MemberScreenRewardSolfaController implements Initializable {
                             @Override
                             public void run() {
                                 try {
-                                   clear();
-                                  configPanels();
+                                    clear();
+                                    configPanels();
                                     fillCombo1();
 
                                 } catch (Exception ex) {
@@ -82,42 +81,16 @@ public class MemberScreenRewardSolfaController implements Initializable {
                         return null;
                     }
                 };
-
             }
-
             @Override
             protected void succeeded() {
 
-             
                 super.succeeded();
             }
         };
         service.start();
-         member.setOnMouseClicked((e) -> {
-            if (member.getSelectionModel().getSelectedIndex() == -1) {
-
-            } else {
-              
-
-                AcapyMembers selected = member.getSelectionModel().getSelectedItem();
-
-                
-                ObservableList<AcapyMembers> items3 = member.getItems();
-                for (AcapyMembers a : items3) {
-                    if (a.getName().equals(selected.getName())) {
-                        member.getSelectionModel().select(a);
-                       
-                    }
-                }
-               tabs.setVisible(true);
-               solfaController.setId(selected.getId());
-
-                rewardController.setId(selected.getId());
-
-            }
-        });
     }
-     MemberScreenRewardController rewardController;
+    MemberScreenRewardController rewardController;
     MemberScreenSolfaController solfaController;
 
     public void configPanels() {
@@ -139,8 +112,8 @@ public class MemberScreenRewardSolfaController implements Initializable {
         }
     }
 
- private void fillCombo1() {
-       
+    private void fillCombo1() {
+
         Service<Void> service = new Service<Void>() {
             ObservableList<AcapyMembers> data;
 
@@ -163,7 +136,6 @@ public class MemberScreenRewardSolfaController implements Initializable {
 
             @Override
             protected void succeeded() {
-               
 
                 member.setItems(data);
                 member.setConverter(new StringConverter<AcapyMembers>() {
@@ -182,7 +154,7 @@ public class MemberScreenRewardSolfaController implements Initializable {
                     // Create our layout here to be reused for each ListCell
                     GridPane gridPane = new GridPane();
                     Label lblid = new Label();
-                     Label lblName = new Label();
+                    Label lblName = new Label();
 
                     // Static block to configure our layout
                     {
@@ -207,7 +179,6 @@ public class MemberScreenRewardSolfaController implements Initializable {
                             // Update our Labels
                             lblid.setText("م: " + Integer.toString(person.getId()));
                             lblName.setText("الاسم: " + person.getName());
-                            
 
                             setGraphic(gridPane);
                         } else {
@@ -221,11 +192,29 @@ public class MemberScreenRewardSolfaController implements Initializable {
         };
         service.start();
 
-    }    
- 
-    private void clear(){
-     tabs.setVisible(false);
+    }
+
+    private void clear() {
+        tabs.setVisible(false);
     }
     ObservableList<AcapyMembers> items;
-    
+
+    @FXML
+    private void getDataFor(ActionEvent event) {
+
+        AcapyMembers selected = member.getSelectionModel().getSelectedItem();
+
+        ObservableList<AcapyMembers> items3 = member.getItems();
+        for (AcapyMembers a : items3) {
+            if (a.getName().equals(selected.getName())) {
+                member.getSelectionModel().select(a);
+
+            }
+        }
+        tabs.setVisible(true);
+        solfaController.setId(selected.getId());
+
+        rewardController.setId(selected.getId());
+    }
+
 }

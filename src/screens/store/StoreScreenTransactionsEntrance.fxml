@@ -30,7 +30,7 @@
                                        <columns>
                                           <TableColumn fx:id="invoiceTabNotes" prefWidth="75.0" text="ملاحظات" />
                                           <TableColumn fx:id="invoiceTabTotalCost" prefWidth="75.0" text="السعر بعد الخصم" />
-                                          <TableColumn fx:id="invoiceTabDiscPerc" prefWidth="75.0" text="نسبة الخصم" />
+                                          <TableColumn fx:id="invoiceTabPayType" prefWidth="75.0" text="طريقة الدفع" />
                                           <TableColumn fx:id="invoiceTabDisc" prefWidth="75.0" text="الخصم" />
                                           <TableColumn fx:id="invoiceTabCost" prefWidth="75.0" text="السعر قبل الخصم" />
                                           <TableColumn fx:id="invoiceTabDate" prefWidth="75.0" text="التاريخ" />

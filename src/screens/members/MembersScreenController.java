@@ -49,10 +49,11 @@ public class MembersScreenController implements Initializable {
     private JFXHamburger hamburg;
     @FXML
     private Button salesMembers;
-Preferences prefs;
+    Preferences prefs;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-  prefs = Preferences.userNodeForPackage(AcapyTrade.class);
+        prefs = Preferences.userNodeForPackage(AcapyTrade.class);
         Service<Void> service = new Service<Void>() {
             @Override
             protected Task<Void> createTask() {
@@ -69,12 +70,12 @@ Preferences prefs;
                                         configDrawer();
                                         transactions.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                                             try {
-                                                members.setStyle(" -fx-background-color: -mainColor-dark; ");
+                                                transactions.setStyle(" -fx-background-color: -mainColor-dark; ");
                                                 solfaRewards.setStyle(" -fx-background-color: -mainColor-light; ");
-                                                transactions.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                members.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 orders.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 dailyCost.setStyle(" -fx-background-color: -mainColor-light; ");
-                                                 salesMembers.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                salesMembers.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 Parent node = FXMLLoader.load(getClass().getResource(NoPermission));
                                                 if (User.canAccess("MemberScreenTransaction")) {
                                                     node = FXMLLoader.load(getClass().getResource("MemberScreenTransaction.fxml"));
@@ -85,14 +86,14 @@ Preferences prefs;
                                                 AlertDialogs.showErrors(ex);
                                             }
                                         });
-                                          dailyCost.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                                        dailyCost.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                                             try {
-                                                members.setStyle(" -fx-background-color: -mainColor-dark; ");
+                                                dailyCost.setStyle(" -fx-background-color: -mainColor-dark; ");
                                                 solfaRewards.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 transactions.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 orders.setStyle(" -fx-background-color: -mainColor-light; ");
-                                                dailyCost.setStyle(" -fx-background-color: -mainColor-light; ");
-                                                 salesMembers.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                members.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                salesMembers.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 Parent node = FXMLLoader.load(getClass().getResource(NoPermission));
                                                 if (User.canAccess("MemberScreenDailyCost")) {
                                                     node = FXMLLoader.load(getClass().getResource("MemberScreenDailyCost.fxml"));
@@ -103,14 +104,14 @@ Preferences prefs;
                                                 AlertDialogs.showErrors(ex);
                                             }
                                         });
-                                           solfaRewards.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                                        solfaRewards.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                                             try {
-                                                members.setStyle(" -fx-background-color: -mainColor-dark; ");
-                                                solfaRewards.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                solfaRewards.setStyle(" -fx-background-color: -mainColor-dark; ");
+                                                members.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 transactions.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 orders.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 dailyCost.setStyle(" -fx-background-color: -mainColor-light; ");
-                                                 salesMembers.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                salesMembers.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 Parent node = FXMLLoader.load(getClass().getResource(NoPermission));
                                                 if (User.canAccess("MemberScreenRewardSolfa")) {
                                                     node = FXMLLoader.load(getClass().getResource("MemberScreenRewardSolfa.fxml"));
@@ -121,14 +122,14 @@ Preferences prefs;
                                                 AlertDialogs.showErrors(ex);
                                             }
                                         });
-                                            members.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                                        members.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                                             try {
                                                 members.setStyle(" -fx-background-color: -mainColor-dark; ");
                                                 solfaRewards.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 transactions.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 orders.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 dailyCost.setStyle(" -fx-background-color: -mainColor-light; ");
-                                                 salesMembers.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                salesMembers.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 Parent node = FXMLLoader.load(getClass().getResource(NoPermission));
                                                 if (User.canAccess("MemberScreenAcapyMembers")) {
                                                     node = FXMLLoader.load(getClass().getResource("MemberScreenAcapyMembers.fxml"));
@@ -139,14 +140,14 @@ Preferences prefs;
                                                 AlertDialogs.showErrors(ex);
                                             }
                                         });
-                                             salesMembers.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                                        salesMembers.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                                             try {
-                                                members.setStyle(" -fx-background-color: -mainColor-dark; ");
+                                                salesMembers.setStyle(" -fx-background-color: -mainColor-dark; ");
                                                 solfaRewards.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 transactions.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 orders.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 dailyCost.setStyle(" -fx-background-color: -mainColor-light; ");
-                                                 salesMembers.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                members.setStyle(" -fx-background-color: -mainColor-light; ");
                                                 Parent node = FXMLLoader.load(getClass().getResource(NoPermission));
                                                 if (User.canAccess("MemberScreenSalesMember")) {
                                                     node = FXMLLoader.load(getClass().getResource("MemberScreenSalesMember.fxml"));
@@ -157,8 +158,25 @@ Preferences prefs;
                                                 AlertDialogs.showErrors(ex);
                                             }
                                         });
+                                        orders.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                                            try {
+                                                orders.setStyle(" -fx-background-color: -mainColor-dark; ");
+                                                solfaRewards.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                transactions.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                salesMembers.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                dailyCost.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                members.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                Parent node = FXMLLoader.load(getClass().getResource(NoPermission));
+                                                if (User.canAccess("MemberScreenOrders")) {
+                                                    node = FXMLLoader.load(getClass().getResource("MemberScreenOrders.fxml"));
+                                                }
+                                                borderpane.setCenter(node);
+                                            } catch (IOException ex) {
+                                                ex.printStackTrace();
+                                                AlertDialogs.showErrors(ex);
+                                            }
+                                        });
 
-                                         
                                     } catch (Exception ex) {
                                         ex.printStackTrace();
                                         AlertDialogs.showErrors(ex);
@@ -247,7 +265,7 @@ Preferences prefs;
         new ZoomInRight(orders).play();
         new ZoomInRight(dailyCost).play();
         new ZoomInRight(salesMembers).play();
-       
+
     }
 
 }

@@ -16,6 +16,7 @@ import screens.clients.assets.MaintainceDetails;
  * @author Ahmed Al-Gazzar
  */
 public class MemberDailyCostDetails {
+
     int id;
     int dailycost_id;
     String dailycost;
@@ -79,30 +80,32 @@ public class MemberDailyCostDetails {
     public void setCost(String cost) {
         this.cost = cost;
     }
-       public boolean Add() throws Exception {
+
+    public boolean Add() throws Exception {
         PreparedStatement st = db.get.Prepare("INSERT INTO `mem_member_daily_cost_details`(`id`, `daily_cost_id`,`product_id`, `cost`) VALUES (?,?,?,?)");
         st.setInt(1, id);
         st.setInt(2, dailycost_id);
         st.setInt(3, product_id);
         st.setString(4, cost);
-        
 
         st.execute();
         return true;
     }
-      public boolean Edit() throws Exception {
+
+    public boolean Edit() throws Exception {
         PreparedStatement st = db.get.Prepare("UPDATE `mem_member_daily_cost_details` SET `daily_cost_id`=?,`product_id`=? ,`cost`=?  WHERE `id`=?");
 
         st.setInt(1, dailycost_id);
         st.setInt(2, product_id);
-        
+
         st.setString(3, cost);
-      
+
         st.setInt(4, id);
         st.execute();
         return true;
     }
-        public boolean Delete() throws Exception {
+
+    public boolean Delete() throws Exception {
         PreparedStatement st = db.get.Prepare("DELETE FROM `mem_member_daily_cost_details` WHERE `id`=?");
         st.setInt(1, id);
         st.execute();
@@ -113,7 +116,7 @@ public class MemberDailyCostDetails {
 
         ObservableList<MemberDailyCostDetails> data = FXCollections.observableArrayList();
 
-        String SQL = "SELECT `mem_member_daily_cost_details`.`id`,`st_products`.`name`,`mem_member_daily_cost_details`.`cost` FROM `st_products`,`mem_member_daily_cost_details` where `mem_member_daily_cost_details`.`product_id`=`st_products`.`id` AND `mem_member_daily_cost_details`.`daily_cost_id`='"+id+"'";
+        String SQL = "SELECT `mem_member_daily_cost_details`.`id`,`st_products`.`name`,`mem_member_daily_cost_details`.`cost` FROM `st_products`,`mem_member_daily_cost_details` where `mem_member_daily_cost_details`.`product_id`=`st_products`.`id` AND `mem_member_daily_cost_details`.`daily_cost_id`='" + id + "'";
         ResultSet rs = db.get.getReportCon().createStatement().executeQuery(SQL);
 
         while (rs.next()) {

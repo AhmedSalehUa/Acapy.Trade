@@ -140,7 +140,7 @@ public class Maintaince {
 
         ObservableList<Maintaince> data = FXCollections.observableArrayList();
 
-        String SQL = "SELECT `cli_maintaince`.`id`,`cli_clients`.`name`, `mem_acapy_members`.`name`,`cli_maintaince`.`date` ,`cli_maintaince`.`problem`, `cli_maintaince`.`cost`,`cli_maintaince`.`pay_type` FROM `cli_maintaince`,`cli_clients`,`mem_acapy_members`where `cli_maintaince`.`client_id`=`cli_clients`.`id`AND`cli_maintaince`.`member_id`= `mem_acapy_members`.`id`";
+        String SQL = "SELECT `cli_maintaince`.`id`,`cli_clients`.`organization`, `mem_acapy_members`.`name`,`cli_maintaince`.`date` ,`cli_maintaince`.`problem`, `cli_maintaince`.`cost`,`cli_maintaince`.`pay_type` FROM `cli_maintaince`,`cli_clients`,`mem_acapy_members`where `cli_maintaince`.`client_id`=`cli_clients`.`id`AND`cli_maintaince`.`member_id`= `mem_acapy_members`.`id`";
          ResultSet rs = db.get.getReportCon().createStatement().executeQuery(SQL);
         while (rs.next()) {
             data.add(new Maintaince(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)));

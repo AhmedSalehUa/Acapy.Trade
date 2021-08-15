@@ -278,9 +278,27 @@ public class InvoicesBuy {
         return data;
     }
 
+    public static ObservableList<InvoicesBuy> getDataNotInStore() throws Exception {
+        ObservableList<InvoicesBuy> data = FXCollections.observableArrayList();
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_invoices`.`id`, `st_invoices`.`date`,`st_provider`.`name`, `st_invoices`.`cost`, `st_invoices`.`discount`, `st_invoices`.`total_cost`, `st_invoices`.`pay_type`, `st_invoices`.`account_id`, `st_invoices`.`notes` FROM `st_invoices`,`st_provider` WHERE `st_provider`.`id` = `st_invoices`.`provider_id` AND `st_invoices`.`id` NOT IN (SELECT `invoice_id` FROM `st_store_products` )");
+        while (rs.next()) {
+            data.add(new InvoicesBuy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9)));
+        }
+        return data;
+    }
+
     public static ObservableList<InvoicesBuy> getDataForProvider(int providerId) throws Exception {
         ObservableList<InvoicesBuy> data = FXCollections.observableArrayList();
         ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_invoices`.`id`, `st_invoices`.`date`,`st_provider`.`name`, `st_invoices`.`cost`, `st_invoices`.`discount`, `st_invoices`.`total_cost`, `st_invoices`.`pay_type`, `st_invoices`.`account_id`, `st_invoices`.`notes` FROM `st_invoices`,`st_provider` WHERE `st_provider`.`id` = `st_invoices`.`provider_id` AND `st_invoices`.`provider_id`='" + providerId + "'");
+        while (rs.next()) {
+            data.add(new InvoicesBuy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9)));
+        }
+        return data;
+    }
+
+    public static ObservableList<InvoicesBuy> getCutomData(String sql) throws Exception {
+        ObservableList<InvoicesBuy> data = FXCollections.observableArrayList();
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery(sql);
         while (rs.next()) {
             data.add(new InvoicesBuy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9)));
         }

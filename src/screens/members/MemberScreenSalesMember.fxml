@@ -53,9 +53,7 @@
                               <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="116.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="116.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="116.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="99.0" minHeight="0.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="99.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
                               <Label alignment="CENTER_RIGHT" prefHeight="25.0" text="الرقم التعريفي" GridPane.columnIndex="1">
@@ -68,20 +66,20 @@
                                     <Font size="26.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="142.0" text="موظف المبيعات" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="142.0" text="موظف المبيعات" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <TextField id="contractFields" fx:id="name" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="2" />
-                              <TextField id="contractFields" fx:id="numofsuccess" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="3" />
-                              <TextField id="contractFields" fx:id="apptoken" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="4" />
-                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="103.0" text="مرات النجاح" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <TextField id="contractFields" fx:id="name" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="1" />
+                              <TextField id="contractFields" fx:id="numofsuccess" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="2" />
+                              <TextField id="contractFields" fx:id="apptoken" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="3" />
+                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="103.0" text="مرات النجاح" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="103.0" text="رمز التطبيق" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="103.0" text="رمز التطبيق" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <font>
                                     <Font size="20.0" />
                                  </font>

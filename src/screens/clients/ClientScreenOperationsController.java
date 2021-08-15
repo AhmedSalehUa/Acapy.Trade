@@ -293,20 +293,24 @@ public class ClientScreenOperationsController implements Initializable {
                 });
                 client.setCellFactory(cell -> new ListCell<Clients>() {
 
+                    // Create our layout here to be reused for each ListCell
                     GridPane gridPane = new GridPane();
                     Label lblid = new Label();
                     Label lblName = new Label();
-
-                    {
+                    Label lblOrg = new Label();
+ 
+                    { 
                         gridPane.getColumnConstraints().addAll(
+                                new ColumnConstraints(100, 100, 100),
                                 new ColumnConstraints(100, 100, 100),
                                 new ColumnConstraints(100, 100, 100)
                         );
 
                         gridPane.add(lblid, 0, 1);
                         gridPane.add(lblName, 1, 1);
+                        gridPane.add(lblOrg, 2, 1);
 
-                    }
+                    }  
 
                     @Override
                     protected void updateItem(Clients person, boolean empty) {
@@ -314,11 +318,14 @@ public class ClientScreenOperationsController implements Initializable {
 
                         if (!empty && person != null) {
 
+                            // Update our Labels
                             lblid.setText("م: " + Integer.toString(person.getId()));
                             lblName.setText("الاسم: " + person.getName());
+                            lblOrg.setText("المؤسسة: " + person.getOrganization());
 
                             setGraphic(gridPane);
                         } else {
+                            // Nothing to display here
                             setGraphic(null);
                         }
                     }
@@ -438,7 +445,7 @@ public class ClientScreenOperationsController implements Initializable {
         getAutoNum();
         client.getSelectionModel().clearSelection();
         sales.getSelectionModel().clearSelection();
-        totalcost.setText("");
+        totalcost.setText("0");
         pay_type.getSelectionModel().clearSelection();
         date.setValue(null);
         docpath.setText("");

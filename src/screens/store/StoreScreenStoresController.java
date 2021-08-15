@@ -31,6 +31,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import screens.store.assets.Stores;
+import screens.store.assets.StroreProducts;
 
 /**
  * FXML Controller class
@@ -64,17 +65,17 @@ public class StoreScreenStoresController implements Initializable {
     @FXML
     private Button storeAdd;
     @FXML
-    private TableView<?> productsTable;
+    private TableView<StroreProducts> productsTable;
     @FXML
-    private TableColumn<?, ?> productsTabInvoice;
+    private TableColumn<StroreProducts, String> productsTabInvoice;
     @FXML
-    private TableColumn<?, ?> productsTabProduct;
+    private TableColumn<StroreProducts, String> productsTabProduct;
     @FXML
-    private TableColumn<?, ?> productsTabAmount;
+    private TableColumn<StroreProducts, String> productsTabAmount;
     @FXML
-    private TableColumn<?, ?> productsTabCost;
+    private TableColumn<StroreProducts, String> productsTabCost;
     @FXML
-    private TableColumn<?, ?> productsTabCostOfSell;
+    private TableColumn<StroreProducts, String> productsTabCostOfSell;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -110,6 +111,16 @@ public class StoreScreenStoresController implements Initializable {
         storeTabName.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         storeTabId.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        productsTabInvoice.setCellValueFactory(new PropertyValueFactory<>("invoice_id"));
+
+        productsTabProduct.setCellValueFactory(new PropertyValueFactory<>("product"));
+
+        productsTabAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+
+        productsTabCost.setCellValueFactory(new PropertyValueFactory<>("costOfBuy"));
+
+        productsTabCostOfSell.setCellValueFactory(new PropertyValueFactory<>("costOfSell"));
     }
 
     private void clear() {
@@ -270,7 +281,7 @@ public class StoreScreenStoresController implements Initializable {
             protected Task<Void> createTask() {
                 return new Task<Void>() {
                     @Override
-                    protected Void call() throws Exception { 
+                    protected Void call() throws Exception {
                         final CountDownLatch latch = new CountDownLatch(1);
                         Platform.runLater(new Runnable() {
                             @Override
@@ -374,7 +385,35 @@ public class StoreScreenStoresController implements Initializable {
     }
 
     private void getDataForStore(int id) {
-        
+        progress.setVisible(true);
+        Service<Void> service = new Service<Void>() {
+            ObservableList<StroreProducts> dataForStore;
+
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        try {
+                            dataForStore = StroreProducts.getDataForStore(id);
+
+                        } catch (Exception ex) {
+                            AlertDialogs.showErrors(ex);
+                        }
+                        return null;
+                    }
+                };
+
+            }
+
+            @Override
+            protected void succeeded() {
+                progress.setVisible(false);
+                productsTable.setItems(dataForStore);
+                super.succeeded();
+            }
+        };
+        service.start();
     }
 
 }

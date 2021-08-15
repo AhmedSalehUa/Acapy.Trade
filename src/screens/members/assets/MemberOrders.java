@@ -16,7 +16,6 @@ import screens.clients.assets.Contracts;
  * @author amran
  */
 public class MemberOrders {
-    
     int orderID;
     int memID;
     String memName;
@@ -169,6 +168,6 @@ public class MemberOrders {
     }
 
     public static String getAutoNum() throws Exception {
-        return db.get.getTableData("SELECT IFNULL(MAX(`id`)+1,1) FROM `mem_member_orders`").getValueAt(0, 0).toString();
+        return db.get.getTableData("SELECT IFNULL(MAX(`id`)+1,1) FROM `cli_contracts`").getValueAt(0, 0).toString();
     }
 }

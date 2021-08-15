@@ -53,6 +53,7 @@ import screens.clients.assets.Operations;
 import screens.clients.assets.OperationsDetails;
 import screens.sales.assets.SalesMembers;
 import screens.store.assets.Products;
+
 /**
  * FXML Controller class
  *
@@ -108,7 +109,7 @@ public class MemberScreenDailyCostController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-         date.setConverter(new StringConverter<LocalDate>() {
+        date.setConverter(new StringConverter<LocalDate>() {
             private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
             @Override
@@ -185,23 +186,22 @@ public class MemberScreenDailyCostController implements Initializable {
                         account.getSelectionModel().select(a);
                     }
                 }
-               
+
                 DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 date.setValue(LocalDate.parse(selected.getDate()));
                 destination.setText(selected.getDestination());
                 cost.setText(selected.getCost());
-               status.setText(selected.getStatus());
-                      
+                status.setText(selected.getStatus());
+
                 tabs.setVisible(true);
                 detailsController.setid(selected.getId());
 
-               
             }
         });
     }
     MemberScreenDailyCostDetailsController detailsController;
-      
-  public void configPanels() {
+
+    public void configPanels() {
 
         try {
             detailsPane.getChildren().clear();
@@ -209,11 +209,12 @@ public class MemberScreenDailyCostController implements Initializable {
             detailsPane.getChildren().add(fxShow.load());
             detailsController = fxShow.getController();
             detailsController.setParentController(MemberScreenDailyCostController.this);
-             } catch (IOException ex) {
+        } catch (IOException ex) {
             AlertDialogs.showErrors(ex);
         }
     }
-      private void fillCombo1() {
+
+    private void fillCombo1() {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             ObservableList<Accounts> data;
@@ -296,8 +297,7 @@ public class MemberScreenDailyCostController implements Initializable {
 
     }
 
-
-        public void setAccount(int id, String amount) {
+    public void setAccount(int id, String amount) {
         try {
 
             String total = cost.getText().isEmpty() ? "0" : cost.getText();
@@ -326,7 +326,7 @@ public class MemberScreenDailyCostController implements Initializable {
         }
     }
 
-       private void getAutoNum() {
+    private void getAutoNum() {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             String autoNum;
@@ -359,7 +359,7 @@ public class MemberScreenDailyCostController implements Initializable {
     private void clear() {
         getAutoNum();
         account.getSelectionModel().clearSelection();
-     
+
         cost.setText("");
         destination.setText("");
         date.setValue(null);
@@ -380,7 +380,8 @@ public class MemberScreenDailyCostController implements Initializable {
         tabaccount.setCellValueFactory(new PropertyValueFactory<>("account"));
 
     }
-      private void getData() {
+
+    private void getData() {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             ObservableList<MemberDailyCost> data;
@@ -417,7 +418,7 @@ public class MemberScreenDailyCostController implements Initializable {
 
     @FXML
     private void search(KeyEvent event) {
-         FilteredList<MemberDailyCost> filteredData = new FilteredList<>(items, p -> true);
+        FilteredList<MemberDailyCost> filteredData = new FilteredList<>(items, p -> true);
 
         filteredData.setPredicate(pa -> {
 
@@ -506,7 +507,7 @@ public class MemberScreenDailyCostController implements Initializable {
 
     @FXML
     private void Edite(ActionEvent event) {
-           progress.setVisible(true);
+        progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             boolean ok = true;
             MemberDailyCost mdc = new MemberDailyCost();
@@ -533,20 +534,20 @@ public class MemberScreenDailyCostController implements Initializable {
                                         mdc.setId(Integer.parseInt(id.getText()));
 //                                     opd.setOperation_id(operation.getSelectionModel().getSelectedItem().getId());
                                         mdc.setAccount_id(account.getSelectionModel().getSelectedItem().getId());
-                                         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                                            mdc.setDate(date.getValue().format(format));
+                                        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                                        mdc.setDate(date.getValue().format(format));
                                         mdc.setCost(cost.getText());
                                         mdc.setDestination(destination.getText());
                                         mdc.setStatus(status.getText());
-                                      //  mdc.setOperation_id(OPERATION_ID);
-                                //        parentController.reduceAccount(OPERATION_ID, tab.getSelectionModel().getSelectedItem().getTotal_cost());
+                                        //  mdc.setOperation_id(OPERATION_ID);
+                                        //        parentController.reduceAccount(OPERATION_ID, tab.getSelectionModel().getSelectedItem().getTotal_cost());
                                         mdc.Edite();
-                                     //   parentController.setAccount(OPERATION_ID, totalcost.getText());
+                                        //   parentController.setAccount(OPERATION_ID, totalcost.getText());
                                     }
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
                                     ok = false;
-                                   // parentController.setAccount(OPERATION_ID, tab.getSelectionModel().getSelectedItem().getTotal_cost());
+                                    // parentController.setAccount(OPERATION_ID, tab.getSelectionModel().getSelectedItem().getTotal_cost());
                                 } finally {
                                     latch.countDown();
                                 }
@@ -576,7 +577,7 @@ public class MemberScreenDailyCostController implements Initializable {
 
     @FXML
     private void Add(ActionEvent event) {
-          
+
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             MemberDailyCost mdc = new MemberDailyCost();
@@ -594,16 +595,16 @@ public class MemberScreenDailyCostController implements Initializable {
                             public void run() {
 
                                 try {
-                                   mdc.setId(Integer.parseInt(id.getText()));
+                                    mdc.setId(Integer.parseInt(id.getText()));
 //                                     opd.setOperation_id(operation.getSelectionModel().getSelectedItem().getId());
-                                        mdc.setAccount_id(account.getSelectionModel().getSelectedItem().getId());
-                                         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                                            mdc.setDate(date.getValue().format(format));
-                                        mdc.setCost(cost.getText());
-                                        mdc.setDestination(destination.getText());
-                                        mdc.setStatus(status.getText());
+                                    mdc.setAccount_id(account.getSelectionModel().getSelectedItem().getId());
+                                    DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                                    mdc.setDate(date.getValue().format(format));
+                                    mdc.setCost(cost.getText());
+                                    mdc.setDestination(destination.getText());
+                                    mdc.setStatus(status.getText());
                                     mdc.Add();
-                                  //  parentController.setAccount(OPERATION_ID, totalcost.getText());
+                                    //  parentController.setAccount(OPERATION_ID, totalcost.getText());
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
                                     ok = false;
@@ -634,6 +635,4 @@ public class MemberScreenDailyCostController implements Initializable {
         service.start();
     }
 
- 
-    
 }

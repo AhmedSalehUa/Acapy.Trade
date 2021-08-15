@@ -135,7 +135,7 @@ public class Contracts {
 
     public static ObservableList<Contracts> getData() throws Exception {
         ObservableList<Contracts> data = FXCollections.observableArrayList();
-        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `cli_contracts`.`id`,`cli_clients`.`name`, `cli_contracts`.`date_from`, `cli_contracts`.`date_to`, `cli_contracts`.`num_of_visits`, `cli_contracts`.`cost`, `cli_contracts`.`due_after` FROM `cli_contracts`,`cli_clients` WHERE `cli_clients`.`id`=`cli_contracts`.`client_id`");
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `cli_contracts`.`id`,`cli_clients`.`organization`, `cli_contracts`.`date_from`, `cli_contracts`.`date_to`, `cli_contracts`.`num_of_visits`, `cli_contracts`.`cost`, `cli_contracts`.`due_after` FROM `cli_contracts`,`cli_clients` WHERE `cli_clients`.`id`=`cli_contracts`.`client_id`");
         while (rs.next()) {
             data.add(new Contracts(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getString(7)));
         }

@@ -361,7 +361,7 @@ public class ClientScreenContractController implements Initializable {
                 clientName.setConverter(new StringConverter<Clients>() {
                     @Override
                     public String toString(Clients patient) {
-                        return patient.getName();
+                        return patient.getOrganization();
                     }
 
                     @Override
@@ -375,17 +375,20 @@ public class ClientScreenContractController implements Initializable {
                     GridPane gridPane = new GridPane();
                     Label lblid = new Label();
                     Label lblName = new Label();
+                    Label lblOrg = new Label();
 
                     // Static block to configure our layout
                     {
                         // Ensure all our column widths are constant
                         gridPane.getColumnConstraints().addAll(
                                 new ColumnConstraints(100, 100, 100),
+                                new ColumnConstraints(100, 100, 100),
                                 new ColumnConstraints(100, 100, 100)
                         );
 
                         gridPane.add(lblid, 0, 1);
                         gridPane.add(lblName, 1, 1);
+                        gridPane.add(lblOrg, 2, 1);
 
                     }
                     // We override the updateItem() method in order to provide our own layout for this Cell's graphicProperty
@@ -399,6 +402,7 @@ public class ClientScreenContractController implements Initializable {
                             // Update our Labels
                             lblid.setText("م: " + Integer.toString(person.getId()));
                             lblName.setText("الاسم: " + person.getName());
+                            lblOrg.setText("المؤسسة: " + person.getOrganization());
 
                             setGraphic(gridPane);
                         } else {
@@ -411,7 +415,7 @@ public class ClientScreenContractController implements Initializable {
             }
         };
         service.start();
-        due_to.getItems().addAll("سنوي", "نص سنوي", "شهري");
+        due_to.getItems().addAll("سنوي", "نص سنوي", "ربع سنوي", "شهري");
 
     }
 

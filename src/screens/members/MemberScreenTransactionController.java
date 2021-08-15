@@ -45,13 +45,15 @@ import javafx.util.StringConverter;
 import screens.Accounts.assets.Accounts;
 import screens.members.assets.MemberTransactions;
 import screens.members.assets.MemberOrders;
+
 /**
  * FXML Controller class
  *
  * @author Ahmed Al-Gazzar
  */
 public class MemberScreenTransactionController implements Initializable {
-  @FXML
+
+    @FXML
     private JFXTextField search;
     @FXML
     private TableView<MemberTransactions> tab;
@@ -65,7 +67,7 @@ public class MemberScreenTransactionController implements Initializable {
     private TableColumn<MemberTransactions, String> taborder;
     @FXML
     private TableColumn<MemberTransactions, String> tabId;
-     @FXML
+    @FXML
     private ComboBox<MemberOrders> order;
     @FXML
     private TableColumn<MemberTransactions, String> tabtotalcost;
@@ -182,22 +184,22 @@ public class MemberScreenTransactionController implements Initializable {
                         order.getSelectionModel().select(a);
                     }
                 }
-               
+
                 DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 date.setValue(LocalDate.parse(selected.getDate()));
-               
+
                 totalcost.setText(selected.getTotalcost());
-               status.setText(selected.getStatus());
-                      
+                status.setText(selected.getStatus());
+
                 tabs.setVisible(true);
                 detailsController.setid(selected.getId());
 
-               
             }
         });
-    }    
-     MemberScreenTransactionDetailsController detailsController;
-public void configPanels() {
+    }
+    MemberScreenTransactionDetailsController detailsController;
+
+    public void configPanels() {
 
         try {
             detailsPane.getChildren().clear();
@@ -205,15 +207,16 @@ public void configPanels() {
             detailsPane.getChildren().add(fxShow.load());
             detailsController = fxShow.getController();
             detailsController.setParentController(MemberScreenTransactionController.this);
-             } catch (IOException ex) {
+        } catch (IOException ex) {
             AlertDialogs.showErrors(ex);
         }
     }
-     private void fillCombo1() {
+
+    private void fillCombo1() {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             ObservableList<Accounts> accdata;
-             ObservableList<MemberOrders> orderdata;
+            ObservableList<MemberOrders> orderdata;
 
             @Override
             protected Task<Void> createTask() {
@@ -222,7 +225,7 @@ public void configPanels() {
                     protected Void call() throws Exception {
                         try {
                             accdata = Accounts.getData();
-                                    orderdata = MemberOrders.getData();
+                            orderdata = MemberOrders.getData();
                         } catch (Exception ex) {
                             AlertDialogs.showErrors(ex);
                         }
@@ -286,7 +289,7 @@ public void configPanels() {
                         }
                     }
                 });
-                  order.setItems(orderdata);
+                order.setItems(orderdata);
                 order.setConverter(new StringConverter<MemberOrders>() {
                     @Override
                     public String toString(MemberOrders patient) {
@@ -342,7 +345,8 @@ public void configPanels() {
         service.start();
 
     }
-     private void getAutoNum() {
+
+    private void getAutoNum() {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             String autoNum;
@@ -371,12 +375,13 @@ public void configPanels() {
         };
         service.start();
     }
-         private void clear() {
+
+    private void clear() {
         getAutoNum();
         account.getSelectionModel().clearSelection();
         order.getSelectionModel().clearSelection();
         totalcost.setText("");
-      
+
         date.setValue(null);
         status.setText("");
         Add.setDisable(false);
@@ -395,7 +400,8 @@ public void configPanels() {
         tabaccount.setCellValueFactory(new PropertyValueFactory<>("account"));
 
     }
-     void getData() {
+
+    private void getData() {
         progress.setVisible(true);
         Service<Void> service;
         service = new Service<Void>() {
@@ -405,13 +411,23 @@ public void configPanels() {
             protected Task<Void> createTask() {
                 return new Task<Void>() {
                     @Override
-                    protected Void call() throws Exception {
-                        try {
-                            data =MemberTransactions.getData();
-                            
-                        } catch (Exception ex) {
-                            AlertDialogs.showErrors(ex);
-                        }
+                    protected Void call() throws Exception {         
+                        final CountDownLatch latch = new CountDownLatch(1);
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    data = MemberTransactions.getData();
+
+                                } catch (Exception ex) {
+                                    AlertDialogs.showErrors(ex);
+                                } finally {
+                                    latch.countDown();
+                                }
+                            }
+
+                        });
+                        latch.await();
                         return null;
                     }
                 };
@@ -427,11 +443,11 @@ public void configPanels() {
         };
         service.start();
     }
-      ObservableList<MemberTransactions> items;
-   
+    ObservableList<MemberTransactions> items;
+
     @FXML
     private void search(KeyEvent event) {
-          FilteredList<MemberTransactions> filteredData = new FilteredList<>(items, p -> true);
+        FilteredList<MemberTransactions> filteredData = new FilteredList<>(items, p -> true);
 
         filteredData.setPredicate(pa -> {
 
@@ -464,8 +480,8 @@ public void configPanels() {
 
     @FXML
     private void Delete(ActionEvent event) {
-        
-          progress.setVisible(true);
+
+        progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             @Override
             protected Task<Void> createTask() {
@@ -520,7 +536,7 @@ public void configPanels() {
 
     @FXML
     private void Edite(ActionEvent event) {
-          progress.setVisible(true);
+        progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             boolean ok = true;
             MemberTransactions mdc = new MemberTransactions();
@@ -544,20 +560,20 @@ public void configPanels() {
 
                                     Optional<ButtonType> result = alert.showAndWait();
                                     if (result.get() == ButtonType.OK) {
-                                        mdc.setId(Integer.parseInt(id.getText()));                                  
+                                        mdc.setId(Integer.parseInt(id.getText()));
                                         mdc.setAccount_id(account.getSelectionModel().getSelectedItem().getId());
-                                         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                                            mdc.setDate(date.getValue().format(format));
+                                        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                                        mdc.setDate(date.getValue().format(format));
                                         mdc.setTotalcost(totalcost.getText());
-                                       mdc.setOrder_id(order.getSelectionModel().getSelectedItem().getOrderID());
+                                        mdc.setOrder_id(order.getSelectionModel().getSelectedItem().getOrderID());
                                         mdc.setStatus(status.getText());
-                                     
+
                                         mdc.Edite();
                                     }
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
                                     ok = false;
-                                 
+
                                 } finally {
                                     latch.countDown();
                                 }
@@ -584,11 +600,10 @@ public void configPanels() {
         };
         service.start();
     }
-    
 
     @FXML
     private void Add(ActionEvent event) {
-  progress.setVisible(true);
+        progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             MemberTransactions mdc = new MemberTransactions();
             boolean ok = true;
@@ -605,15 +620,15 @@ public void configPanels() {
                             public void run() {
 
                                 try {
-                                  mdc.setId(Integer.parseInt(id.getText()));                                  
-                                        mdc.setAccount_id(account.getSelectionModel().getSelectedItem().getId());
-                                         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                                            mdc.setDate(date.getValue().format(format));
-                                        mdc.setTotalcost(totalcost.getText());
-                                       mdc.setOrder_id(order.getSelectionModel().getSelectedItem().getOrderID());
-                                        mdc.setStatus(status.getText());
+                                    mdc.setId(Integer.parseInt(id.getText()));
+                                    mdc.setAccount_id(account.getSelectionModel().getSelectedItem().getId());
+                                    DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                                    mdc.setDate(date.getValue().format(format));
+                                    mdc.setTotalcost(totalcost.getText());
+                                    mdc.setOrder_id(order.getSelectionModel().getSelectedItem().getOrderID());
+                                    mdc.setStatus(status.getText());
                                     mdc.Add();
-                                  
+
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
                                     ok = false;
@@ -643,5 +658,5 @@ public void configPanels() {
         };
         service.start();
     }
-    
+
 }
