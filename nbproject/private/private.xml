@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/members/assets/MemberOrders.java</file>
-            <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/members/MemberScreenTransactionsController.java</file>
-            <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/members/assets/MemberTransactions.java</file>
-            <file>file:/C:/Users/Ahmed%20Al-Gazzar/Downloads/jars-master/Acapy.Trade/src/screens/members/MemberScreenTransactionDetailsController.java</file>
+            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/screens/sales/assets/Offers.java</file>
+            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/screens/sales/SalesScreenOffersController.java</file>
+            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/screens/sales/SalesScreenOffersEditeController.java</file>
+            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/screens/sales/SalesScreenOffersShowController.java</file>
+            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/screens/sales/assets/OffersDetails.java</file>
+            <file>file:/D:/projects/Implementation%20for%20institutions/Acapy.Trade/src/screens/store/assets/InvoicesBuy.java</file>
         </group>
     </open-files>
 </project-private>

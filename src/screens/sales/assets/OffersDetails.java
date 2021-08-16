@@ -125,7 +125,7 @@ public class OffersDetails {
         });
         products.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         for (Products a : data) {
-            if (a.getName().equals(selectedpro)) {
+            if (a.getModel().equals(selectedpro)) {
                 products.getSelectionModel().select(a);
 
             }
@@ -259,6 +259,15 @@ public class OffersDetails {
         ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `sl_offers_details`.`id`,`st_products`.`model`, `sl_offers_details`.`amount`, `sl_offers_details`.`cost`, `sl_offers_details`.`total_cost` FROM `sl_offers_details`,`st_products` WHERE `st_products`.`id` =`sl_offers_details`.`product_id` AND `sl_offers_details`.`offer_id`='" + id + "'");
         while (rs.next()) {
             data.add(new OffersDetails(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+        }
+        return data;
+    }
+     public static ObservableList<OffersDetails> getDataById(int id) throws Exception {
+        ObservableList<OffersDetails> data = FXCollections.observableArrayList();
+        ObservableList<Products> data1 = Products.getData();
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `sl_offers_details`.`id`,`st_products`.`model`, `sl_offers_details`.`amount`, `sl_offers_details`.`cost`, `sl_offers_details`.`total_cost` FROM `sl_offers_details`,`st_products` WHERE `st_products`.`id` =`sl_offers_details`.`product_id` AND `sl_offers_details`.`offer_id`='" + id + "'");
+        while (rs.next()) {
+            data.add(new OffersDetails(rs.getInt(1), data1,rs.getString(2), rs.getString(3), rs.getString(4), null));
         }
         return data;
     }

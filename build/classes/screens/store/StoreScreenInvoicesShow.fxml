@@ -17,8 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="569.0" prefWidth="1351.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="screens.store.StoreScreenInvoicesShowController">
+<AnchorPane id="AnchorPane" prefHeight="569.0" prefWidth="1351.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.store.StoreScreenInvoicesShowController">
    <children>
       <VBox prefHeight="569.0" prefWidth="1331.0" spacing="10.0" stylesheets="@../../../../Elbarbary-Hospital/src/assets/styles/darkMode.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -87,7 +86,7 @@
                      <columns>
                         <TableColumn fx:id="invoiceTabNotes" prefWidth="75.0" text="ملاحظات" />
                         <TableColumn fx:id="invoiceTabTotalCost" prefWidth="75.0" text="السعر بعد الخصم" />
-                        <TableColumn fx:id="invoiceTabDiscPerc" prefWidth="75.0" text="نسبة الخصم" />
+                        <TableColumn fx:id="invoiceTabAccId" prefWidth="75.0" text="رقم الحساب" />
                         <TableColumn fx:id="invoiceTabDisc" prefWidth="75.0" text="الخصم" />
                         <TableColumn fx:id="invoiceTabCost" prefWidth="75.0" text="السعر قبل الخصم" />
                         <TableColumn fx:id="invoiceTabDate" prefWidth="75.0" text="التاريخ" />

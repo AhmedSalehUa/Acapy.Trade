@@ -377,6 +377,15 @@ public class Offers {
         return data;
     }
 
+    public static ObservableList<Offers> getData(int id) throws Exception {
+        ObservableList<Offers> data = FXCollections.observableArrayList();
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `sl_offers`.`id`,`sl_client`.`name`, `sl_offers`.`date`, `sl_offers`.`cost`, `sl_offers`.`discount`, `sl_offers`.`discount_percent`, `sl_offers`.`total_cost`,`sl_sales_members`.`name`,`sl_offers`.`notes` FROM `sl_offers`,`sl_client`,`sl_sales_members` WHERE `sl_client`.`id` =`sl_offers`.`client_id` and `sl_sales_members`.`id` = `sl_offers`.`sales_id` AND `sl_offers`.`id`='" + id + "'");
+        while (rs.next()) {
+            data.add(new Offers(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+        }
+        return data;
+    }
+
     public static ObservableList<Offers> getCutomData(String sql) throws Exception {
         ObservableList<Offers> data = FXCollections.observableArrayList();
         ResultSet rs = db.get.getReportCon().createStatement().executeQuery(sql);

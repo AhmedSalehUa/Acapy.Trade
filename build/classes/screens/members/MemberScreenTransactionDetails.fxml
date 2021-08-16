@@ -16,8 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" nodeOrientation="LEFT_TO_RIGHT" prefHeight="569.0" prefWidth="1360.0" stylesheets="@../../assets/styles/darkMode.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="screens.members.MemberScreenTransactionDetailsController">
+<AnchorPane id="AnchorPane" nodeOrientation="LEFT_TO_RIGHT" prefHeight="569.0" prefWidth="1360.0" stylesheets="@../../assets/styles/darkMode.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.members.MemberScreenTransactionDetailsController">
    <children>
       <VBox alignment="CENTER" spacing="10.0">
          <children>
@@ -54,9 +53,7 @@
                               <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="116.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="116.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="116.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="99.0" minHeight="0.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="99.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
                               <Label alignment="CENTER_RIGHT" prefHeight="25.0" text="الرقم التعريفي" GridPane.columnIndex="1">
@@ -69,24 +66,24 @@
                                     <Font size="26.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="80.0" text="الكمية" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                              <Label alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="80.0" text="المبلغ" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="116.0" text="من" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="116.0" text="من" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="116.0" text="الى" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="116.0" text="الى" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <TextField id="contractFields" fx:id="from" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="2" />
-                              <TextField id="contractFields" fx:id="to" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="3" />
-                              <TextField id="contractFields" fx:id="amount" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="4" />
+                              <TextField id="contractFields" fx:id="from" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="1" />
+                              <TextField id="contractFields" fx:id="to" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="2" />
+                              <TextField id="contractFields" fx:id="amount" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                         <HBox alignment="CENTER" spacing="5.0">

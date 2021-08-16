@@ -204,7 +204,7 @@ public class ClientScreenContractController implements Initializable {
 
                 ObservableList<Clients> items1 = clientName.getItems();
                 for (Clients a : items1) {
-                    if (a.getName().equals(selected.getName())) {
+                    if (a.getOrganization().equals(selected.getName())) {
                         clientName.getSelectionModel().select(a);
                     }
                 }

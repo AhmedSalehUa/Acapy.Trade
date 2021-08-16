@@ -145,8 +145,7 @@ public class SalesScreenOffersController implements Initializable {
     private ComboBox<SalesMembers> sales;
 
     DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    Preferences prefs;
-    @FXML
+     @FXML
     private AnchorPane editeOffers;
     @FXML
     private AnchorPane showInvoices;

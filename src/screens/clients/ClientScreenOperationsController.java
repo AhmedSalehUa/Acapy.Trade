@@ -194,7 +194,7 @@ public class ClientScreenOperationsController implements Initializable {
                 id.setText(Integer.toString(selected.getId()));
                 ObservableList<Clients> items1 = client.getItems();
                 for (Clients a : items1) {
-                    if (a.getName().equals(selected.getClient_name())) {
+                    if (a.getOrganization().equals(selected.getClient_name())) {
                         client.getSelectionModel().select(a);
                     }
                 }

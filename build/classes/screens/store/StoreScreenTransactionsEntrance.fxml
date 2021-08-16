@@ -14,8 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="569.0" prefWidth="1360.0" stylesheets="@../../assets/styles/darkMode.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="screens.store.StoreScreenTransactionsEntranceController">
+<AnchorPane id="AnchorPane" prefHeight="569.0" prefWidth="1360.0" stylesheets="@../../assets/styles/darkMode.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.store.StoreScreenTransactionsEntranceController">
    <children>
       <TabPane layoutX="104.0" layoutY="67.0" prefHeight="200.0" prefWidth="200.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -23,7 +22,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <VBox prefHeight="569.0" prefWidth="1331.0" stylesheets="@../../../../Elbarbary-Hospital/src/assets/styles/darkMode.css">
+                        <VBox prefHeight="569.0" prefWidth="1331.0" stylesheets="@../../../../Elbarbary-Hospital/src/assets/styles/darkMode.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <HBox prefHeight="249.0" prefWidth="1321.0">
                                  <children>
@@ -31,7 +30,7 @@
                                        <columns>
                                           <TableColumn fx:id="invoiceTabNotes" prefWidth="75.0" text="ملاحظات" />
                                           <TableColumn fx:id="invoiceTabTotalCost" prefWidth="75.0" text="السعر بعد الخصم" />
-                                          <TableColumn fx:id="invoiceTabDiscPerc" prefWidth="75.0" text="نسبة الخصم" />
+                                          <TableColumn fx:id="invoiceTabPayType" prefWidth="75.0" text="طريقة الدفع" />
                                           <TableColumn fx:id="invoiceTabDisc" prefWidth="75.0" text="الخصم" />
                                           <TableColumn fx:id="invoiceTabCost" prefWidth="75.0" text="السعر قبل الخصم" />
                                           <TableColumn fx:id="invoiceTabDate" prefWidth="75.0" text="التاريخ" />
