@@ -13,10 +13,7 @@ package db;
 import acapy.trade.AcapyTrade;
 import assets.classes.TableToExcel;
 import assets.classes.statics;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -24,17 +21,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -51,7 +40,7 @@ public class get {
             Preferences prefs = Preferences.userNodeForPackage(AcapyTrade.class);
 
             Class.forName("com.mysql.jdbc.Driver");
-            url = "jdbc:mysql://" + prefs.get(statics.DATABASE_IP, "192.168.1.90") + ":3306/acapytrade?useUnicode=true&characterEncoding=UTF-8";
+            url = "jdbc:mysql://" + prefs.get(statics.DATABASE_IP, "127.0.0.1") + ":3306/acapytrade?useUnicode=true&characterEncoding=UTF-8";
 
         } catch (ClassNotFoundException ex) {
             throw new Exception("error in database url");
@@ -73,10 +62,11 @@ public class get {
 
     public static boolean canCon() throws Exception {
         try {
-            setURL();
-            con = DriverManager.getConnection(url, "acapytradeahmedsaleh", "as01203904426");
+                setURL();
+                con = DriverManager.getConnection(url, "acapytradeahmedsaleh", "as01203904426");
 
         } catch (SQLException ex) {
+           
             throw new Exception("Error in connection to database ERROR Code: \n" + ex.getMessage());
         }
         return true;

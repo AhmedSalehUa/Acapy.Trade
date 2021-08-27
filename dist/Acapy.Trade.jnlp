@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="Acapy.Trade.jar" size="4934822" download="eager" />
+    <jar href="Acapy.Trade.jar" size="5072488" download="eager" />
     <jar href="lib\AbsoluteLayout.jar" size="2903" download="eager" />
     <jar href="lib\ant-1.7.1.jar" size="1323005" download="eager" />
     <jar href="lib\antlr-2.7.5.jar" size="435563" download="eager" />
@@ -114,6 +114,7 @@
     <jar href="lib\sqljdbc41.jar" size="900895" download="eager" />
     <jar href="lib\sqljdbc42.jar" size="898868" download="eager" />
     <jar href="lib\swingx-all-1.6.4.jar" size="1482526" download="eager" />
+    <jar href="lib\tess4j-3.4.8.jar" size="5212199" download="eager" />
     <jar href="lib\velocity-1.7-dep.jar" size="806736" download="eager" />
     <jar href="lib\xalan-2.7.1.jar" size="3176148" download="eager" />
     <jar href="lib\xbean.jar" size="2722970" download="eager" />

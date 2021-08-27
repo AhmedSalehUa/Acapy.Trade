@@ -22,8 +22,8 @@ public class Provider {
     String accountNumber;
     String totalAccount;
     int cat_id;
-    String category;
-
+    String category; 
+    
     public Provider() {
     }
 
@@ -125,7 +125,7 @@ public class Provider {
 
     public static ObservableList<Provider> getData() throws Exception {
         ObservableList<Provider> data = FXCollections.observableArrayList();
-        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_provider`.`id`, `st_provider`.`name`, `st_provider`.`adress`, `st_provider`.`credite`, `st_provider`.`account_number`,st_products_category.name FROM `st_provider`,st_products_category WHERE st_products_category.id = st_provider.cat_id");
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_provider`.`id`, `st_provider`.`name`, `st_provider`.`adress`, `st_provider`.`account_number`, `st_provider`.`credite`,st_products_category.name FROM `st_provider`,st_products_category WHERE st_products_category.id = st_provider.cat_id");
         while (rs.next()) {
             data.add(new Provider(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
         }

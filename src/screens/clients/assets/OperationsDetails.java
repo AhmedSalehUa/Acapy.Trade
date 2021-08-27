@@ -138,7 +138,7 @@ public class OperationsDetails {
 
         ObservableList<OperationsDetails> data = FXCollections.observableArrayList();
 
-        String SQL = "SELECT `cli_operation_details`.`id`,`st_products`.`name`,`cli_operation_details`.`cost` ,`cli_operation_details`.`amount`, `cli_operation_details`.`total_cost` FROM `st_products`,`cli_operation_details`,`st_store_products`where `cli_operation_details`.`store_product_id`=`st_store_products`.`id` AND `cli_operation_details`.`store_product_id`= `st_products`.`id` AND `cli_operation_details`.`operation_id`='"+id+"'";
+        String SQL = "SELECT `cli_operation_details`.`id`,`st_products`.`name`,`cli_operation_details`.`cost` ,`cli_operation_details`.`amount`, `cli_operation_details`.`total_cost` FROM `st_products`,`cli_operation_details` where   st_products.`id`=`cli_operation_details`.`store_product_id` AND `cli_operation_details`.`operation_id`='"+id+"'";
         ResultSet rs = db.get.getReportCon().createStatement().executeQuery(SQL);
 
         while (rs.next()) {

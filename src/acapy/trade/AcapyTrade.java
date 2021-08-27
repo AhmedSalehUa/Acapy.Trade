@@ -6,7 +6,10 @@
 package acapy.trade;
  
 import assets.classes.statics;
+import static assets.classes.statics.DATABASE_IP;
+import static assets.classes.statics.DEFAULT_DATABASE_IP;
 import com.sun.javafx.application.LauncherImpl;
+import java.util.Optional;
 import java.util.prefs.Preferences;
 import javafx.application.Application;
 import javafx.application.Preloader;
@@ -16,7 +19,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -68,7 +73,7 @@ public class AcapyTrade extends Application {
         if (db.get.canCon()) {
             LauncherImpl.notifyPreloader(this, new Preloader.ProgressNotification(3));
         } else {
-            LauncherImpl.notifyPreloader(this, new Preloader.ProgressNotification(13));
+            LauncherImpl.notifyPreloader(this, new Preloader.ProgressNotification(13)); 
 //            state = 0;
         }
 //

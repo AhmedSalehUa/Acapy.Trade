@@ -99,6 +99,60 @@ public class AccountsScreenController implements Initializable {
                                                 AlertDialogs.showErrors(ex);
                                             }
                                         });
+                                        ExpensesAndYields.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                                            try {
+                                                ExpensesAndYields.setStyle(" -fx-background-color: -mainColor-dark; ");
+                                                salesAccounts.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                accounts.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                salary.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                clientsAccounts.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                provider.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                Parent node = FXMLLoader.load(getClass().getResource(NoPermission));
+                                                if (User.canAccess("ExpenseAndYields")) {
+                                                    node = FXMLLoader.load(getClass().getResource("ExpenseAndYields.fxml"));
+                                                }
+                                                borderpane.setCenter(node);
+                                            } catch (IOException ex) {
+                                                ex.printStackTrace();
+                                                AlertDialogs.showErrors(ex);
+                                            }
+                                        });
+                                        clientsAccounts.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                                            try {
+                                                clientsAccounts.setStyle(" -fx-background-color: -mainColor-dark; ");
+                                                salesAccounts.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                accounts.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                salary.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                ExpensesAndYields.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                provider.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                Parent node = FXMLLoader.load(getClass().getResource(NoPermission));
+                                                if (User.canAccess("ClientsAccounts")) {
+                                                    node = FXMLLoader.load(getClass().getResource("ClientsAccounts.fxml"));
+                                                }
+                                                borderpane.setCenter(node);
+                                            } catch (IOException ex) {
+                                                ex.printStackTrace();
+                                                AlertDialogs.showErrors(ex);
+                                            }
+                                        }); provider.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                                            try {
+                                                provider.setStyle(" -fx-background-color: -mainColor-dark; ");
+                                                salesAccounts.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                accounts.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                salary.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                ExpensesAndYields.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                clientsAccounts.setStyle(" -fx-background-color: -mainColor-light; ");
+                                                Parent node = FXMLLoader.load(getClass().getResource(NoPermission));
+                                                if (User.canAccess("ProvidersAccounts")) {
+                                                    node = FXMLLoader.load(getClass().getResource("ProvidersAccounts.fxml"));
+                                                }
+                                                borderpane.setCenter(node);
+                                            } catch (IOException ex) {
+                                                ex.printStackTrace();
+                                                AlertDialogs.showErrors(ex);
+                                            }
+                                        });
+                                        
 //
 //                                         
                                     } catch (Exception ex) {
