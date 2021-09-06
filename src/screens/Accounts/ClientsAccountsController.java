@@ -105,6 +105,8 @@ public class ClientsAccountsController implements Initializable {
     private JFXTextField searchPays;
 
     DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    @FXML
+    private Label total;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -488,8 +490,8 @@ public class ClientsAccountsController implements Initializable {
             protected void succeeded() {
                 progress.setVisible(false);
                 clear();
-               getPaysData(accTab.getSelectionModel().getSelectedItem().getId());
-                 super.succeeded();
+                getPaysData(accTab.getSelectionModel().getSelectedItem().getId());
+                super.succeeded();
             }
         };
         service.start();
@@ -615,7 +617,8 @@ public class ClientsAccountsController implements Initializable {
     private void getAccountsData(ActionEvent event) {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
-            ObservableList<ClientsAccount> data;
+            ObservableList<ClientsAccount> data; 
+            String totalAcc;
 
             @Override
             protected Task<Void> createTask() {
@@ -625,6 +628,7 @@ public class ClientsAccountsController implements Initializable {
                         try {
 
                             data = ClientsAccount.getData(clients.getSelectionModel().getSelectedItem().getId());
+                            totalAcc = ClientsAccount.getTotalAcc(clients.getSelectionModel().getSelectedItem().getId());
                         } catch (Exception ex) {
                             AlertDialogs.showErrors(ex);
                         }
@@ -638,6 +642,7 @@ public class ClientsAccountsController implements Initializable {
             protected void succeeded() {
                 progress.setVisible(false);
                 accTab.setItems(data);
+                total.setText(totalAcc);
                 super.succeeded();
             }
         };

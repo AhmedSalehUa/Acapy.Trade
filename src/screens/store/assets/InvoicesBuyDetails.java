@@ -17,6 +17,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 import screens.store.StoreScreenInvoicesController;
+import screens.store.assets.combo.ProductCombo;
 
 /**
  *
@@ -117,7 +118,7 @@ public class InvoicesBuyDetails {
 
     public InvoicesBuyDetails(int id, ObservableList<Products> data, String selectedpro, String amount, String cost, String totalCostString) {
         this.id = id;
-        this.products = new ComboBox(data);
+        this.products = new ComboBox(data); 
         products.setConverter(new StringConverter<Products>() {
             @Override
             public String toString(Products contract) {
@@ -147,13 +148,13 @@ public class InvoicesBuyDetails {
 
                 gridPane.getColumnConstraints().addAll(
                         new ColumnConstraints(100, 100, 100),
-                        new ColumnConstraints(100, 100, 100),
-                        new ColumnConstraints(100, 100, 100)
+                        new ColumnConstraints(200, 200, 200),
+                        new ColumnConstraints(200, 200, 200)
                 );
 
                 gridPane.add(lblid, 0, 1);
                 gridPane.add(lblName, 1, 1);
-                gridPane.add(lblQuali, 2, 1);
+                gridPane.add(lblQuali, 0, 2);
 
             }
 

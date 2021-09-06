@@ -19,8 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="569.0" prefWidth="1350.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="screens.Accounts.ProvidersAccountsController">
+<AnchorPane id="AnchorPane" prefHeight="569.0" prefWidth="1350.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="screens.Accounts.ProvidersAccountsController">
    <children>
       <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
@@ -28,6 +27,16 @@
                <children>
                   <HBox alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="1317.0">
                      <children>
+                        <Label fx:id="total" alignment="CENTER" prefHeight="29.0" prefWidth="102.0" textAlignment="CENTER">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" prefHeight="29.0" prefWidth="102.0" text="الاحمالي" textAlignment="CENTER">
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </Label>
                         <ComboBox fx:id="providers" nodeOrientation="RIGHT_TO_LEFT" onAction="#getAccountsData" prefHeight="37.0" prefWidth="181.0" />
                         <Label alignment="CENTER" prefHeight="29.0" prefWidth="102.0" text="المورد" textAlignment="CENTER">
                            <font>

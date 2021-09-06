@@ -28,6 +28,7 @@
                   <Button id="doctorNew" mnemonicParsing="false" onAction="#apply" prefHeight="39.0" prefWidth="135.0" stylesheets="@../../assets/styles/lightMode.css" text="Apply" />
                </children>
             </HBox>
+            <Button id="doctorNew" mnemonicParsing="false" onAction="#updateDataBase" prefHeight="39.0" prefWidth="185.0" stylesheets="@../../assets/styles/lightMode.css" text="Update Database" />
          </children>
       </VBox>
    </children>

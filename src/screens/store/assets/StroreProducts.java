@@ -111,15 +111,15 @@ public class StroreProducts {
     }
      public static ObservableList<StroreProducts> getData() throws Exception {
     ObservableList<StroreProducts> data = FXCollections.observableArrayList();
-        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_store_products`.`id`,`st_store_products`.`invoice_id`, `st_stores`.`name` , `st_products`.`name`, `st_store_products`.`amount`, `st_store_products`.`cost_of_buy`, `st_store_products`.`cost_for_sell` FROM `st_store_products`,`st_stores`,`st_products` WHERE `st_products`.`id` = `st_store_products`.`product_id` AND  `st_stores`.`id` = `st_store_products`.`store_id`");
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_store_products`.`id`,`st_store_products`.`invoice_id`, `st_stores`.`name` ,  CONCAT(`st_products`.`name`,'  ', `st_products`.`model`) as 'name', `st_store_products`.`amount`, `st_store_products`.`cost_of_buy`, `st_store_products`.`cost_for_sell` FROM `st_store_products`,`st_stores`,`st_products` WHERE `st_products`.`id` = `st_store_products`.`product_id` AND  `st_stores`.`id` = `st_store_products`.`store_id`");
         while(rs.next()){
             data.add(new StroreProducts(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7)));
         }
         return data;
     }
-  public static ObservableList<StroreProducts> getDataForStore(int store_id) throws Exception {
+    public static ObservableList<StroreProducts> getDataForStore(int store_id) throws Exception {
     ObservableList<StroreProducts> data = FXCollections.observableArrayList();
-        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_store_products`.`id`,`st_store_products`.`invoice_id`, `st_stores`.`name` , `st_products`.`name`, `st_store_products`.`amount`, `st_store_products`.`cost_of_buy`, `st_store_products`.`cost_for_sell` FROM `st_store_products`,`st_stores`,`st_products` WHERE `st_products`.`id` = `st_store_products`.`product_id` AND  `st_stores`.`id` = `st_store_products`.`store_id` AND `st_store_products`.`store_id`='"+store_id+"'");
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_store_products`.`id`,`st_store_products`.`invoice_id`,`st_stores`.`name` ,  CONCAT(`st_products`.`name`,'  ', `st_products`.`model`) as 'name', `st_store_products`.`amount`, `st_store_products`.`cost_of_buy`, `st_store_products`.`cost_for_sell` FROM `st_store_products`,`st_stores`,`st_products` WHERE `st_products`.`id` = `st_store_products`.`product_id` AND  `st_stores`.`id` = `st_store_products`.`store_id` AND `st_store_products`.`store_id`='"+store_id+"'");
         while(rs.next()){
             data.add(new StroreProducts(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7)));
         }

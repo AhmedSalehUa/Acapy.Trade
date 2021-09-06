@@ -13,6 +13,8 @@ import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -76,6 +78,8 @@ public class StoreScreenStoresController implements Initializable {
     private TableColumn<StroreProducts, String> productsTabCost;
     @FXML
     private TableColumn<StroreProducts, String> productsTabCostOfSell;
+    @FXML
+    private JFXTextField searchProducts;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -410,10 +414,34 @@ public class StoreScreenStoresController implements Initializable {
             protected void succeeded() {
                 progress.setVisible(false);
                 productsTable.setItems(dataForStore);
+                dataOfStore= dataForStore;
                 super.succeeded();
             }
         };
         service.start();
+    }
+  ObservableList<StroreProducts> dataOfStore;
+    @FXML
+    private void searchProducts(KeyEvent event) {
+         FilteredList<StroreProducts> filteredData = new FilteredList<>(dataOfStore, p -> true);
+
+        filteredData.setPredicate(pa -> {
+
+            if (searchProducts.getText() == null || searchProducts.getText().isEmpty()) {
+                return true;
+            }
+
+            String lowerCaseFilter = searchProducts.getText().toLowerCase();
+
+            return (pa.getProduct().contains(lowerCaseFilter)
+                    || pa.getCostOfBuy().contains(lowerCaseFilter) 
+                    || pa.getCostOfSell().contains(lowerCaseFilter));
+
+        });
+
+        SortedList<StroreProducts> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(productsTable.comparatorProperty());
+        productsTable.setItems(sortedData);
     }
 
 }

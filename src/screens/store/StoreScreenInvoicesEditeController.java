@@ -101,6 +101,8 @@ public class StoreScreenInvoicesEditeController implements Initializable {
     private CheckBox onNote;
     @FXML
     private TextField filesPath;
+    @FXML
+    private CheckBox addtionalCost;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -179,8 +181,9 @@ public class StoreScreenInvoicesEditeController implements Initializable {
         try {
             InvoicesBuy in = InvoicesBuy.getDataById(id).get(0);
             notes.setText(in.getNotes());
-            invoiceTotal.setText(in.getCost()); 
-            onNote.setSelected( in.getPayType() == null ? false :  in.getPayType().equals("تقسيط"));
+            invoiceTotal.setText(in.getCost());
+            onNote.setSelected(in.getPayType() == null ? false : in.getPayType().equals("تقسيط"));
+            addtionalCost.setSelected(Boolean.parseBoolean(in.getHasTaxs()));
             invoiceLastTotal.setText(in.getTotal_cost());
             invoicedisc.setText(in.getDicount());
             date.setValue(LocalDate.parse(in.getDate()));
@@ -244,7 +247,9 @@ public class StoreScreenInvoicesEditeController implements Initializable {
                 total += Double.parseDouble(a.getAmount().getText()) * Double.parseDouble(a.getCost().getText());
             }
             invoiceTotal.setText(Double.toString(total));
-
+            if (addtionalCost.isSelected()) {
+                invoiceTotal.setText(Double.toString(total + ((14 * total) / 100)));
+            }
             double discount = 0;
             double discountPercent = 0;
             if (invoicedisc.getText().isEmpty()) {
@@ -564,6 +569,7 @@ public class StoreScreenInvoicesEditeController implements Initializable {
                                             items.remove(items.size() - 1);
                                             in.setDetails(items);
                                             in.setPayType(onNote.isSelected() ? "تقسيط" : "كاش");
+                                             in.setHasTaxs(addtionalCost.isSelected() ? "true" : "false");
                                             if (filesPath.getText().isEmpty() || filesPath.getText().length() == 0) {
                                                 in.EditeWithoutPhoto();
                                             } else {
@@ -626,6 +632,11 @@ public class StoreScreenInvoicesEditeController implements Initializable {
         if (file != null) {
             filesPath.setText(file.getAbsolutePath());
         }
+    }
+
+    @FXML
+    private void addDariba(ActionEvent event) {
+        setTotal("");
     }
 
 }

@@ -27,6 +27,7 @@ public class InvoicesBuy {
     String total_cost;
     String date;
     String payType;
+    String hasTaxs;
     InputStream doc;
     String ext;
     String notes;
@@ -35,7 +36,7 @@ public class InvoicesBuy {
     public InvoicesBuy() {
     }
 
-    public InvoicesBuy(int id, String date, String provider, String cost, String dicount, String total_cost, String payType, int account_id, String notes) {
+    public InvoicesBuy(int id, String date, String provider, String cost, String dicount, String total_cost, String payType, String hasTaxs, int account_id, String notes) {
         this.id = id;
         this.provider = provider;
         this.acc_id = account_id;
@@ -44,6 +45,7 @@ public class InvoicesBuy {
         this.total_cost = total_cost;
         this.date = date;
         this.payType = payType;
+        this.hasTaxs = hasTaxs;
         this.notes = notes;
     }
 
@@ -127,6 +129,14 @@ public class InvoicesBuy {
         this.payType = payType;
     }
 
+    public String getHasTaxs() {
+        return hasTaxs;
+    }
+
+    public void setHasTaxs(String hasTaxs) {
+        this.hasTaxs = hasTaxs;
+    }
+
     public InputStream getDoc() {
         return doc;
     }
@@ -160,7 +170,7 @@ public class InvoicesBuy {
     }
 
     public boolean Add() throws Exception {
-        PreparedStatement ps = db.get.Prepare("INSERT INTO `st_invoices`(`id`, `date`, `provider_id`, `cost`, `discount`, `total_cost`, `pay_type`, `doc`, `doc_ext`, `account_id`, `notes`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+        PreparedStatement ps = db.get.Prepare("INSERT INTO `st_invoices`(`id`, `date`, `provider_id`, `cost`, `discount`, `total_cost`, `pay_type`,`hasTaxs`, `doc`, `doc_ext`, `account_id`, `notes`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
         ps.setInt(1, id);
         ps.setString(2, date);
         ps.setInt(3, provider_id);
@@ -168,17 +178,18 @@ public class InvoicesBuy {
         ps.setString(5, dicount);
         ps.setString(6, total_cost);
         ps.setString(7, payType);
-        ps.setBlob(8, doc);
-        ps.setString(9, ext);
-        ps.setInt(10, acc_id);
-        ps.setString(11, notes);
+        ps.setString(8, hasTaxs);
+        ps.setBlob(9, doc);
+        ps.setString(10, ext);
+        ps.setInt(11, acc_id);
+        ps.setString(12, notes);
         ps.execute();
         AddDetails();
         return true;
     }
 
     public boolean AddWithoutPhoto() throws Exception {
-        PreparedStatement ps = db.get.Prepare("INSERT INTO `st_invoices`(`id`, `date`, `provider_id`, `cost`, `discount`, `total_cost`, `pay_type`, `account_id`, `notes`) VALUES (?,?,?,?,?,?,?,?,?)");
+        PreparedStatement ps = db.get.Prepare("INSERT INTO `st_invoices`(`id`, `date`, `provider_id`, `cost`, `discount`, `total_cost`, `pay_type`,`hasTaxs`, `account_id`, `notes`) VALUES (?,?,?,?,?,?,?,?,?,?)");
         ps.setInt(1, id);
         ps.setString(2, date);
         ps.setInt(3, provider_id);
@@ -186,8 +197,9 @@ public class InvoicesBuy {
         ps.setString(5, dicount);
         ps.setString(6, total_cost);
         ps.setString(7, payType);
-        ps.setInt(8, acc_id);
-        ps.setString(9, notes);
+         ps.setString(8, hasTaxs);
+        ps.setInt(9, acc_id);
+        ps.setString(10, notes);
         ps.execute();
         AddDetails();
         return true;
@@ -195,18 +207,19 @@ public class InvoicesBuy {
 
     public boolean Edite() throws Exception {
         DeleteDetails();
-        PreparedStatement ps = db.get.Prepare("UPDATE `st_invoices` SET `date`=?,`provider_id`=?,`cost`=?,`discount`=?,`total_cost`=?,`pay_type`=?,`doc`=?,`doc_ext`=?,`account_id`=?,`notes`=? WHERE `id`=?");
+        PreparedStatement ps = db.get.Prepare("UPDATE `st_invoices` SET `date`=?,`provider_id`=?,`cost`=?,`discount`=?,`total_cost`=?,`pay_type`=?,`hasTaxs`=?,`doc`=?,`doc_ext`=?,`account_id`=?,`notes`=? WHERE `id`=?");
         ps.setString(1, date);
         ps.setInt(2, provider_id);
         ps.setString(3, cost);
         ps.setString(4, dicount);
         ps.setString(5, total_cost);
         ps.setString(6, payType);
-        ps.setBlob(7, doc);
-        ps.setString(8, ext);
-        ps.setInt(9, acc_id);
-        ps.setString(10, notes);
-        ps.setInt(11, id);
+        ps.setString(7, hasTaxs);
+        ps.setBlob(8, doc);
+        ps.setString(9, ext);
+        ps.setInt(10, acc_id);
+        ps.setString(11, notes);
+        ps.setInt(12, id);
         AddDetails();
         ps.execute();
         return true;
@@ -214,16 +227,17 @@ public class InvoicesBuy {
 
     public boolean EditeWithoutPhoto() throws Exception {
         DeleteDetails();
-        PreparedStatement ps = db.get.Prepare("UPDATE `st_invoices` SET `date`=?,`provider_id`=?,`cost`=?,`discount`=?,`total_cost`=?,`pay_type`=?,`account_id`=?,`notes`=? WHERE `id`=?");
+        PreparedStatement ps = db.get.Prepare("UPDATE `st_invoices` SET `date`=?,`provider_id`=?,`cost`=?,`discount`=?,`total_cost`=?,`pay_type`=?,`hasTaxs`=?,`account_id`=?,`notes`=? WHERE `id`=?");
         ps.setString(1, date);
         ps.setInt(2, provider_id);
         ps.setString(3, cost);
         ps.setString(4, dicount);
         ps.setString(5, total_cost);
         ps.setString(6, payType);
-        ps.setInt(7, acc_id);
-        ps.setString(8, notes);
-        ps.setInt(9, id);
+         ps.setString(7, hasTaxs);
+        ps.setInt(8, acc_id);
+        ps.setString(9, notes);
+        ps.setInt(10, id);
         ps.execute();
         AddDetails();
         return true;
@@ -246,7 +260,7 @@ public class InvoicesBuy {
             ps.setInt(2, b.getId());
             ps.setString(3, a.getCost().getText());
             ps.setString(4, a.getAmount().getText());
-            ps.setString(5, Integer.toString(Integer.parseInt(a.getAmount().getText()) * Integer.parseInt(a.getCost().getText())));
+            ps.setString(5, Double.toString(Double.parseDouble(a.getAmount().getText()) * Double.parseDouble(a.getCost().getText())));
             ps.addBatch();
         }
         ps.executeBatch();
@@ -262,36 +276,36 @@ public class InvoicesBuy {
 
     public static ObservableList<InvoicesBuy> getData() throws Exception {
         ObservableList<InvoicesBuy> data = FXCollections.observableArrayList();
-        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_invoices`.`id`, `st_invoices`.`date`,`st_provider`.`name`, `st_invoices`.`cost`, `st_invoices`.`discount`, `st_invoices`.`total_cost`, `st_invoices`.`pay_type` , `st_invoices`.`account_id`, `st_invoices`.`notes` FROM `st_invoices`,`st_provider` WHERE `st_provider`.`id` = `st_invoices`.`provider_id` ");
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_invoices`.`id`, `st_invoices`.`date`,`st_provider`.`name`, `st_invoices`.`cost`, `st_invoices`.`discount`, `st_invoices`.`total_cost`, `st_invoices`.`pay_type`, `st_invoices`.`hasTaxs` , `st_invoices`.`account_id`, `st_invoices`.`notes` FROM `st_invoices`,`st_provider` WHERE `st_provider`.`id` = `st_invoices`.`provider_id` ");
         while (rs.next()) {
-            data.add(new InvoicesBuy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9)));
+            data.add(new InvoicesBuy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getInt(9), rs.getString(10)));
         }
         return data;
     }
 
     public static ObservableList<InvoicesBuy> getDataById(int id) throws Exception {
         ObservableList<InvoicesBuy> data = FXCollections.observableArrayList();
-        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_invoices`.`id`, `st_invoices`.`date`,`st_provider`.`name`, `st_invoices`.`cost`, `st_invoices`.`discount`, `st_invoices`.`total_cost`, `st_invoices`.`pay_type`, `st_invoices`.`account_id`, `st_invoices`.`notes` FROM `st_invoices`,`st_provider` WHERE `st_provider`.`id` = `st_invoices`.`provider_id` AND `st_invoices`.`id`='" + id + "'");
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_invoices`.`id`, `st_invoices`.`date`,`st_provider`.`name`, `st_invoices`.`cost`, `st_invoices`.`discount`, `st_invoices`.`total_cost`, `st_invoices`.`pay_type`, `st_invoices`.`hasTaxs`, `st_invoices`.`account_id`, `st_invoices`.`notes` FROM `st_invoices`,`st_provider` WHERE `st_provider`.`id` = `st_invoices`.`provider_id` AND `st_invoices`.`id`='" + id + "'");
         while (rs.next()) {
-            data.add(new InvoicesBuy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9)));
+            data.add(new InvoicesBuy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getInt(9), rs.getString(10)));
         }
         return data;
     }
 
     public static ObservableList<InvoicesBuy> getDataNotInStore() throws Exception {
         ObservableList<InvoicesBuy> data = FXCollections.observableArrayList();
-        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_invoices`.`id`, `st_invoices`.`date`,`st_provider`.`name`, `st_invoices`.`cost`, `st_invoices`.`discount`, `st_invoices`.`total_cost`, `st_invoices`.`pay_type`, `st_invoices`.`account_id`, `st_invoices`.`notes` FROM `st_invoices`,`st_provider` WHERE `st_provider`.`id` = `st_invoices`.`provider_id` AND `st_invoices`.`id` NOT IN (SELECT `invoice_id` FROM `st_store_products` )");
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_invoices`.`id`, `st_invoices`.`date`,`st_provider`.`name`, `st_invoices`.`cost`, `st_invoices`.`discount`, `st_invoices`.`total_cost`, `st_invoices`.`pay_type`, `st_invoices`.`hasTaxs`, `st_invoices`.`account_id`, `st_invoices`.`notes` FROM `st_invoices`,`st_provider` WHERE `st_provider`.`id` = `st_invoices`.`provider_id` AND `st_invoices`.`id` NOT IN (SELECT `invoice_id` FROM `st_store_products` )");
         while (rs.next()) {
-            data.add(new InvoicesBuy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9)));
+            data.add(new InvoicesBuy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getInt(9), rs.getString(10)));
         }
         return data;
     }
 
     public static ObservableList<InvoicesBuy> getDataForProvider(int providerId) throws Exception {
         ObservableList<InvoicesBuy> data = FXCollections.observableArrayList();
-        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_invoices`.`id`, `st_invoices`.`date`,`st_provider`.`name`, `st_invoices`.`cost`, `st_invoices`.`discount`, `st_invoices`.`total_cost`, `st_invoices`.`pay_type`, `st_invoices`.`account_id`, `st_invoices`.`notes` FROM `st_invoices`,`st_provider` WHERE `st_provider`.`id` = `st_invoices`.`provider_id` AND `st_invoices`.`provider_id`='" + providerId + "'");
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_invoices`.`id`, `st_invoices`.`date`,`st_provider`.`name`, `st_invoices`.`cost`, `st_invoices`.`discount`, `st_invoices`.`total_cost`, `st_invoices`.`pay_type`, `st_invoices`.`hasTaxs`, `st_invoices`.`account_id`, `st_invoices`.`notes` FROM `st_invoices`,`st_provider` WHERE `st_provider`.`id` = `st_invoices`.`provider_id` AND `st_invoices`.`provider_id`='" + providerId + "'");
         while (rs.next()) {
-            data.add(new InvoicesBuy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9)));
+            data.add(new InvoicesBuy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getInt(9), rs.getString(10)));
         }
         return data;
     }
@@ -300,7 +314,7 @@ public class InvoicesBuy {
         ObservableList<InvoicesBuy> data = FXCollections.observableArrayList();
         ResultSet rs = db.get.getReportCon().createStatement().executeQuery(sql);
         while (rs.next()) {
-            data.add(new InvoicesBuy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9)));
+            data.add(new InvoicesBuy(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getInt(9), rs.getString(10)));
         }
         return data;
     }

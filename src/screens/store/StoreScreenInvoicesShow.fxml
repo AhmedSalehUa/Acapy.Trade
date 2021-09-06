@@ -85,6 +85,7 @@
                   <TableView fx:id="invoiceTable" prefHeight="136.0" prefWidth="1311.0" HBox.hgrow="ALWAYS">
                      <columns>
                         <TableColumn fx:id="invoiceTabNotes" prefWidth="75.0" text="ملاحظات" />
+                        <TableColumn fx:id="invoiceTabTax" prefWidth="75.0" text="الضرايب" />
                         <TableColumn fx:id="invoiceTabTotalCost" prefWidth="75.0" text="السعر بعد الخصم" />
                         <TableColumn fx:id="invoiceTabAccId" prefWidth="75.0" text="رقم الحساب" />
                         <TableColumn fx:id="invoiceTabDisc" prefWidth="75.0" text="الخصم" />

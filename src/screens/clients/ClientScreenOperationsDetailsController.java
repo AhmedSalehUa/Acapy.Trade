@@ -200,7 +200,7 @@ public class ClientScreenOperationsDetailsController implements Initializable {
                 productstore.setConverter(new StringConverter<Products>() {
                     @Override
                     public String toString(Products patient) {
-                        return patient.getName();
+                        return patient.getName() + patient.getModel();
                     }
 
                     @Override
@@ -219,8 +219,8 @@ public class ClientScreenOperationsDetailsController implements Initializable {
                     {
                         // Ensure all our column widths are constant
                         gridPane.getColumnConstraints().addAll(
-                                new ColumnConstraints(100, 100, 100),
-                                new ColumnConstraints(100, 100, 100)
+                                new ColumnConstraints(20, 20, 20),
+                                new ColumnConstraints(200, 200, 200)
                         );
 
                         gridPane.add(lblid, 0, 1);
@@ -237,7 +237,7 @@ public class ClientScreenOperationsDetailsController implements Initializable {
 
                             // Update our Labels
                             lblid.setText("م: " + Integer.toString(person.getId()));
-                            lblName.setText("الاسم: " + person.getName());
+                            lblName.setText("الاسم: " + person.getName() + person.getModel());
 
                             setGraphic(gridPane);
                         } else {
@@ -393,6 +393,8 @@ public class ClientScreenOperationsDetailsController implements Initializable {
                                         OperationsDetails opd = new OperationsDetails();
                                         opd.setId(Integer.parseInt(id.getText()));
                                         opd.Delete();
+                                         parentController.reduceAccount(OPERATION_ID, tab.getSelectionModel().getSelectedItem().getTotal_cost());
+                                       
                                     }
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);

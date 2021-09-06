@@ -7,7 +7,9 @@ package screens.settings;
 
 import acapy.trade.AcapyTrade;
 import acapy.trade.LoginController;
-import static assets.classes.statics.*; 
+import assets.classes.AlertDialogs;
+import static assets.classes.statics.*;
+import assets.classes.template;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -45,7 +47,7 @@ public class SettingsController implements Initializable {
         prefs = Preferences.userNodeForPackage(AcapyTrade.class);
         colorSelection.getItems().add("lightMode");
         colorSelection.getItems().add("darkMode");
-        colorSelection.getSelectionModel().select(prefs.get(THEME, DEFAULT_THEME)); 
+        colorSelection.getSelectionModel().select(prefs.get(THEME, DEFAULT_THEME));
     }
 
     @FXML
@@ -70,6 +72,18 @@ public class SettingsController implements Initializable {
             st.setScene(sc);
         } catch (IOException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void updateDataBase(ActionEvent event) {
+        try {
+            if (template.setChanges()) {
+                
+                AlertDialogs.showmessage("تم");
+            }
+        } catch (Exception ex) {
+             AlertDialogs.showErrors(ex);
         }
     }
 

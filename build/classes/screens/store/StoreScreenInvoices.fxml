@@ -62,11 +62,21 @@
                                                 </Label>
                                              </children>
                                           </HBox>
-                                          <HBox alignment="CENTER" prefHeight="69.0" prefWidth="451.0">
+                                          <HBox alignment="CENTER" prefHeight="69.0" prefWidth="451.0" spacing="20.0">
                                              <children>
+                                                <CheckBox fx:id="hasTaxes" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#removeSelect" text="الاسعار شاملة الضريبة">
+                                                   <font>
+                                                      <Font size="16.0" />
+                                                   </font>
+                                                </CheckBox>
+                                                <CheckBox fx:id="addtionalCost" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#addDariba" text="ضريبة القيمة المضافة">
+                                                   <font>
+                                                      <Font size="16.0" />
+                                                   </font>
+                                                </CheckBox>
                                                 <CheckBox fx:id="onNote" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="اجل">
                                                    <font>
-                                                      <Font size="18.0" />
+                                                      <Font size="16.0" />
                                                    </font>
                                                 </CheckBox>
                                              </children>
@@ -199,8 +209,8 @@
                                              </font>
                                           </Label>
                                           <TextField id="formField" fx:id="invoiceTotal" alignment="CENTER" editable="false" prefHeight="36.0" prefWidth="230.0" text="0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
-                                          <TextField id="formField" fx:id="invoicedisc" alignment="CENTER" prefHeight="36.0" prefWidth="230.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                          <TextField id="formField" fx:id="invoiceDiscPercent" alignment="CENTER" prefHeight="36.0" prefWidth="230.0" />
+                                          <TextField id="formField" fx:id="invoicedisc" alignment="CENTER" onKeyReleased="#setDiscounts" prefHeight="36.0" prefWidth="230.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <TextField id="formField" fx:id="invoiceDiscPercent" alignment="CENTER" onKeyReleased="#setDiscounts" prefHeight="36.0" prefWidth="230.0" />
                                           <TextField id="formField" fx:id="invoiceLastTotal" alignment="CENTER" prefHeight="36.0" prefWidth="230.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                                        </children>
                                     </GridPane>

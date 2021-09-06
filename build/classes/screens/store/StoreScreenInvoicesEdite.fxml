@@ -54,8 +54,13 @@
                               </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="69.0" prefWidth="451.0">
+                        <HBox alignment="CENTER" prefHeight="69.0" prefWidth="451.0" spacing="20.0">
                            <children>
+                              <CheckBox fx:id="addtionalCost" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#addDariba" text="ضريبة القيمة المضافة">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </CheckBox>
                               <CheckBox fx:id="onNote" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="اجل">
                                  <font>
                                     <Font size="18.0" />

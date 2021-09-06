@@ -118,6 +118,8 @@ public class ClientScreenOperationsController implements Initializable {
     private AnchorPane memberPane;
     @FXML
     private TabPane tabs;
+    @FXML
+    private AnchorPane costPane;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -213,11 +215,13 @@ public class ClientScreenOperationsController implements Initializable {
                 detailsController.setId(selected.getId());
 
                 memberController.setId(selected.getId());
+                costControll.setId(selected.getId());
             }
         });
     }
     ClientScreenOperationsDetailsController detailsController;
     ClientScreenOperationsMembersController memberController;
+    ClientScreenOperationsCostsController costControll;
 
     public void configPanels() {
 
@@ -233,6 +237,12 @@ public class ClientScreenOperationsController implements Initializable {
             memberPane.getChildren().add(fxEdite.load());
             memberController = fxEdite.getController();
             memberController.setParentController(ClientScreenOperationsController.this);
+
+            costPane.getChildren().clear();
+            FXMLLoader fxCost = new FXMLLoader(getClass().getResource("ClientScreenOperationsCosts.fxml"));
+            costPane.getChildren().add(fxCost.load());
+            costControll = fxCost.getController();
+            costControll.setParentController(ClientScreenOperationsController.this);
         } catch (IOException ex) {
             AlertDialogs.showErrors(ex);
         }
@@ -283,7 +293,7 @@ public class ClientScreenOperationsController implements Initializable {
                 client.setConverter(new StringConverter<Clients>() {
                     @Override
                     public String toString(Clients patient) {
-                        return patient.getName();
+                        return patient.getOrganization();
                     }
 
                     @Override
@@ -298,8 +308,8 @@ public class ClientScreenOperationsController implements Initializable {
                     Label lblid = new Label();
                     Label lblName = new Label();
                     Label lblOrg = new Label();
- 
-                    { 
+
+                    {
                         gridPane.getColumnConstraints().addAll(
                                 new ColumnConstraints(100, 100, 100),
                                 new ColumnConstraints(100, 100, 100),
@@ -310,7 +320,7 @@ public class ClientScreenOperationsController implements Initializable {
                         gridPane.add(lblName, 1, 1);
                         gridPane.add(lblOrg, 2, 1);
 
-                    }  
+                    }
 
                     @Override
                     protected void updateItem(Clients person, boolean empty) {

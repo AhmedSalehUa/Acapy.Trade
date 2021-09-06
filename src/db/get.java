@@ -40,7 +40,7 @@ public class get {
             Preferences prefs = Preferences.userNodeForPackage(AcapyTrade.class);
 
             Class.forName("com.mysql.jdbc.Driver");
-            url = "jdbc:mysql://" + prefs.get(statics.DATABASE_IP, "127.0.0.1") + ":3306/acapytrade?useUnicode=true&characterEncoding=UTF-8";
+            url = "jdbc:mysql://" + prefs.get(statics.DATABASE_IP, "192.168.1.90") + ":3306/acapytrade?useUnicode=true&characterEncoding=UTF-8";
 
         } catch (ClassNotFoundException ex) {
             throw new Exception("error in database url");

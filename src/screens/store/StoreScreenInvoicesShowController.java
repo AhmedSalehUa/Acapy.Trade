@@ -91,7 +91,9 @@ public class StoreScreenInvoicesShowController implements Initializable {
     private TableColumn<InvoicesBuyDetails, String> invoiceTabAccId;
 
     String repName = " ";
-    String sql = "SELECT st_invoices.id,st_invoices.date,st_provider.name,st_invoices.cost,st_invoices.discount,st_invoices.total_cost,st_invoices.pay_type,st_invoices.account_id,st_invoices.notes from st_invoices,st_provider where st_invoices.provider_id = st_provider.id";
+    String sql = "SELECT st_invoices.id,st_invoices.date,st_provider.name,st_invoices.cost,st_invoices.discount,st_invoices.total_cost,st_invoices.pay_type, `st_invoices`.`hasTaxs`,st_invoices.account_id,st_invoices.notes from st_invoices,st_provider where st_invoices.provider_id = st_provider.id";
+    @FXML
+    private TableColumn<?, ?> invoiceTabTax;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -179,6 +181,8 @@ public class StoreScreenInvoicesShowController implements Initializable {
     }
 
     private void initColumn() {
+         invoiceTabTax.setCellValueFactory(new PropertyValueFactory<>("hasTaxs"));
+         
         invoiceTabNotes.setCellValueFactory(new PropertyValueFactory<>("notes"));
 
         invoiceTabTotalCost.setCellValueFactory(new PropertyValueFactory<>("total_cost"));
@@ -265,7 +269,7 @@ public class StoreScreenInvoicesShowController implements Initializable {
     @FXML
     private void showInvoices(ActionEvent event) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        sql = "SELECT st_invoices.id,st_invoices.date,st_provider.name,st_invoices.cost,st_invoices.discount,st_invoices.total_cost,st_invoices.pay_type,st_invoices.account_id,st_invoices.notes from st_invoices,st_provider where st_invoices.provider_id = st_provider.id";
+        sql = "SELECT st_invoices.id,st_invoices.date,st_provider.name,st_invoices.cost,st_invoices.discount,st_invoices.total_cost,st_invoices.pay_type, `st_invoices`.`hasTaxs`,st_invoices.account_id,st_invoices.notes from st_invoices,st_provider where st_invoices.provider_id = st_provider.id";
         repName = "";
         if (withProvider.isSelected()) {
             int compId = provider.getSelectionModel().getSelectedItem().getId();

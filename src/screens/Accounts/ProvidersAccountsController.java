@@ -99,6 +99,8 @@ public class ProvidersAccountsController implements Initializable {
     private Button formEdite;
     @FXML
     private Button formAdd;
+    @FXML
+    private Label total;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -430,7 +432,7 @@ public class ProvidersAccountsController implements Initializable {
     private void getAccountsData(ActionEvent event) {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
-            ObservableList<ProviderAccounts> data;
+            ObservableList<ProviderAccounts> data;String totalAcc;
 
             @Override
             protected Task<Void> createTask() {
@@ -440,6 +442,7 @@ public class ProvidersAccountsController implements Initializable {
                         try {
 
                             data = ProviderAccounts.getData(providers.getSelectionModel().getSelectedItem().getId());
+                              totalAcc = ProviderAccounts.getTotalAcc(providers.getSelectionModel().getSelectedItem().getId());
                         } catch (Exception ex) {
                             AlertDialogs.showErrors(ex);
                         }
@@ -453,6 +456,7 @@ public class ProvidersAccountsController implements Initializable {
             protected void succeeded() {
                 progress.setVisible(false);
                 accTab.setItems(data);
+                total.setText(totalAcc);
                 super.succeeded();
             }
         };

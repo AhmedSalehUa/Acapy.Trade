@@ -91,4 +91,12 @@ public class ClientsAccount {
         return data;
     }
 
+    public static String getTotalAcc(int id) throws Exception {
+        return db.get.getTableData("SELECT SUM(amount) FROM  "
+                + "  (SELECT IFNULL(SUM(CAST(`amount` as UNSIGNED)),'0') as amount FROM `cli_client_account` WHERE `client_id`='" + id + "' "
+                + "      UNION ALL  "
+                + "   SELECT IFNULL(0 - SUM(CAST(`amount` as UNSIGNED)),'0') as amount FROM `cli_client_pays` WHERE `client_acc_id` in (SELECT id from cli_client_account where  `client_id`='" + id + "')"
+                + "   )a").getValueAt(0, 0).toString();
+    }
+
 }

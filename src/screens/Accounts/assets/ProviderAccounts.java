@@ -14,9 +14,10 @@ import javafx.collections.ObservableList;
  * @author AHMED
  */
 public class ProviderAccounts {
+
     int id;
     int providerID;
-    int invoiceId; 
+    int invoiceId;
     String amount;
     String date;
 
@@ -70,12 +71,22 @@ public class ProviderAccounts {
     public void setDate(String date) {
         this.date = date;
     }
-     public static ObservableList<ProviderAccounts> getData(int id) throws Exception {
+
+    public static ObservableList<ProviderAccounts> getData(int id) throws Exception {
         ObservableList<ProviderAccounts> data = FXCollections.observableArrayList();
-        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `id`, `provider_id`, `invoice_id`, `date`, `amount` FROM `st_provider_accounts` WHERE `provider_id`='"+id+"'");
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `id`, `provider_id`, `invoice_id`, `amount`, `date` FROM `st_provider_accounts` WHERE `provider_id`='" + id + "'");
         while (rs.next()) {
             data.add(new ProviderAccounts(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5)));
         }
         return data;
+    }
+
+    public static String getTotalAcc(int id) throws Exception {
+
+        return db.get.getTableData("  SELECT SUM(amount) FROM  "
+                + " (SELECT IFNULL(0 - SUM(CAST(`amount` as UNSIGNED)),'0') as amount FROM `st_provider_accounts` WHERE `provider_id`='" + id + "' "
+                + "   UNION ALL  "
+                + " SELECT IFNULL(SUM(CAST(`amount` as UNSIGNED)),'0') as amount FROM `st_provider_accounts_pays` WHERE `provider_id` ='" + id + "' "
+                + "  )a").getValueAt(0, 0).toString();
     }
 }

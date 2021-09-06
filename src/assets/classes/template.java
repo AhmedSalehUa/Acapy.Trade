@@ -35,27 +35,24 @@ public class template {
     public static ObservableList<String> getChanges() {
 
         ObservableList<String> d = FXCollections.observableArrayList();
-        d.add("ALTER TABLE `sl_calls` ADD `sales_id` INT NOT NULL AFTER `details`");
-        d.add("ALTER TABLE `sl_client` ADD `sales_id` INT NOT NULL AFTER `tele2`");
-        d.add("ALTER TABLE `sl_offers` ADD `sales_id` INT NOT NULL AFTER `doc_ext`");
-        d.add("ALTER TABLE `sl_offers` ADD `cost` VARCHAR(700) NOT NULL AFTER `date`, ADD `discount` VARCHAR(700) NOT NULL AFTER `cost`, ADD `discount_percent` VARCHAR(700) NOT NULL AFTER `discount`");
-        d.add("ALTER TABLE `sl_offers` ADD `notes` VARCHAR(1400) NOT NULL AFTER `sales_id`");
-        d.add("ALTER TABLE `sl_offers` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `discount` `discount` VARCHAR(700) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `discount_percent` `discount_percent` VARCHAR(700) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `total_cost` `total_cost` VARCHAR(700) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `doc` `doc` LONGBLOB NULL, CHANGE `doc_ext` `doc_ext` VARCHAR(700) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `notes` `notes` VARCHAR(1400) CHARACTER SET utf8 COLLATE  utf8_general_ci NULL");
-        d.add("ALTER TABLE `cli_maintaince` CHANGE `date` `date` DATE NOT NULL;");
-        d.add("ALTER TABLE `cli_contracts` CHANGE `num_of_visits` `num_of_visits` VARCHAR(700) NOT NULL, CHANGE `cost` `cost` VARCHAR(700) NOT NULL, CHANGE `due_after` `due_after` VARCHAR(700) NOT NULL;");
-        d.add("ALTER TABLE `st_stores` CHANGE `name` `name` VARCHAR(700) NOT NULL;");
-        d.add("ALTER TABLE `st_invoices` ADD `notes` VARCHAR(1400) NOT NULL AFTER `account_id`;");
-        d.add("ALTER TABLE `mem_member_daily_cost_details` CHANGE `product` `product_id` INT NOT NULL;");
-        d.add("");
-        d.add("");
-        d.add("");
-        d.add("");
-        d.add("");
-        d.add("");
-        d.add("");
-        d.add("");
-        d.add("");
+        d.add("ALTER TABLE `st_invoices` ADD `hasTaxs` VARCHAR(700) NOT NULL AFTER `pay_type`;");
+        d.add("CREATE TABLE `acapytrade`.`cli_operation_costs` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `operation_id` INT(11) NOT NULL , `amount` VARCHAR(700) NOT NULL , `date` DATE NOT NULL , `reason` VARCHAR(700) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
+//        d.add("");
+//        d.add("");
+//        d.add("");
+//        d.add("");
+//        d.add("");
+//        d.add("");
+//        d.add("");
         return d;
+    }
+
+    public static boolean setChanges() throws Exception {
+        ObservableList<String> a = getChanges();
+        for (String string : a) {
+            db.get.runNonQuery(string);
+        }
+        return true;
     }
     /*
     public boolean Add() throws Exception {PreparedStatement ps = db.get.Prepare("");ps.execute();return true;
