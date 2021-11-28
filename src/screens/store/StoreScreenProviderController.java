@@ -29,6 +29,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -68,7 +69,7 @@ public class StoreScreenProviderController implements Initializable {
     @FXML
     private TextField name;
     @FXML
-    private TextField address;
+    private TextArea address;
     @FXML
     private ComboBox<ProductCategory> category;
     @FXML
@@ -85,6 +86,14 @@ public class StoreScreenProviderController implements Initializable {
     private Button formEdite;
     @FXML
     private Button formAdd;
+    @FXML
+    private TableColumn<Provider, String> tabMobile;
+    @FXML
+    private TableColumn<Provider, String> tabOrganization;
+    @FXML
+    private TextField organization;
+    @FXML
+    private TextArea mobiles;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -146,7 +155,8 @@ public class StoreScreenProviderController implements Initializable {
                 address.setText(selected.getAddress());
                 total_account.setText(selected.getTotalAccount());
                 account_num.setText(selected.getAccountNumber());
-
+                organization.setText(selected.getOrganization());
+                mobiles.setText(selected.getMobiles());
                 ObservableList<ProductCategory> items1 = category.getItems();
                 for (ProductCategory a : items1) {
                     if (a.getName().equals(selected.getCategory())) {
@@ -158,6 +168,10 @@ public class StoreScreenProviderController implements Initializable {
     }
 
     private void intialColumn() {
+        tabMobile.setCellValueFactory(new PropertyValueFactory<>("mobiles"));
+
+        tabOrganization.setCellValueFactory(new PropertyValueFactory<>("organization"));
+
         tabCat.setCellValueFactory(new PropertyValueFactory<>("category"));
 
         tabAccountNum.setCellValueFactory(new PropertyValueFactory<>("accountNumber"));
@@ -185,6 +199,8 @@ public class StoreScreenProviderController implements Initializable {
         address.setText("");
         total_account.setText("");
         account_num.setText("");
+        organization.setText("");
+        mobiles.setText("");
         category.getSelectionModel().clearSelection();
     }
 
@@ -298,8 +314,8 @@ public class StoreScreenProviderController implements Initializable {
                     {
                         // Ensure all our column widths are constant
                         gridPane.getColumnConstraints().addAll(
-                                new ColumnConstraints(100, 100, 100),
-                                new ColumnConstraints(100, 100, 100)
+                                new ColumnConstraints(50, 50, 50),
+                                new ColumnConstraints(150, 150, 150)
                         );
 
                         gridPane.add(lblid, 0, 1);
@@ -482,6 +498,8 @@ public class StoreScreenProviderController implements Initializable {
                                         Provider pr = new Provider();
                                         pr.setId(Integer.parseInt(id.getText()));
                                         pr.setName(name.getText());
+                                        pr.setOrganization(organization.getText());
+                                        pr.setMobiles(mobiles.getText());
                                         pr.setAddress(address.getText());
                                         pr.setAccountNumber(account_num.getText());
                                         pr.setTotalAccount(total_account.getText());
@@ -540,6 +558,8 @@ public class StoreScreenProviderController implements Initializable {
                                     Provider pr = new Provider();
                                     pr.setId(Integer.parseInt(id.getText()));
                                     pr.setName(name.getText());
+                                    pr.setOrganization(organization.getText());
+                                    pr.setMobiles(mobiles.getText());
                                     pr.setAddress(address.getText());
                                     pr.setAccountNumber(account_num.getText());
                                     pr.setTotalAccount(total_account.getText());

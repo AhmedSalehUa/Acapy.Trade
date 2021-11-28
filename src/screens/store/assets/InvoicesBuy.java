@@ -197,7 +197,7 @@ public class InvoicesBuy {
         ps.setString(5, dicount);
         ps.setString(6, total_cost);
         ps.setString(7, payType);
-         ps.setString(8, hasTaxs);
+        ps.setString(8, hasTaxs);
         ps.setInt(9, acc_id);
         ps.setString(10, notes);
         ps.execute();
@@ -207,6 +207,7 @@ public class InvoicesBuy {
 
     public boolean Edite() throws Exception {
         DeleteDetails();
+        StroreProducts.delete(id);
         PreparedStatement ps = db.get.Prepare("UPDATE `st_invoices` SET `date`=?,`provider_id`=?,`cost`=?,`discount`=?,`total_cost`=?,`pay_type`=?,`hasTaxs`=?,`doc`=?,`doc_ext`=?,`account_id`=?,`notes`=? WHERE `id`=?");
         ps.setString(1, date);
         ps.setInt(2, provider_id);
@@ -227,6 +228,7 @@ public class InvoicesBuy {
 
     public boolean EditeWithoutPhoto() throws Exception {
         DeleteDetails();
+        StroreProducts.delete(id);
         PreparedStatement ps = db.get.Prepare("UPDATE `st_invoices` SET `date`=?,`provider_id`=?,`cost`=?,`discount`=?,`total_cost`=?,`pay_type`=?,`hasTaxs`=?,`account_id`=?,`notes`=? WHERE `id`=?");
         ps.setString(1, date);
         ps.setInt(2, provider_id);
@@ -234,7 +236,7 @@ public class InvoicesBuy {
         ps.setString(4, dicount);
         ps.setString(5, total_cost);
         ps.setString(6, payType);
-         ps.setString(7, hasTaxs);
+        ps.setString(7, hasTaxs);
         ps.setInt(8, acc_id);
         ps.setString(9, notes);
         ps.setInt(10, id);
@@ -245,6 +247,7 @@ public class InvoicesBuy {
 
     public boolean Delete() throws Exception {
         DeleteDetails();
+        StroreProducts.delete(id);
         PreparedStatement ps = db.get.Prepare("DELETE FROM `st_invoices` WHERE `id`=?");
         ps.setInt(1, id);
         ps.execute();

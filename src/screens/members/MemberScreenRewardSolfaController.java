@@ -28,6 +28,7 @@ import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 
 import screens.members.assets.AcapyMembers;
+import screens.sales.assets.SalesMembers;
 
 /**
  * FXML Controller class
@@ -48,6 +49,8 @@ public class MemberScreenRewardSolfaController implements Initializable {
     Label lblid = new Label();
 
     Label lblName = new Label();
+    @FXML
+    private ComboBox<SalesMembers> sales;
 
     /**
      * Initializes the controller class.
@@ -66,7 +69,6 @@ public class MemberScreenRewardSolfaController implements Initializable {
                             public void run() {
                                 try {
                                     clear();
-                                    configPanels();
                                     fillCombo1();
 
                                 } catch (Exception ex) {
@@ -82,6 +84,7 @@ public class MemberScreenRewardSolfaController implements Initializable {
                     }
                 };
             }
+
             @Override
             protected void succeeded() {
 
@@ -90,23 +93,45 @@ public class MemberScreenRewardSolfaController implements Initializable {
         };
         service.start();
     }
-    MemberScreenRewardController rewardController;
-    MemberScreenSolfaController solfaController;
+    MemberScreenRewardController memberRewardController;
+    MemberScreenSolfaController memberSolfaController;
 
-    public void configPanels() {
+    SalesScreenRewardController salesRewardController;
+    SalesScreenSolfaController salesSolfaController;
+
+    public void configPanelsForMembers() {
 
         try {
             detailsPane.getChildren().clear();
             FXMLLoader fxShow = new FXMLLoader(getClass().getResource("MemberScreenSolfa.fxml"));
             detailsPane.getChildren().add(fxShow.load());
-            solfaController = fxShow.getController();
-            solfaController.setParentController(MemberScreenRewardSolfaController.this);
+            memberSolfaController = fxShow.getController();
+            memberSolfaController.setParentController(MemberScreenRewardSolfaController.this);
 
             memberPane.getChildren().clear();
             FXMLLoader fxEdite = new FXMLLoader(getClass().getResource("MemberScreenReward.fxml"));
             memberPane.getChildren().add(fxEdite.load());
-            rewardController = fxEdite.getController();
-            rewardController.setParentController(MemberScreenRewardSolfaController.this);
+            memberRewardController = fxEdite.getController();
+            memberRewardController.setParentController(MemberScreenRewardSolfaController.this);
+        } catch (IOException ex) {
+            AlertDialogs.showErrors(ex);
+        }
+    }
+
+    public void configPanelsForSales() {
+
+        try {
+            detailsPane.getChildren().clear();
+            FXMLLoader fxShow = new FXMLLoader(getClass().getResource("SalesScreenSolfa.fxml"));
+            detailsPane.getChildren().add(fxShow.load());
+            salesSolfaController = fxShow.getController();
+            salesSolfaController.setParentController(MemberScreenRewardSolfaController.this);
+
+            memberPane.getChildren().clear();
+            FXMLLoader fxEdite = new FXMLLoader(getClass().getResource("SalesScreenReward.fxml"));
+            memberPane.getChildren().add(fxEdite.load());
+            salesRewardController = fxEdite.getController();
+            salesRewardController.setParentController(MemberScreenRewardSolfaController.this);
         } catch (IOException ex) {
             AlertDialogs.showErrors(ex);
         }
@@ -116,6 +141,7 @@ public class MemberScreenRewardSolfaController implements Initializable {
 
         Service<Void> service = new Service<Void>() {
             ObservableList<AcapyMembers> data;
+            ObservableList<SalesMembers> salesData;
 
             @Override
             protected Task<Void> createTask() {
@@ -124,7 +150,7 @@ public class MemberScreenRewardSolfaController implements Initializable {
                     protected Void call() throws Exception {
                         try {
                             data = AcapyMembers.getData();
-
+                            salesData = SalesMembers.getData();
                         } catch (Exception ex) {
                             AlertDialogs.showErrors(ex);
                         }
@@ -136,7 +162,56 @@ public class MemberScreenRewardSolfaController implements Initializable {
 
             @Override
             protected void succeeded() {
+                sales.setItems(salesData);
+                sales.setConverter(new StringConverter<SalesMembers>() {
+                    @Override
+                    public String toString(SalesMembers patient) {
+                        return patient.getName();
+                    }
 
+                    @Override
+                    public SalesMembers fromString(String string) {
+                        return null;
+                    }
+                });
+                sales.setCellFactory(cell -> new ListCell<SalesMembers>() {
+
+                    // Create our layout here to be reused for each ListCell
+                    GridPane gridPane = new GridPane();
+                    Label lblid = new Label();
+                    Label lblName = new Label();
+
+                    // Static block to configure our layout
+                    {
+                        // Ensure all our column widths are constant
+                        gridPane.getColumnConstraints().addAll(
+                                new ColumnConstraints(100, 100, 100),
+                                new ColumnConstraints(100, 100, 100)
+                        );
+
+                        gridPane.add(lblid, 0, 1);
+                        gridPane.add(lblName, 1, 1);
+
+                    }
+
+                    // We override the updateItem() method in order to provide our own layout for this Cell's graphicProperty
+                    @Override
+                    protected void updateItem(SalesMembers person, boolean empty) {
+                        super.updateItem(person, empty);
+
+                        if (!empty && person != null) {
+
+                            // Update our Labels
+                            lblid.setText("م: " + Integer.toString(person.getId()));
+                            lblName.setText("الاسم: " + person.getName());
+
+                            setGraphic(gridPane);
+                        } else {
+                            // Nothing to display here
+                            setGraphic(null);
+                        }
+                    }
+                });
                 member.setItems(data);
                 member.setConverter(new StringConverter<AcapyMembers>() {
                     @Override
@@ -201,20 +276,49 @@ public class MemberScreenRewardSolfaController implements Initializable {
 
     @FXML
     private void getDataFor(ActionEvent event) {
+        if (member.getSelectionModel().getSelectedIndex() > -1) {
+            if (sales.getSelectionModel().getSelectedIndex() > -1) {
+                sales.getSelectionModel().clearSelection();
+            } 
+            configPanelsForMembers();
+           
+            AcapyMembers selected = member.getSelectionModel().getSelectedItem();
 
-        AcapyMembers selected = member.getSelectionModel().getSelectedItem();
+            ObservableList<AcapyMembers> items3 = member.getItems();
+            for (AcapyMembers a : items3) {
+                if (a.getName().equals(selected.getName())) {
+                    member.getSelectionModel().select(a);
 
-        ObservableList<AcapyMembers> items3 = member.getItems();
-        for (AcapyMembers a : items3) {
-            if (a.getName().equals(selected.getName())) {
-                member.getSelectionModel().select(a);
-
+                }
             }
-        }
-        tabs.setVisible(true);
-        solfaController.setId(selected.getId());
+            tabs.setVisible(true);
+            memberSolfaController.setId(selected.getId());
 
-        rewardController.setId(selected.getId());
+            memberRewardController.setId(selected.getId());
+        }
+    }
+
+    @FXML
+    private void getDataForSales(ActionEvent event) {
+        if (sales.getSelectionModel().getSelectedIndex() > -1) {
+            if (member.getSelectionModel().getSelectedIndex() > -1) {
+                member.getSelectionModel().clearSelection();
+            }
+            configPanelsForSales();
+            SalesMembers selected = sales.getSelectionModel().getSelectedItem();
+
+            ObservableList<SalesMembers> items3 = sales.getItems();
+            for (SalesMembers a : items3) {
+                if (a.getName().equals(selected.getName())) {
+                    sales.getSelectionModel().select(a);
+
+                }
+            }
+            tabs.setVisible(true);
+            salesSolfaController.setId(selected.getId());
+
+            salesRewardController.setId(selected.getId());
+        }
     }
 
 }

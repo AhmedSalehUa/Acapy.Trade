@@ -331,8 +331,8 @@ public class StoreScreenInvoicesController implements Initializable {
 
                 {
                     gridPane.getColumnConstraints().addAll(
-                            new ColumnConstraints(100, 100, 100),
-                            new ColumnConstraints(100, 100, 100)
+                            new ColumnConstraints(50, 50, 50),
+                            new ColumnConstraints(150, 150, 150)
                     );
 
                     gridPane.add(lblid, 0, 1);

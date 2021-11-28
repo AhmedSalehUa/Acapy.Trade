@@ -17,19 +17,23 @@ import javafx.collections.ObservableList;
 public class Provider {
 
     int id;
+    String organization;
     String name;
+    String mobiles;
     String address;
     String accountNumber;
     String totalAccount;
     int cat_id;
-    String category; 
-    
+    String category;
+
     public Provider() {
     }
 
-    public Provider(int id, String name, String address, String accountNumber, String totalAccount, String category) {
+    public Provider(int id, String organization, String name, String mobiles, String address, String accountNumber, String totalAccount, String category) {
         this.id = id;
+        this.organization = organization;
         this.name = name;
+        this.mobiles = mobiles;
         this.address = address;
         this.accountNumber = accountNumber;
         this.totalAccount = totalAccount;
@@ -92,26 +96,46 @@ public class Provider {
         this.category = category;
     }
 
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public String getMobiles() {
+        return mobiles;
+    }
+
+    public void setMobiles(String mobiles) {
+        this.mobiles = mobiles;
+    }
+
     public boolean Add() throws Exception {
-        PreparedStatement ps = db.get.Prepare("INSERT INTO `st_provider`(`id`, `name`, `adress`, `credite`, `account_number`, `cat_id`) VALUES (?,?,?,?,?,?)");
+        PreparedStatement ps = db.get.Prepare("INSERT INTO `st_provider`(`id`, `organization`, `name`, `mobiles`, `adress`, `credite`, `account_number`, `cat_id`) VALUES (?,?,?,?,?,?,?,?)");
         ps.setInt(1, id);
-        ps.setString(2, name);
-        ps.setString(3, address);
-        ps.setString(4, totalAccount);
-        ps.setString(5, accountNumber);
-        ps.setInt(6, cat_id);
+        ps.setString(2, organization);
+        ps.setString(3, name);
+        ps.setString(4, mobiles);
+        ps.setString(5, address);
+        ps.setString(6, totalAccount);
+        ps.setString(7, accountNumber);
+        ps.setInt(8, cat_id);
         ps.execute();
         return true;
     }
 
     public boolean Edite() throws Exception {
-        PreparedStatement ps = db.get.Prepare("UPDATE `st_provider` SET `name`=?,`adress`=?,`credite`=?,`account_number`=?,`cat_id`=? WHERE `id`=?");
+        PreparedStatement ps = db.get.Prepare("UPDATE `st_provider` SET `name`=?,`adress`=?,`credite`=?,`account_number`=?,`cat_id`=?,`organization`=?,`mobiles`=? WHERE `id`=?");
         ps.setString(1, name);
         ps.setString(2, address);
         ps.setString(3, totalAccount);
         ps.setString(4, accountNumber);
         ps.setInt(5, cat_id);
-        ps.setInt(6, id);
+        ps.setString(6, organization);
+        ps.setString(7, mobiles);
+        ps.setInt(8, id);
         ps.execute();
         return true;
     }
@@ -125,9 +149,9 @@ public class Provider {
 
     public static ObservableList<Provider> getData() throws Exception {
         ObservableList<Provider> data = FXCollections.observableArrayList();
-        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_provider`.`id`, `st_provider`.`name`, `st_provider`.`adress`, `st_provider`.`account_number`, `st_provider`.`credite`,st_products_category.name FROM `st_provider`,st_products_category WHERE st_products_category.id = st_provider.cat_id");
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_provider`.`id`, `st_provider`.`organization`,`st_provider`.`name`,`st_provider`.`mobiles`, `st_provider`.`adress`, `st_provider`.`account_number`, `st_provider`.`credite`,st_products_category.name FROM `st_provider`,st_products_category WHERE st_products_category.id = st_provider.cat_id");
         while (rs.next()) {
-            data.add(new Provider(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+            data.add(new Provider(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)));
         }
         return data;
     }

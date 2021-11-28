@@ -114,6 +114,7 @@ public class Clients {
         ps.setString(7, tele1);
         ps.setString(8, tele2);
         ps.execute();
+        System.out.println(ps.toString());
         return true;
     }
 

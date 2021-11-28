@@ -8,6 +8,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -27,11 +29,17 @@
                         <HBox>
                            <children>
                               <JFXTextField fx:id="search" focusColor="BLACK" labelFloat="true" onKeyPressed="#search" onKeyReleased="#search" onKeyTyped="#search" prefHeight="25.0" prefWidth="184.0" promptText="Search" />
+                              <Button id="btnAdd" fx:id="Doc" alignment="CENTER" contentDisplay="BOTTOM" mnemonicParsing="false" onAction="#getdoc" prefHeight="39.0" prefWidth="135.0" text="عرض البطاقة">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                              </Button>
                            </children>
                         </HBox>
                         <TableView id="patientTable" fx:id="tab" prefHeight="428.0" prefWidth="893.0">
                            <columns>
                               <TableColumn fx:id="tabapptoken" editable="false" minWidth="0.0" prefWidth="70.0" text="رمز التطبيق" />
+                              <TableColumn fx:id="tabNational" editable="false" prefWidth="169.0" text="رقم البطاقة" />
                               <TableColumn fx:id="tabaccnum" editable="false" prefWidth="169.0" text="رقم الحساب" />
                               <TableColumn fx:id="tabname" editable="false" minWidth="0.0" prefWidth="30.0" text="موظف الصيانة" />
                               <TableColumn fx:id="tabId" editable="false" minWidth="0.0" prefWidth="30.0" text="م" />
@@ -53,6 +61,8 @@
                               <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="116.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="116.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="116.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="116.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="99.0" minHeight="0.0" prefHeight="45.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
@@ -72,18 +82,39 @@
                                  </font>
                               </Label>
                               <TextField id="contractFields" fx:id="name" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="1" />
-                              <TextField id="contractFields" fx:id="accnum" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="2" />
-                              <TextField id="contractFields" fx:id="apptoken" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="3" />
-                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="103.0" text="رقم الحساب" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <TextField id="contractFields" fx:id="accnum" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="4" />
+                              <TextField id="contractFields" fx:id="apptoken" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="5" />
+                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="103.0" text="رقم الحساب" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="103.0" text="رمز التطبيق" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="103.0" text="رمز التطبيق" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
+                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="142.0" text="رقم البطاقة" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="142.0" text="صورة البطاقة" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <TextField id="contractFields" fx:id="nationalId" prefHeight="30.0" prefWidth="194.0" GridPane.rowIndex="2" />
+                              <HBox prefHeight="40.0" prefWidth="200.0" spacing="5.0" GridPane.rowIndex="3">
+                                 <children>
+                                    <ImageView fx:id="docdown" fitHeight="43.0" fitWidth="42.0" onMouseClicked="#attachFile" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../assets/icons/icons8_upload_64px.png" />
+                                       </image>
+                                    </ImageView>
+                                    <TextField id="patientFields" fx:id="nationalPhoto" editable="false" prefHeight="48.0" prefWidth="213.0" />
+                                 </children>
+                              </HBox>
                            </children>
                         </GridPane>
                         <HBox alignment="CENTER" spacing="5.0">

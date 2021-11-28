@@ -19,7 +19,8 @@ public class Operations {
     int sales_id;
     String sales_name;
     String date;
-    int total_cost;
+    String total_cost;
+    String total_spend;
     String pay_type;
     InputStream doc;
     String doc_ext;
@@ -27,12 +28,13 @@ public class Operations {
     public Operations() {
     }
 
-    public Operations(int id, String client_name, String sales_name, String date, int total_cost, String pay_type) {
+    public Operations(int id, String client_name, String sales_name, String date, String total_cost, String total_spend, String pay_type) {
         this.id = id;
         this.client_name = client_name;
         this.sales_name = sales_name;
         this.date = date;
         this.total_cost = total_cost;
+        this.total_spend = total_spend;
         this.pay_type = pay_type;
 
     }
@@ -85,12 +87,20 @@ public class Operations {
         this.date = date;
     }
 
-    public int getTotal_cost() {
+    public String getTotal_cost() {
         return total_cost;
     }
 
-    public void setTotal_cost(int total_cost) {
+    public void setTotal_cost(String total_cost) {
         this.total_cost = total_cost;
+    }
+
+    public String getTotal_spend() {
+        return total_spend;
+    }
+
+    public void setTotal_spend(String total_spend) {
+        this.total_spend = total_spend;
     }
 
     public String getPay_type() {
@@ -118,71 +128,81 @@ public class Operations {
     }
 
     public boolean Add() throws Exception {
-        PreparedStatement st = db.get.Prepare("INSERT INTO `cli_operation`(`id`, `client_id`,`sales_id`, `date` ,`total_cost`, `pay_type`,`doc`,`doc_ext`) VALUES (?,?,?,?,?,?,?,?)");
+        PreparedStatement st = db.get.Prepare("INSERT INTO `cli_operation`(`id`, `client_id`,`sales_id`, `date` ,`total_cost`,`total_spended`, `pay_type`,`doc`,`doc_ext`) VALUES (?,?,?,?,?,?,?,?,?)");
         st.setInt(1, id);
         st.setInt(2, client_id);
         st.setInt(3, sales_id);
         st.setString(4, date);
-        st.setInt(5, total_cost);
-        st.setString(6, pay_type);
-        st.setBlob(7, doc);
-        st.setString(8, doc_ext);
+        st.setString(5, total_cost);
+        st.setString(6, total_spend);
+        st.setString(7, pay_type);
+        st.setBlob(8, doc);
+        st.setString(9, doc_ext);
 
         st.execute();
         return true;
     }
 
     public boolean AddWithouPhoto() throws Exception {
-        PreparedStatement st = db.get.Prepare("INSERT INTO `cli_operation`(`id`, `client_id`,`sales_id`, `date` ,`total_cost`, `pay_type`) VALUES (?,?,?,?,?,?)");
+        PreparedStatement st = db.get.Prepare("INSERT INTO `cli_operation`(`id`, `client_id`,`sales_id`, `date` ,`total_cost`,`total_spended`, `pay_type`) VALUES (?,?,?,?,?,?,?)");
         st.setInt(1, id);
         st.setInt(2, client_id);
         st.setInt(3, sales_id);
         st.setString(4, date);
-        st.setInt(5, total_cost);
-        st.setString(6, pay_type);
+        st.setString(5, total_cost);
+        st.setString(6, total_spend);
+        st.setString(7, pay_type);
 
         st.execute();
         return true;
     }
 
     public boolean Edit() throws Exception {
-        PreparedStatement st = db.get.Prepare("UPDATE `cli_operation` SET `client_id`=?,`sales_id`=? ,`date`=? ,`total_cost`=?,`pay_type`=?,`doc`=?, `doc_ext`=? WHERE `id`=?");
+        PreparedStatement st = db.get.Prepare("UPDATE `cli_operation` SET `client_id`=?,`sales_id`=? ,`date`=? ,`total_cost`=?,`pay_type`=?,`doc`=?, `doc_ext`=?,`total_spended`=? WHERE `id`=?");
 
         st.setInt(1, client_id);
         st.setInt(2, sales_id);
         st.setString(3, date);
-        st.setInt(4, total_cost);
+        st.setString(4, total_cost);
         st.setString(5, pay_type);
         st.setBlob(6, doc);
         st.setString(7, doc_ext);
-        st.setInt(8, id);
+        st.setString(8, total_spend);
+        st.setInt(9, id);
         st.execute();
         return true;
     }
 
     public boolean EditeWithouPhoto() throws Exception {
-        PreparedStatement st = db.get.Prepare("UPDATE `cli_operation` SET `client_id`=?,`sales_id`=? ,`date`=? ,`total_cost`=?,`pay_type`=? WHERE `id`=?");
+        PreparedStatement st = db.get.Prepare("UPDATE `cli_operation` SET `client_id`=?,`sales_id`=? ,`date`=? ,`total_cost`=?,`pay_type`=?,`total_spended`=? WHERE `id`=?");
 
         st.setInt(1, client_id);
         st.setInt(2, sales_id);
         st.setString(3, date);
-        st.setInt(4, total_cost);
+        st.setString(4, total_cost);
         st.setString(5, pay_type);
-        st.setInt(6, id);
+        st.setString(6, total_spend);
+        st.setInt(7, id);
         st.execute();
         return true;
     }
 
-    public static boolean updateCost(int id , String cost) throws Exception {
+    public static boolean updateCost(int id, String cost) throws Exception {
         PreparedStatement st = db.get.Prepare("UPDATE `cli_operation` SET `total_cost`=? WHERE `id`=?");
- 
-        st.setString(1, cost); 
+
+        st.setString(1, cost);
         st.setInt(2, id);
         st.execute();
         return true;
     }
+     public static boolean updateSpended(int id, String cost) throws Exception {
+        PreparedStatement st = db.get.Prepare("UPDATE `cli_operation` SET `total_spended`=? WHERE `id`=?");
 
-     
+        st.setString(1, cost);
+        st.setInt(2, id);
+        st.execute();
+        return true;
+    }
 
     public boolean Delete() throws Exception {
         PreparedStatement st = db.get.Prepare("DELETE FROM `cli_operation` WHERE `id`=?");
@@ -195,11 +215,11 @@ public class Operations {
 
         ObservableList<Operations> data = FXCollections.observableArrayList();
 
-        String SQL = "SELECT `cli_operation`.`id`,`cli_clients`.`organization`, `sl_sales_members`.`name`,`cli_operation`.`date` ,`cli_operation`.`total_cost`, `cli_operation`.`pay_type` FROM `cli_operation`,`cli_clients`,`sl_sales_members`where `cli_operation`.`client_id`=`cli_clients`.`id`AND`cli_operation`.`sales_id`= `sl_sales_members`.`id`";
+        String SQL = "SELECT `cli_operation`.`id`,`cli_clients`.`organization`, `sl_sales_members`.`name`,`cli_operation`.`date` ,`cli_operation`.`total_cost`,`cli_operation`.`total_spended`, `cli_operation`.`pay_type` FROM `cli_operation`,`cli_clients`,`sl_sales_members`where `cli_operation`.`client_id`=`cli_clients`.`id`AND`cli_operation`.`sales_id`= `sl_sales_members`.`id`";
         ResultSet rs = db.get.getReportCon().createStatement().executeQuery(SQL);
 
         while (rs.next()) {
-            data.add(new Operations(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6)));
+            data.add(new Operations(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)));
         }
         return data;
     }

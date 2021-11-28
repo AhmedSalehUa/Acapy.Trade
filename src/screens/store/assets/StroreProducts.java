@@ -5,6 +5,7 @@
  */
 package screens.store.assets;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -109,23 +110,33 @@ public class StroreProducts {
     public void setCostOfSell(String costOfSell) {
         this.costOfSell = costOfSell;
     }
-     public static ObservableList<StroreProducts> getData() throws Exception {
-    ObservableList<StroreProducts> data = FXCollections.observableArrayList();
+
+    public static boolean delete(int id) throws Exception {
+        PreparedStatement ps = db.get.Prepare("delete from st_store_products where invoice_id=?");
+        ps.setInt(1, id);
+        ps.execute();
+        return true;
+    }
+
+    public static ObservableList<StroreProducts> getData() throws Exception {
+        ObservableList<StroreProducts> data = FXCollections.observableArrayList();
         ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_store_products`.`id`,`st_store_products`.`invoice_id`, `st_stores`.`name` ,  CONCAT(`st_products`.`name`,'  ', `st_products`.`model`) as 'name', `st_store_products`.`amount`, `st_store_products`.`cost_of_buy`, `st_store_products`.`cost_for_sell` FROM `st_store_products`,`st_stores`,`st_products` WHERE `st_products`.`id` = `st_store_products`.`product_id` AND  `st_stores`.`id` = `st_store_products`.`store_id`");
-        while(rs.next()){
-            data.add(new StroreProducts(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7)));
+        while (rs.next()) {
+            data.add(new StroreProducts(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)));
         }
         return data;
     }
+
     public static ObservableList<StroreProducts> getDataForStore(int store_id) throws Exception {
-    ObservableList<StroreProducts> data = FXCollections.observableArrayList();
-        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_store_products`.`id`,`st_store_products`.`invoice_id`,`st_stores`.`name` ,  CONCAT(`st_products`.`name`,'  ', `st_products`.`model`) as 'name', `st_store_products`.`amount`, `st_store_products`.`cost_of_buy`, `st_store_products`.`cost_for_sell` FROM `st_store_products`,`st_stores`,`st_products` WHERE `st_products`.`id` = `st_store_products`.`product_id` AND  `st_stores`.`id` = `st_store_products`.`store_id` AND `st_store_products`.`store_id`='"+store_id+"'");
-        while(rs.next()){
-            data.add(new StroreProducts(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7)));
+        ObservableList<StroreProducts> data = FXCollections.observableArrayList();
+        ResultSet rs = db.get.getReportCon().createStatement().executeQuery("SELECT `st_store_products`.`id`,`st_store_products`.`invoice_id`,`st_stores`.`name` ,  CONCAT(`st_products`.`name`,'  ', `st_products`.`model`) as 'name', `st_store_products`.`amount`, `st_store_products`.`cost_of_buy`, `st_store_products`.`cost_for_sell` FROM `st_store_products`,`st_stores`,`st_products` WHERE `st_products`.`id` = `st_store_products`.`product_id` AND  `st_stores`.`id` = `st_store_products`.`store_id` AND `st_store_products`.`store_id`='" + store_id + "'");
+        while (rs.next()) {
+            data.add(new StroreProducts(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7)));
         }
         return data;
     }
+
     public static String getAutoNum() throws Exception {
-     return db.get.getTableData("SELECT IFNULL(MAX(`id`)+1,1) FROM ``").getValueAt(0, 0).toString();
+        return db.get.getTableData("SELECT IFNULL(MAX(`id`)+1,1) FROM ``").getValueAt(0, 0).toString();
     }
 }

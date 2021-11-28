@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -32,15 +33,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 import screens.clients.assets.Clients;
 import screens.clients.assets.Contracts;
-import screens.store.assets.ProductCategory;
-import screens.store.assets.Provider;
 
 /**
  * FXML Controller class
@@ -97,6 +95,10 @@ public class ClientScreenContractController implements Initializable {
     private AnchorPane VisitsPane;
     @FXML
     private TabPane tabPane;
+    @FXML
+    private CheckBox addTaxes;
+    @FXML
+    private CheckBox withTaxs;
 
     /**
      * Initializes the controller class.
@@ -607,6 +609,35 @@ public class ClientScreenContractController implements Initializable {
             }
         };
         service.start();
+    }
+
+    @FXML
+    private void addTaxes(ActionEvent event) {
+        if (withTaxs.isSelected()) {
+            withTaxs.setSelected(false);
+
+            String total = cost.getText();
+            String afterTaxes = Double.toString((Double.parseDouble(total) * 0.14) + Double.parseDouble(total));
+
+            cost.setText(afterTaxes);
+        } else {
+            withTaxs.setSelected(true);
+            String total = cost.getText();
+            String afterTaxes = Double.toString((Double.parseDouble(total) * 100) / 114);
+
+            cost.setText(afterTaxes);
+        }
+
+    }
+
+    @FXML
+    private void hasTaxes(ActionEvent event) {
+        if (addTaxes.isSelected()) {
+            addTaxes.setSelected(false);
+           
+        } else {
+            addTaxes.setSelected(true); 
+        }
     }
 
 }

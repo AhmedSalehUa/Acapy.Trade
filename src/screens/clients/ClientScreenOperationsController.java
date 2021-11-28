@@ -120,6 +120,10 @@ public class ClientScreenOperationsController implements Initializable {
     private TabPane tabs;
     @FXML
     private AnchorPane costPane;
+    @FXML
+    private TableColumn<Operations, String> tabTotalSpended;
+    @FXML
+    private TextField totalSpended;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -209,7 +213,8 @@ public class ClientScreenOperationsController implements Initializable {
                 DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 date.setValue(LocalDate.parse(selected.getDate()));
 
-                totalcost.setText(Integer.toString(selected.getTotal_cost()));
+                totalcost.setText(selected.getTotal_cost());
+                totalSpended.setText(selected.getTotal_spend());
                 pay_type.getSelectionModel().select(selected.getPay_type());
                 tabs.setVisible(true);
                 detailsController.setId(selected.getId());
@@ -421,6 +426,35 @@ public class ClientScreenOperationsController implements Initializable {
         }
     }
 
+     public void setSpended(int id, String amount) {
+        try {
+
+            String total = totalSpended.getText().isEmpty() ? "0" : totalSpended.getText();
+            totalSpended.setText(Double.toString(Double.parseDouble(total) + Double.parseDouble(amount)));
+            Operations.updateSpended(id, totalSpended.getText());
+            getData();
+            ObservableList<Operations> values = tab.getItems();
+            for (Operations a : values) {
+                if (a.getId() == id) {
+                    tab.getSelectionModel().select(a);
+                }
+            }
+        } catch (Exception e) {
+            AlertDialogs.showErrors(e);
+        }
+    }
+
+    public void reduceSpended(int id, String amount) {
+        try {
+            String total = totalSpended.getText().isEmpty() ? "0" : totalSpended.getText();
+            totalSpended.setText(Double.toString(Double.parseDouble(total) - Double.parseDouble(amount)));
+            Operations.updateSpended(id, totalSpended.getText());
+            getData();
+        } catch (Exception e) {
+            AlertDialogs.showErrors(e);
+        }
+    }
+
     private void getAutoNum() {
         progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
@@ -456,6 +490,7 @@ public class ClientScreenOperationsController implements Initializable {
         client.getSelectionModel().clearSelection();
         sales.getSelectionModel().clearSelection();
         totalcost.setText("0");
+        totalSpended.setText("0");
         pay_type.getSelectionModel().clearSelection();
         date.setValue(null);
         docpath.setText("");
@@ -473,7 +508,7 @@ public class ClientScreenOperationsController implements Initializable {
         tabDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         tabTotalcost.setCellValueFactory(new PropertyValueFactory<>("total_cost"));
         tabPay_type.setCellValueFactory(new PropertyValueFactory<>("pay_type"));
-
+        tabTotalSpended.setCellValueFactory(new PropertyValueFactory<>("total_spend"));
     }
 
     private void getData() {
@@ -632,7 +667,8 @@ public class ClientScreenOperationsController implements Initializable {
                                             op.setSales_id(sales.getSelectionModel().getSelectedItem().getId());
                                             DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                                             op.setDate(date.getValue().format(format));
-                                            op.setTotal_cost(Integer.parseInt(totalcost.getText()));
+                                            op.setTotal_cost(totalcost.getText());
+                                            op.setTotal_spend(totalSpended.getText());
                                             op.setPay_type(pay_type.getSelectionModel().getSelectedItem());
 
                                             op.EditeWithouPhoto();
@@ -642,7 +678,8 @@ public class ClientScreenOperationsController implements Initializable {
                                             op.setSales_id(sales.getSelectionModel().getSelectedItem().getId());
                                             DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                                             op.setDate(date.getValue().format(format));
-                                            op.setTotal_cost(Integer.parseInt(totalcost.getText()));
+                                            op.setTotal_cost(totalcost.getText());
+                                            op.setTotal_spend(totalSpended.getText());
                                             op.setPay_type(pay_type.getSelectionModel().getSelectedItem());
 
                                             InputStream in = new FileInputStream(new File(docpath.getText()));
@@ -713,7 +750,8 @@ public class ClientScreenOperationsController implements Initializable {
                                         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                                         op.setDate(date.getValue().format(format));
 
-                                        op.setTotal_cost(Integer.parseInt(totalcost.getText()));
+                                        op.setTotal_cost(totalcost.getText());
+                                        op.setTotal_spend(totalSpended.getText());
                                         op.setPay_type(pay_type.getSelectionModel().getSelectedItem());
 
                                         op.AddWithouPhoto();
@@ -730,7 +768,8 @@ public class ClientScreenOperationsController implements Initializable {
                                         String[] st = docpath.getText().split(Pattern.quote("."));
                                         op.setDoc_ext(st[st.length - 1]);
 
-                                        op.setTotal_cost(Integer.parseInt(totalcost.getText()));
+                                        op.setTotal_cost(totalcost.getText());
+                                        op.setTotal_spend(totalSpended.getText());
                                         op.setPay_type(pay_type.getSelectionModel().getSelectedItem());
 
                                         op.Add();

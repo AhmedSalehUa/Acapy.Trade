@@ -37,13 +37,13 @@ public class template {
         ObservableList<String> d = FXCollections.observableArrayList();
         d.add("ALTER TABLE `st_invoices` ADD `hasTaxs` VARCHAR(700) NOT NULL AFTER `pay_type`;");
         d.add("CREATE TABLE `acapytrade`.`cli_operation_costs` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `operation_id` INT(11) NOT NULL , `amount` VARCHAR(700) NOT NULL , `date` DATE NOT NULL , `reason` VARCHAR(700) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
-//        d.add("");
-//        d.add("");
-//        d.add("");
-//        d.add("");
-//        d.add("");
-//        d.add("");
-//        d.add("");
+        d.add("ALTER TABLE `st_provider` ADD `organization` VARCHAR(700) NOT NULL AFTER `id`;");
+        d.add("ALTER TABLE `st_provider` ADD `mobiles` VARCHAR(1400) NOT NULL AFTER `name`;");
+        d.add("");
+        d.add("");
+        d.add("");
+        d.add("");
+        d.add("");
         return d;
     }
 

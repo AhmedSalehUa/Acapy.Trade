@@ -183,7 +183,7 @@ public class StoreScreenInvoicesEditeController implements Initializable {
             notes.setText(in.getNotes());
             invoiceTotal.setText(in.getCost());
             onNote.setSelected(in.getPayType() == null ? false : in.getPayType().equals("تقسيط"));
-            addtionalCost.setSelected(Boolean.parseBoolean(in.getHasTaxs()));
+            addtionalCost.setSelected(Boolean.parseBoolean(in.getHasTaxs())); 
             invoiceLastTotal.setText(in.getTotal_cost());
             invoicedisc.setText(in.getDicount());
             date.setValue(LocalDate.parse(in.getDate()));

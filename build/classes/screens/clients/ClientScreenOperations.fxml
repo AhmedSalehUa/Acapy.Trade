@@ -46,6 +46,7 @@
                               <TableView id="patientTable" fx:id="tab" prefHeight="428.0" prefWidth="893.0">
                                  <columns>
                                     <TableColumn fx:id="tabPay_type" editable="false" prefWidth="190.0" text="طريقة الدفع" />
+                                    <TableColumn fx:id="tabTotalSpended" editable="false" minWidth="0.0" prefWidth="60.0" text="اجمالي المصروفات" />
                                     <TableColumn fx:id="tabTotalcost" editable="false" minWidth="0.0" prefWidth="60.0" text="اجمالى الحساب" />
                                     <TableColumn fx:id="tabDate" editable="false" prefWidth="77.0" text="التاريخ" />
                                     <TableColumn fx:id="tabSales_name" editable="false" prefWidth="169.0" text="اسم عضو الصيانة" />
@@ -71,6 +72,7 @@
                                     <RowConstraints maxHeight="116.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                                     <RowConstraints maxHeight="116.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                                     <RowConstraints maxHeight="99.0" minHeight="0.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="99.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                                     <RowConstraints maxHeight="99.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                                     <RowConstraints maxHeight="99.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
@@ -107,20 +109,20 @@
                                     </Label>
                                     <ComboBox fx:id="client" nodeOrientation="RIGHT_TO_LEFT" prefHeight="38.0" prefWidth="231.0" GridPane.rowIndex="1" />
                                     <ComboBox fx:id="sales" nodeOrientation="RIGHT_TO_LEFT" prefHeight="37.0" prefWidth="231.0" GridPane.rowIndex="2" />
-                                    <ComboBox fx:id="pay_type" nodeOrientation="RIGHT_TO_LEFT" prefHeight="36.0" prefWidth="238.0" GridPane.rowIndex="5" />
+                                    <ComboBox fx:id="pay_type" nodeOrientation="RIGHT_TO_LEFT" prefHeight="36.0" prefWidth="238.0" GridPane.rowIndex="6" />
                                     <JFXDatePicker fx:id="date" nodeOrientation="RIGHT_TO_LEFT" prefHeight="38.0" prefWidth="269.0" GridPane.rowIndex="3" />
-                                    <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="130.0" text="طريقة الدفع" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                    <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="130.0" text="طريقة الدفع" GridPane.columnIndex="1" GridPane.rowIndex="6">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
                                     </Label>
-                                    <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="130.0" text="الملف" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                    <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="130.0" text="الملف" GridPane.columnIndex="1" GridPane.rowIndex="7">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
                                     </Label>
                                     <TextField id="patientFields" fx:id="totalcost" editable="false" prefHeight="34.0" prefWidth="179.0" text="0" GridPane.rowIndex="4" />
-                                    <HBox prefHeight="40.0" prefWidth="200.0" spacing="5.0" GridPane.rowIndex="6">
+                                    <HBox prefHeight="40.0" prefWidth="200.0" spacing="5.0" GridPane.rowIndex="7">
                                        <children>
                                           <ImageView fx:id="docdown" fitHeight="43.0" fitWidth="42.0" onMouseClicked="#attachFile" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -130,6 +132,12 @@
                                           <TextField id="patientFields" fx:id="docpath" editable="false" prefHeight="48.0" prefWidth="213.0" />
                                        </children>
                                     </HBox>
+                                    <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="152.0" text="اجمالي المصروفات" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                       <font>
+                                          <Font size="19.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField id="patientFields" fx:id="totalSpended" editable="false" prefHeight="34.0" prefWidth="179.0" text="0" GridPane.rowIndex="5" />
                                  </children>
                               </GridPane>
                               <HBox alignment="CENTER" spacing="5.0">

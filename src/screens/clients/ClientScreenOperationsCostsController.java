@@ -306,7 +306,7 @@ public class ClientScreenOperationsCostsController implements Initializable {
                                         OperationCosts opd = new OperationCosts();
                                         opd.setId(Integer.parseInt(id.getText()));
                                         opd.Delete();
-                                        parentController.reduceAccount(OPERATION_ID, tab.getSelectionModel().getSelectedItem().getAmount());
+                                        parentController.reduceSpended(OPERATION_ID, tab.getSelectionModel().getSelectedItem().getAmount());
                                         
                                     }
                                 } catch (Exception ex) {
@@ -368,14 +368,14 @@ public class ClientScreenOperationsCostsController implements Initializable {
                                         opd.setAmount(amount.getText());
                                         opd.setPayFor(payFor.getText());
                                         opd.setOperation_id(OPERATION_ID);
-                                        parentController.reduceAccount(OPERATION_ID, tab.getSelectionModel().getSelectedItem().getAmount());
+                                        parentController.reduceSpended(OPERATION_ID, tab.getSelectionModel().getSelectedItem().getAmount());
                                         opd.Edite();
-                                        parentController.setAccount(OPERATION_ID, amount.getText());
+                                        parentController.setSpended(OPERATION_ID, amount.getText());
                                     }
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
                                     ok = false;
-                                    parentController.setAccount(OPERATION_ID, tab.getSelectionModel().getSelectedItem().getAmount());
+                                    parentController.setSpended(OPERATION_ID, tab.getSelectionModel().getSelectedItem().getAmount());
                                 } finally {
                                     latch.countDown();
                                 }
@@ -426,7 +426,7 @@ public class ClientScreenOperationsCostsController implements Initializable {
                                     opd.setPayFor(payFor.getText());
                                     opd.setDate(date.getValue().format(format));
                                     opd.Add();
-                                    parentController.setAccount(OPERATION_ID, amount.getText());
+                                    parentController.setSpended(OPERATION_ID, amount.getText());
                                 } catch (Exception ex) {ok = false;
                                     AlertDialogs.showErrors(ex);
                                 } finally {

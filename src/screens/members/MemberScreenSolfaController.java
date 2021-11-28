@@ -80,10 +80,11 @@ public class MemberScreenSolfaController implements Initializable {
     private Button Add;
     MemberScreenRewardSolfaController parentController;
     int SOLFAID = 0;
-    
+    String TYPE = "";
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-         date.setConverter(new StringConverter<LocalDate>() {
+        date.setConverter(new StringConverter<LocalDate>() {
             private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
             @Override
@@ -114,11 +115,11 @@ public class MemberScreenSolfaController implements Initializable {
                             @Override
                             public void run() {
                                 try {
-                                    
+
                                     intialColumn();
-                                    
+
                                     fillCombo1();
-                                   
+
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
                                 } finally {
@@ -160,18 +161,15 @@ public class MemberScreenSolfaController implements Initializable {
                         account.getSelectionModel().select(a);
                     }
                 }
-                
+
                 DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 date.setValue(LocalDate.parse(selected.getDate()));
 
-                amount.setText(selected.getAmount());   
-              
+                amount.setText(selected.getAmount());
+
             }
         });
-    } 
-    
-    
- 
+    }
 
     private void fillCombo1() {
         progress.setVisible(true);
@@ -255,19 +253,20 @@ public class MemberScreenSolfaController implements Initializable {
         service.start();
 
     }
-private void intialColumn() {
+
+    private void intialColumn() {
         tabid.setCellValueFactory(new PropertyValueFactory<>("id"));
         tabdate.setCellValueFactory(new PropertyValueFactory<>("date"));
         tabamount.setCellValueFactory(new PropertyValueFactory<>("amount"));
         tabaccount.setCellValueFactory(new PropertyValueFactory<>("account"));
-        
 
     }
+
     private void clear() {
         getAutoNum();
         account.getSelectionModel().clearSelection();
         date.setValue(null);
-       
+
         amount.setText("");
 
         Add.setDisable(false);
@@ -344,9 +343,10 @@ private void intialColumn() {
         this.parentController = parentController;
     }
     ObservableList<MemberSolfa> items;
+
     @FXML
     private void search(KeyEvent event) {
-         FilteredList<MemberSolfa> filteredData = new FilteredList<>(items, p -> true);
+        FilteredList<MemberSolfa> filteredData = new FilteredList<>(items, p -> true);
 
         filteredData.setPredicate(pa -> {
 
@@ -356,8 +356,8 @@ private void intialColumn() {
 
             String lowerCaseFilter = search.getText().toLowerCase();
 
-            if (pa.getAccount().contains(lowerCaseFilter)||
-                    pa.getAmount().contains(lowerCaseFilter)
+            if (pa.getAccount().contains(lowerCaseFilter)
+                    || pa.getAmount().contains(lowerCaseFilter)
                     || pa.getDate().contains(lowerCaseFilter)) {
                 return true;
             } else {
@@ -370,7 +370,8 @@ private void intialColumn() {
         sortedData.comparatorProperty().bind(tab.comparatorProperty());
         tab.setItems(sortedData);
     }
-  MemberSolfa opd = new MemberSolfa();
+    MemberSolfa opd = new MemberSolfa();
+
     @FXML
     private void New(ActionEvent event) {
         clear();
@@ -378,7 +379,7 @@ private void intialColumn() {
 
     @FXML
     private void Delete(ActionEvent event) {
-          progress.setVisible(true);
+        progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             @Override
             protected Task<Void> createTask() {
@@ -433,7 +434,7 @@ private void intialColumn() {
 
     @FXML
     private void Edite(ActionEvent event) {
-          progress.setVisible(true);
+        progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             boolean ok = true;
             MemberSolfa opd = new MemberSolfa();
@@ -461,19 +462,19 @@ private void intialColumn() {
 //                                     opd.setOperation_id(operation.getSelectionModel().getSelectedItem().getId());
                                         opd.setAccount_id(account.getSelectionModel().getSelectedItem().getId());
 
-                                         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                                            opd.setDate(date.getValue().format(format));
+                                        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                                        opd.setDate(date.getValue().format(format));
                                         opd.setAmount(amount.getText());
-                                       
+
                                         opd.setMember_id(SOLFAID);
-                                        
+
                                         opd.Edite();
-                                      
+
                                     }
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
                                     ok = false;
-                                 
+
                                 } finally {
                                     latch.countDown();
                                 }
@@ -503,7 +504,7 @@ private void intialColumn() {
 
     @FXML
     private void Add(ActionEvent event) {
-          progress.setVisible(true);
+        progress.setVisible(true);
         Service<Void> service = new Service<Void>() {
             MemberSolfa opd = new MemberSolfa();
             boolean ok = true;
@@ -520,17 +521,17 @@ private void intialColumn() {
                             public void run() {
 
                                 try {
-                                     opd.setId(Integer.parseInt(id.getText()));
+                                    opd.setId(Integer.parseInt(id.getText()));
 //                                     opd.setOperation_id(operation.getSelectionModel().getSelectedItem().getId());
-                                        opd.setAccount_id(account.getSelectionModel().getSelectedItem().getId());
+                                    opd.setAccount_id(account.getSelectionModel().getSelectedItem().getId());
 
-                                         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                                            opd.setDate(date.getValue().format(format));
-                                        opd.setAmount(amount.getText());
-                                       
-                                        opd.setMember_id(SOLFAID);
+                                    DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                                    opd.setDate(date.getValue().format(format));
+                                    opd.setAmount(amount.getText());
+
+                                    opd.setMember_id(SOLFAID);
                                     opd.Add();
-                                   
+
                                 } catch (Exception ex) {
                                     AlertDialogs.showErrors(ex);
                                     ok = false;
@@ -560,12 +561,16 @@ private void intialColumn() {
         };
         service.start();
     }
-     void setId(int SOLFAID) {
+
+    void setId(int SOLFAID) {
         this.SOLFAID = SOLFAID;
         clear();
         getData(SOLFAID);
 
     }
-}
 
-        
+    void setType(String TYPE) {
+        this.TYPE = TYPE;
+
+    }
+}
